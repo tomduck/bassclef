@@ -45,11 +45,11 @@ def postprocess():
     ## Functionality fixes ##
 
     # Link thumbnail figure images to their larger versions
-    p = re.compile('(<img src="/img/thumbs/(.*)" .*? />)')
+    p = re.compile('(<img src="/images/thumbs/(.*)" .*? />)')
     for i, line in enumerate(lines):
         if p.search(line):
             tag, img = p.search(line).groups()
-            html = '<a href="/img/%s">%s</a>' % (img, tag)
+            html = '<a href="/images/%s">%s</a>' % (img, tag)
             lines[i] = line.replace(tag, html)
 
 
