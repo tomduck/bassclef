@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html$if(lang)$ lang="$lang$"$endif$>
+
+<head>
+
+  <!-- Platform metadata -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <!--[if lt IE 9]>
+    <script src="/javascript/html5shiv.js"></script>
+  <![endif]-->
+
+  <!-- Standard document metadata -->
+  <title>$if(titleprefix)$$titleprefix$ - $endif$$if(altsection)$$altsection$$else$$if(section)$$section$$else$$if(title)$$title$$endif$$endif$$endif$</title>
+  <meta name="description" content="$if(description)$$description$$else$$if(subtitle)$$subtitle$$endif$$endif$" />
+
+  <!-- schema.org metadata: https://developers.google.com/structured-data/ -->
+  <script type="application/ld+json">
+  {
+    "@context" : "http://schema.org",
+    "@type" : "$schematype$",
+    "name" : "$schemaname$",
+    "url" : "$schemaurl$",
+    "sameAs" : [ $if(twitterprofile)$"$twitterprofile$", $endif$$if(facebookprofile)$"$facebookprofile$", $endif$$if(googleplusprofile)$"$googleplusprofile$",$endif$ ]
+  }
+  </script>
+
+  <!-- OpenGraph metadata: http://ogp.me/ -->
+$if(title)$
+  <meta property="og:title" content="$title$" />
+$else$$if(section)$
+  <meta property="og:title" content="$if(titleprefix)$$titleprefix$ - $endif$$if(altsection)$$altsection$$else$$section$$endif$" />
+$endif$$endif$
+$if(description)$
+  <meta property="og:description" content="$description$" />
+$else$$if(subtitle)$
+  <meta property="og:description" content="$subtitle$" />
+$endif$$endif$
+  <meta property="og:type" content="website" />
+$if(permalink)$
+  <meta property="og:url" content="$permalink$" />
+$endif$
+$if(image)$
+  <meta property="og:image" content="$image$" />
+$endif$
+
+  <!-- Twitter card metadata: https://dev.twitter.com/cards/overview -->
+  <meta name="twitter:card" content="summary" />
+$if(twittername)$
+  <meta name="twitter:site" content="@$twittername$" />
+$endif$
+$if(title)$
+  <meta name="twitter:title" content="$title$" /> 
+$else$$if(section)$
+  <meta name="twitter:title" content="$if(titleprefix)$$titleprefix$ - $endif$$if(altsection)$$altsection$$else$$section$$endif$" />
+$endif$$endif$
+$if(description)$
+  <meta name="twitter:description" content="$description$" />
+$else$$if(subtitle)$
+  <meta name="twitter:description" content="$subtitle$" />
+$endif$$endif$
+$if(image)$
+  <meta name="twitter:image" content="$image$" />
+$endif$
+
+  <!-- CSS -->
+  <style type="text/css">code{white-space: pre;}</style>
+$if(quotes)$
+  <style type="text/css">q { quotes: "“" "”" "‘" "’"; }</style>
+$endif$
+$if(highlighting-css)$
+  <style type="text/css">
+$highlighting-css$
+  </style>
+$endif$
+$for(css)$
+  <link rel="stylesheet" href="$css$">
+$endfor$
+
+  <!-- Other -->
+$if(math)$
+  $math$
+$endif$
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+
+<body>
+
+$for(include-before)$
+  $include-before$
+$endfor$
+
+<div class="container">
+
+<!-- Header - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div class="row">
+<div class="twelve columns centered-text header">
+<header>
+  <hr class="full-width" />
+  <h2 id="logo"><a href="/">$sitename$</a></h2>
+  <nav>
+    <ul id="nav">
+    </ul>
+  </nav>  
+  <hr class="full-width" />
+</header>
+</div> <!-- class="twelve columns centered-text header" -->
+</div> <!-- class="twelve columns centered-text header" -->
+
+
+<!-- Content - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div class="row content">
+<div class="twelve columns">
+
+$if(title)$
+<div class="titleblock">  
+$if(date)$
+  <h6 class="dateline">$date$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
+$endif$
+  <h1 class="title">$title$</h1>
+$if(subtitle)$
+  <h4 class="subtitle">$subtitle$</h4>
+$endif$
+</div> <!-- div class="titleblock" -->
+$else$
+$if(section)$
+<div id="sectionblock"> 
+  <h2 id="section">$section$</h2>
+$if(subtitle)$
+  <h4 id="subtitle">$subtitle$</h4>
+$endif$
+</div> <!-- id="sectionblock" -->
+$endif$
+$endif$
+
+$body$
+
+</div> <!-- class="twelve columns" -->
+</div> <!-- class="row content" -->
+
+
+<!-- Footer - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div class="row">
+<div class="twelve columns centered-text" id="footer">
+  
+<footer>
+  <hr class="full-width" />
+  <p>
+  <a href="">
+  <img src="/images/icons/bassclef.png" title="bassclef powered by:" alt="bassclef" class="icon"/>
+  </a>
+  <a href="http://pandoc.org/">
+  <img src="/images/icons/pandoc.png" title="Pandoc" alt="Pandoc" class="icon"/>
+  </a>
+  <a href="https://www.gnu.org/software/make/">
+  <img src="/images/icons/gnu.png" title="GNU Make" alt="GNU Make" class="icon" />
+  </a>
+  <a href="https://www.python.org/">
+  <img src="/images/icons/python.png" title="Python" alt="Python" class="icon"/>
+  </a>
+  <a href="http://getskeleton.com/">
+  <img src="/images/icons/skeleton.png" title="Skeleton" alt="Skeleton" class="icon" />
+  </a>
+  <a href="https://www.google.com/fonts/specimen/Open+Sans">
+  <img src="/images/icons/open-sans.png" title="Open Sans" alt="Open Sans" class="icon" />
+  </a>
+  <a href="http://fontawesome.io/">
+  <img src="/images/icons/font-awesome.png" title="Font Awesome" alt="Font Awesome" class="icon" />
+  </a>
+  <a href="https://www.git-scm.com/">
+  <img src="/images/icons/git.png" title="Git" alt="Git" class="icon" />
+  </a>
+  </p>
+</footer>
+
+</div> <!-- class="twelve columns centered-text" id="footer" -->
+</div> <!-- class="row" -->
+
+</div> <!-- class="container" -->
+
+$for(include-after)$
+$include-after$
+$endfor$
+
+</body>
+</html>
