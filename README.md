@@ -1,8 +1,8 @@
 
-`bassclef`: *A command-line CMS for the impatient*
-==================================================
+bassclef
+========
 
-**bassclef** is a content management system (CMS) for building static Web pages and blog sites.  It employs widely-available command-line tools to generate html pages from plain old text files.  It's dead-simple to use.  For an example of bassclef in action, see <http://tomduck.ca/>.
+**bassclef** is a content management system (CMS) for building static Web pages and blog sites.  It employs widely-available command-line tools to generate html pages from plain old text files.  It's designed for the impatient, and is dead-simple to use.  For an example of bassclef in action, see <http://tomduck.ca/>.
 
 The [inspiration] for bassclef was Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".
 
