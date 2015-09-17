@@ -46,6 +46,10 @@ footer { margin-bottom: 2rem; }
 
 li p { display: inline; }
 
+p code {
+    background: none;
+    border: none;
+}
 
 /*****************************************************************************/
 /* CLASSES */
