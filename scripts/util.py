@@ -116,7 +116,7 @@ def social(msg, url):
 
     twitterdata = {'url':url, 'text':msg}
     if 'twittername' in cfg:
-        twitterdata['via'] = '@' + cfg['twittername']
+        twitterdata['via'] = cfg['twittername']
     twitter = template % {
         'service': 'twitter',
         'url': 'https://twitter.com/share?' + urlencode(twitterdata)
