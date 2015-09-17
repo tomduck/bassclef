@@ -46,11 +46,15 @@ The following prerequisites must be installed before proceeding:
 Installation
 ------------
 
-To install, simply clone `baseclef`'s git repository.  Enter the `bassclef` directory and execute the following at the `bash` prompt:
+To install, simply clone `baseclef`'s git repository.  To build the demo site, enter the `bassclef` directory and execute the following at the `bash` prompt:
 
-    $ make && make serve
+    $ make
 
-Point your browser at <http://127.0.0.1/>.  You should see a page claiming "Success!".
+Next, fire up the test server:
+
+    $ make serve
+
+Point your browser at <http://127.0.0.1/>.  You should see a page claiming "Success!".  You are now ready to begin building content.
 
 
 Licensing
