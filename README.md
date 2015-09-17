@@ -1,11 +1,10 @@
 
-`bassclef`
+`bassclef`: *A command-line CMS for the impatient*
+==================================================
 
-*A simple command-line CMS for the impatient*
+**bassclef** is a content management system (CMS) for building static Web pages and blog sites.  It employs widely-available command-line tools to generate html pages from plain old text files.  It's dead-simple to use.  For an example of bassclef in action, see <http://tomduck.ca/>.
 
-`bassclef` is a content management system (CMS) for building static Web pages and blog sites.  It employs widely-available command-line tools to generate html pages from plain old text files.  It's dead-simple to use.  For an example of `bassclef` in action, see <http://tomduck.ca/>.
-
-The [inspiration] for `bassclef` was Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".
+The [inspiration] for bassclef was Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".
 
 
  1. [Technologies](#technologies) 
@@ -23,7 +22,7 @@ TO DO: Write user documentation.
 Technologies
 ------------
 
-`bassclef` leverages the following existing technologies:
+**bassclef** leverages the following existing technologies:
 
   * `pandoc` for html generation from markdown content;
   * `python` scripts for preprocessing and postprocessing;
@@ -50,7 +49,7 @@ The following prerequisites must be installed before proceeding:
 Installation
 ------------
 
-To install, simply clone `baseclef`'s git repository.  To build the demo site, enter the `bassclef` directory and execute the following at the `bash` prompt:
+To install, simply clone baseclef's git repository with the `--recursive` flag.  To build the demo site, enter the bassclef directory and execute the following at the `bash` prompt:
 
     $ make
 
@@ -64,6 +63,6 @@ Point your browser at <http://127.0.0.1/>.  You should see a page claiming "Succ
 Licensing
 ---------
 
-`bassclef` source files are licensed under the GNU General Public License (GPL), version 3.
+**bassclef** source files are licensed under the GNU General Public License (GPL), version 3.
 
-There are GPL-compatible and GPL-friendly packages aggregated with `bassclef`.  These are found in the submodules directory, and are automatically retrieved from separately-maintained repositories when you install `baseclef`.
+There are GPL-compatible and GPL-friendly packages aggregated with bassclef.  These are found in the submodules directory, and are automatically retrieved from separate repositories when you install `baseclef`.
