@@ -108,7 +108,7 @@ p code {
     border-color: #1EAEDB;
 }
 
-.icon{ height: 3rem; }
+.icon{ height: 2.5rem; }
 
 
 /*****************************************************************************/
@@ -145,3 +145,7 @@ p code {
 
 #footer a:link { color: inherit; }
 #footer a:hover { text-decoration: none; color: #1EAEDB; }
+
+#poweredby li {
+    display: inline;
+}

@@ -150,32 +150,33 @@ $body$
   
 <footer>
   <hr class="full-width" />
-  <p>
-  <a href="">
+
+  <ul id="poweredby">
+  <li><a href="">
   <img src="/images/icons/bassclef.png" title="bassclef powered by:" alt="bassclef" class="icon"/>
-  </a>
-  <a href="http://pandoc.org/">
+  </a></li>
+  <li><a href="http://pandoc.org/">
   <img src="/images/icons/pandoc.png" title="Pandoc" alt="Pandoc" class="icon"/>
-  </a>
-  <a href="https://www.gnu.org/software/make/">
+  </a></li>
+  <li><a href="https://www.gnu.org/software/make/">
   <img src="/images/icons/gnu.png" title="GNU Make" alt="GNU Make" class="icon" />
-  </a>
-  <a href="https://www.python.org/">
+  </a></li>
+  <li><a href="https://www.python.org/">
   <img src="/images/icons/python.png" title="Python" alt="Python" class="icon"/>
-  </a>
-  <a href="http://getskeleton.com/">
+  </a></li>
+  <li><a href="http://getskeleton.com/">
   <img src="/images/icons/skeleton.png" title="Skeleton" alt="Skeleton" class="icon" />
-  </a>
-  <a href="https://www.google.com/fonts/specimen/Open+Sans">
+  </a></li>
+  <li><a href="https://www.google.com/fonts/specimen/Open+Sans">
   <img src="/images/icons/open-sans.png" title="Open Sans" alt="Open Sans" class="icon" />
-  </a>
-  <a href="http://fontawesome.io/">
+  </a></li>
+  <li><a href="http://fontawesome.io/">
   <img src="/images/icons/font-awesome.png" title="Font Awesome" alt="Font Awesome" class="icon" />
-  </a>
-  <a href="https://www.git-scm.com/">
+  </a></li>
+  <li><a href="https://www.git-scm.com/">
   <img src="/images/icons/git.png" title="Git" alt="Git" class="icon" />
-  </a>
-  </p>
+  </a></li>
+  </ul>
 </footer>
 
 </div> <!-- class="twelve columns centered-text" id="footer" -->
