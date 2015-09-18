@@ -20,7 +20,7 @@ import configparser
 
 import string
 import yaml
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urlencode, urljoin, urlparse
 
 
 def config():
@@ -33,6 +33,10 @@ def config():
     for section in parser.sections():
         cfg.update({k:v for k, v in parser.items(section)})
 
+    # Add some new entries to the dict
+    if 'siteurl' in cfg:
+        cfg['domainname'] = urlparse(cfg['siteurl'])[1]
+        
     # Sanity checks
     if 'twittername' in cfg:
         if cfg['twittername'].startswith('@'):
