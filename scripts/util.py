@@ -80,8 +80,9 @@ def path2url(path, relative=False):
     relative - flags whether the returned url should be relative
                (versus absolute).
     """
-    assert path.startswith('content/') or path.startswith('tmp/')
-    path = path[path.index('/')+1:]  # Trim off content/ or tmp/ from the path
+    assert path.startswith('content/') or path.startswith('/tmp/')
+    # Trim off content/ or /tmp/ from the path
+    path = path[8:] if path.startswith('content/') else path[5:]
     if path.endswith('.in'):  # Trim off .in extension
         path = path[:-2]
     path = path.replace('.md', '.html')  # Change the file extension
