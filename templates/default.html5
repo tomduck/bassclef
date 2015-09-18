@@ -50,9 +50,9 @@ $if(twittername)$
   <meta name="twitter:site" content="@$twittername$" />
 $endif$
 $if(title)$
-  <meta name="twitter:title" content="$title$" /> 
+  <meta name="twitter:title" content="$title$" />
 $else$$if(section)$
-  <meta name="twitter:title" content="$if(sitename)sitename - $endif$$if(altsection)$$altsection$$else$$section$$endif$" />
+  <meta name="twitter:title" content="$if(sitename)$$sitename$ - $endif$$if(altsection)$$altsection$$else$$section$$endif$" />
 $endif$$endif$
 $if(description)$
   <meta name="twitter:description" content="$description$" />
