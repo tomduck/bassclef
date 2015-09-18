@@ -188,6 +188,6 @@ clean:
 	rm -rf $(WWW)/css
 	rm -rf $(WWW)/fonts
 	rm -rf $(WWW)/images
-	rm -rf $(TMP)/bassclef.*
+	rm -rf /tmp/bassclef.*
 
 .PHONY: markdown html css fonts images serve clean
