@@ -29,7 +29,7 @@
 $if(title)$
   <meta property="og:title" content="$title$" />
 $else$$if(section)$
-  <meta property="og:title" content="$if(titleprefix)$$titleprefix$ - $endif$$if(altsection)$$altsection$$else$$section$$endif$" />
+  <meta property="og:title" content="$if(sitename)$$sitename$ - $endif$$if(altsection)$$altsection$$else$$section$$endif$" />
 $endif$$endif$
 $if(description)$
   <meta property="og:description" content="$description$" />
@@ -52,7 +52,7 @@ $endif$
 $if(title)$
   <meta name="twitter:title" content="$title$" /> 
 $else$$if(section)$
-  <meta name="twitter:title" content="$if(titleprefix)$$titleprefix$ - $endif$$if(altsection)$$altsection$$else$$section$$endif$" />
+  <meta name="twitter:title" content="$if(sitename)sitename - $endif$$if(altsection)$$altsection$$else$$section$$endif$" />
 $endif$$endif$
 $if(description)$
   <meta name="twitter:description" content="$description$" />
