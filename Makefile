@@ -59,7 +59,7 @@ TARGET_HTML = $(patsubst content/%.md,$(WWW)/%.html,$(SOURCE_MD)) \
 TARGET_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
                        $(WWW)/fonts/open-sans/%,$(SOURCE_OPENSANS_FONTS))
 TARGET_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
-                           $(WWW)/fonts/Font-Awesome/%,\
+                           $(WWW)/fonts/font-awesome/%,\
                            $(SOURCE_FONTAWESOME_FONTS))
 
 TARGET_CUSTOM_CSS = $(WWW)/css/custom.css
@@ -148,7 +148,7 @@ fonts: $(TARGET_OPENSANS_FONTS) $(TARGET_FONTAWESOME_FONTS)
 $(WWW)/fonts/open-sans/%: submodules/open-sans/fonts/%
 	$(copyfiles)
 
-$(WWW)/fonts/Font-Awesome/%: submodules/font-awesome/fonts/%
+$(WWW)/fonts/font-awesome/%: submodules/font-awesome/fonts/%
 	$(copyfiles)
 
 
