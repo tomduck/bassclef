@@ -150,7 +150,18 @@ $body$
   
 <footer>
   <hr class="full-width" />
-
+  <p>
+$if(schemaname)$
+  Copyright © 2015 by $schemaname$
+$endif$
+$if(email)$
+  &lt;<a href="mailto:$email$">$email$</a>&gt;
+$endif$
+$if(twitterprofile)$$if(twittername)$  
+  <br />
+  <a href="$twitterprofile$">@$twittername$ on twitter</a>
+$endif$$endif$
+  </p>
   <ul id="poweredby">
   <li><a href="">
   <img src="/images/icons/bassclef.png" title="bassclef powered by:" alt="bassclef" class="icon"/>
