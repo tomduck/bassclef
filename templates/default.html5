@@ -163,7 +163,7 @@ $if(twitterprofile)$$if(twittername)$
 $endif$$endif$
   </p>
   <ul id="poweredby">
-  <li><a href="https://github.com/tomduck/baseclef">
+  <li><a href="https://github.com/tomduck/bassclef">
   <img src="/images/icons/bassclef.png" title="bassclef powered by:" alt="bassclef" class="icon"/>
   </a></li>
   <li><a href="http://pandoc.org/">
