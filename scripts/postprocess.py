@@ -48,9 +48,18 @@ def postprocess():
     p = re.compile('(<img src="/images/thumbs/(.*)" .*? />)')
     for i, line in enumerate(lines):
         if p.search(line):
-            tag, img = p.search(line).groups()
-            html = '<a href="/images/%s">%s</a>' % (img, tag)
-            lines[i] = line.replace(tag, html)
+            old, img = p.search(line).groups()
+            new = '<a href="/images/%s">%s</a>' % (img, old)
+            lines[i] = line.replace(old, new)
+
+    # Make badge links open a new tab when clicked
+    p = re.compile('(<a href="(.*?)"><span class="fa (.*?)">)')
+    for i, line in enumerate(lines):
+        if p.search(line):
+            old, url, classes = p.search(line).groups()
+            new = '<a href="%s" target="_blank"><span class="fa %s">' \
+              % (url, classes)
+            lines[i] = line.replace(old, new)
 
 
     ## Aesthetic fixes to html ##
