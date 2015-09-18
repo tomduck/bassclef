@@ -110,11 +110,11 @@ tmp/%.md: content/%.md.in $(SOURCE_MD) \
 html: $(TARGET_HTML)
 
 www/%.html: tmp/%.md scripts/preprocess.py scripts/postprocess.py \
-            templates/default.html5 config.ini
+            scripts/util.py templates/default.html5 config.ini
 	$(md2html)
 
 www/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
-            templates/default.html5 config.ini
+            scripts/util.py templates/default.html5 config.ini
 	$(md2html)
 
 
