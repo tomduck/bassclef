@@ -24,6 +24,15 @@ SHELL = /bin/bash -o pipefail
 # Clean up on error (https://www.gnu.org/software/make/manual/make.html#Errors)
 .DELETE_ON_ERROR:
 
+# Directories
+WWW = www
+TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
+
+# Error checking
+ifeq ($(TMP),)
+$(error Temporary directory could not be created.)
+endif
+
 
 # Source files ---------------------------------------------------------------
 
@@ -42,30 +51,30 @@ SOURCE_SVG = $(wildcard images/svg/*.*)
 
 # Target files ---------------------------------------------------------------
 
-TARGET_MD = $(patsubst content/%.md.in,tmp/%.md,$(SOURCE_MD_IN))
+TARGET_MD = $(patsubst content/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
 
-TARGET_HTML = $(patsubst content/%.md,www/%.html,$(SOURCE_MD)) \
-              $(patsubst tmp/%.md,www/%.html,$(TARGET_MD))
+TARGET_HTML = $(patsubst content/%.md,$(WWW)/%.html,$(SOURCE_MD)) \
+              $(patsubst $(TMP)/%.md,$(WWW)/%.html,$(TARGET_MD))
 
 TARGET_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
-                       www/fonts/open-sans/%,$(SOURCE_OPENSANS_FONTS))
+                       $(WWW)/fonts/open-sans/%,$(SOURCE_OPENSANS_FONTS))
 TARGET_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
-                           www/fonts/Font-Awesome/%,\
+                           $(WWW)/fonts/Font-Awesome/%,\
                            $(SOURCE_FONTAWESOME_FONTS))
 
-TARGET_CUSTOM_CSS = www/css/custom.css
-TARGET_SKELETON_CSS = $(patsubst submodules/skeleton/%,www/%,\
+TARGET_CUSTOM_CSS = $(WWW)/css/custom.css
+TARGET_SKELETON_CSS = $(patsubst submodules/skeleton/%,$(WWW)/%,\
                       $(SOURCE_SKELETON_CSS))
-TARGET_OPENSANS_CSS = www/css/open-sans.css
-TARGET_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/%,www/%,\
+TARGET_OPENSANS_CSS = $(WWW)/css/open-sans.css
+TARGET_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/%,$(WWW)/%,\
                          $(SOURCE_FONTAWESOME_CSS))
 
-TARGET_IMG = $(patsubst %,www/%,$(SOURCE_IMG)) \
-             $(patsubst %,www/%,$(SOURCE_SVG))
-TARGET_THUMBS = $(patsubst images/%,www/images/thumbs/%,$(SOURCE_IMG)) \
-                $(patsubst images/svg/%.svg,www/images/thumbs/%.png,\
+TARGET_IMG = $(patsubst %,$(WWW)/%,$(SOURCE_IMG)) \
+             $(patsubst %,$(WWW)/%,$(SOURCE_SVG))
+TARGET_THUMBS = $(patsubst images/%,$(WWW)/images/thumbs/%,$(SOURCE_IMG)) \
+                $(patsubst images/svg/%.svg,$(WWW)/images/thumbs/%.png,\
                   $(SOURCE_SVG))
-TARGET_ICONS = $(patsubst images/svg/%.svg,www/images/icons/%.png,\
+TARGET_ICONS = $(patsubst images/svg/%.svg,$(WWW)/images/icons/%.png,\
                  $(SOURCE_SVG))
 
 
@@ -101,7 +110,7 @@ all: markdown html css fonts images
 
 markdown: $(TARGET_MD)
 
-tmp/%.md: content/%.md.in $(SOURCE_MD) \
+$(TMP)/%.md: content/%.md.in $(SOURCE_MD) \
           scripts/makesection.py scripts/preprocess.py
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	scripts/makesection.py $< > $@
@@ -109,11 +118,11 @@ tmp/%.md: content/%.md.in $(SOURCE_MD) \
 
 html: $(TARGET_HTML)
 
-www/%.html: tmp/%.md scripts/preprocess.py scripts/postprocess.py \
+$(WWW)/%.html: $(TMP)/%.md scripts/preprocess.py scripts/postprocess.py \
             scripts/util.py templates/default.html5 config.ini
 	$(md2html)
 
-www/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
+$(WWW)/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
             scripts/util.py templates/default.html5 config.ini
 	$(md2html)
 
@@ -121,64 +130,64 @@ www/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
 css: $(TARGET_CUSTOM_CSS) $(TARGET_SKELETON_CSS) $(TARGET_OPENSANS_CSS) \
      $(TARGET_FONTAWESOME_CSS)
 
-www/css/custom.css: css/custom.css
+$(WWW)/css/custom.css: css/custom.css
 	$(copyfiles)
 
-www/css/%.css: submodules/skeleton/css/%.css
+$(WWW)/css/%.css: submodules/skeleton/css/%.css
 	$(copyfiles)
 
-www/css/open-sans.css: submodules/open-sans/open-sans.css
+$(WWW)/css/open-sans.css: submodules/open-sans/open-sans.css
 	$(copyfiles)
 
-www/css/font-awesome%: submodules/font-awesome/css/font-awesome%
+$(WWW)/css/font-awesome%: submodules/font-awesome/css/font-awesome%
 	$(copyfiles)
 
 
 fonts: $(TARGET_OPENSANS_FONTS) $(TARGET_FONTAWESOME_FONTS)
 
-www/fonts/open-sans/%: submodules/open-sans/fonts/%
+$(WWW)/fonts/open-sans/%: submodules/open-sans/fonts/%
 	$(copyfiles)
 
-www/fonts/Font-Awesome/%: submodules/font-awesome/fonts/%
+$(WWW)/fonts/Font-Awesome/%: submodules/font-awesome/fonts/%
 	$(copyfiles)
 
 
 images: $(TARGET_IMG) $(TARGET_THUMBS) $(TARGET_ICONS)
 
-www/images/icons/%.png: images/svg/%.svg
+$(WWW)/images/icons/%.png: images/svg/%.svg
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	convert $< -resize x50 $@
 
-www/images/thumbs/%.png: images/svg/%.svg
+$(WWW)/images/thumbs/%.png: images/svg/%.svg
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	convert $< -resize 250x $@
 
-www/images/thumbs/%: images/%
+$(WWW)/images/thumbs/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	convert $< -resize 250x $@
 
-www/%: %
+$(WWW)/%: %
 	$(copyfiles)
 
 
 # Deploy rules ---------------------------------------------------------------
 
 serve:
-	cd www && python -m SimpleHTTPServer
+	cd $(WWW) && python -m SimpleHTTPServer
 
 
 # Housekeeping rules ---------------------------------------------------------
 
-# Don't delete the www directory!  The installed site has additional
+# Don't delete the $(WWW) directory!  The installed site has additional
 # directories (e.g., piwik) that must remain.
 
 clean:
-	rm -f www/*.html
-	rm -rf www/posts
-	rm -rf www/commentary
-	rm -rf www/css
-	rm -rf www/fonts
-	rm -rf www/images
-	rm -rf tmp
+	rm -f $(WWW)/*.html
+	rm -rf $(WWW)/posts
+	rm -rf $(WWW)/commentary
+	rm -rf $(WWW)/css
+	rm -rf $(WWW)/fonts
+	rm -rf $(WWW)/images
+	rm -rf $(TMP)/bassclef.*
 
 .PHONY: markdown html css fonts images serve clean
