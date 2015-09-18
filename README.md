@@ -44,6 +44,7 @@ The following prerequisites must be installed before proceeding:
   * GNU make
   * pandoc
   * python 3 with the `pyyaml` package
+  * ImageMagick convert
 
 
 Installation
