@@ -77,7 +77,7 @@ def preprocess(path):
     with open(path) as f:
 
         # Load the metadata
-        update = { 'titleclass':'title', 'permalink':path2url(path) }
+        update = {'titleclass':'title', 'permalink':path2url(path)}
         meta = metadata(f, update, printmeta=True)
 
         # Read in the lines
@@ -93,7 +93,8 @@ def preprocess(path):
         lines = insert_figure(lines, image, caption)
 
     # Insert the social widgets
-    if 'title' in meta:
+    showtitle = meta['showtitle'] if 'showtitle' in meta else True
+    if 'title' in meta and showtitle:
         showsocial = meta['showsocial'] if 'showsocial' in meta else True
         if showsocial:
             lines.insert(0, '\n'.join(social(meta['title'], path2url(path))))
