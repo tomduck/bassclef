@@ -149,9 +149,9 @@ Metadata fields recognized by bassclef include
 
 and
 
-  * show_title - flags that title block should be shown (default
+  * showtitle - flags that title block should be shown (default
     True)
-  * show_social - flags  social buttons should be shown (default
+  * showsocial - flags  social buttons should be shown (default
     True) 
 
 There are no required metadata.
