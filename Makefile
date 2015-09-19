@@ -111,9 +111,9 @@ all: markdown html css fonts images
 markdown: $(TARGET_MD)
 
 $(TMP)/%.md: content/%.md.in $(SOURCE_MD) \
-          scripts/makesection.py scripts/preprocess.py
+          scripts/compose.py scripts/preprocess.py
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	scripts/makesection.py $< > $@
+	scripts/compose.py $< > $@
 
 
 html: $(TARGET_HTML)
