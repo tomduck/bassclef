@@ -90,7 +90,7 @@ def content(f, url, n):
         # Store the line.  Cut out all content after <!-- break --> except
         # for references.
         if not breakpoint or refpatt.search(line):
-            lines.append()
+            lines.append(line)
 
 
     # Add a 'Read more...' link if <!-- break --> was found.
