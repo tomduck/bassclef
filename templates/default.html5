@@ -95,12 +95,14 @@ $endfor$
 <div class="row">
 <div class="twelve columns centered-text header">
 <header>
+$if(sitename)$ 
   <hr class="full-width" />
   <h2 id="logo"><a href="/">$sitename$</a></h2>
   <nav>
     <ul id="nav">
     </ul>
   </nav>  
+$endif$ 
   <hr class="full-width" />
 </header>
 </div> <!-- class="twelve columns centered-text header" -->

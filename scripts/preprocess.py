@@ -64,7 +64,7 @@ def insert_figure(lines, image, caption):
                 continue
 
     # Insert the lines for the figure
-    assert n is not None
+    n = n if n is not None else len(lines)
     lines.insert(n, '\n![%s](%s)\n' % (caption, image))
     lines.insert(n, '')
 
