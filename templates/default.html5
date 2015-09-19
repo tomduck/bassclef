@@ -11,7 +11,7 @@
   <![endif]-->
 
   <!-- Standard document metadata -->
-  <title>$if(title)$$title$$else$$if(altsection)$$altsection$$else$$if(section)$$section$$endif$$endif$$endif$$if(domainname)$ | $domainname$$endif$</title>
+  <title>$if(title)$$title$$else$$if(section)$$section$$endif$$endif$$if(domainname)$ | $domainname$$endif$</title>
   <meta name="description" content="$if(description)$$description$$else$$if(subtitle)$$subtitle$$endif$$endif$" />
 
   <!-- schema.org metadata: https://developers.google.com/structured-data/ -->
@@ -29,7 +29,7 @@
 $if(title)$
   <meta property="og:title" content="$title$$if(domainname)$ | $domainname$$endif$" />
 $else$$if(section)$
-  <meta property="og:title" content="$if(altsection)$$altsection$$else$$section$$endif$$if(domainname)$ | $domainname$$endif$" />
+  <meta property="og:title" content="$section$$if(domainname)$ | $domainname$$endif$" />
 $endif$$endif$
 $if(description)$
   <meta property="og:description" content="$description$" />
@@ -52,7 +52,7 @@ $endif$
 $if(title)$
   <meta name="twitter:title" content="$title$$if(domainname)$ | $domainname$$endif$" />
 $else$$if(section)$
-  <meta name="twitter:title" content="$if(altsection)$$altsection$$else$$section$$endif$$if(domainname)$ | $domainname$$endif$" />
+  <meta name="twitter:title" content="$section$$endif$$if(domainname)$ | $domainname$$endif$" />
 $endif$$endif$
 $if(description)$
   <meta name="twitter:description" content="$description$" />
