@@ -72,12 +72,13 @@ def insert_figure(lines, image, caption):
 
 
 def preprocess(path):
-    """Preprocesses the title file at path."""
+    """Preprocesses path."""
 
     with open(path) as f:
 
         # Load the metadata
-        meta = metadata(f, printmeta=True, permalink=path2url(path))
+        update = { 'permalink':path2url(path) }
+        meta = metadata(f, update, printmeta=True)
 
         # Read in the lines
         lines = [line.strip() for line in f]
