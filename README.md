@@ -140,18 +140,25 @@ Metadata fields recognized by bassclef include
 
   * title, subtitle
   * description - a description of the content, 155 characters max
-  * date - the publication date, in whatever format
+  * date - in whatever format
+  * updated - date, in whatever format
   * publisher - name of the original publisher of the content 
   * source - url for the original publication of the content 
-  * social - flags if social buttons should be shown (default True) 
   * image - URL for an image file
   * caption - caption for the image
+
+and
+
+  * show_title - flags that title block should be shown (default
+    True)
+  * show_social - flags  social buttons should be shown (default
+    True) 
 
 There are no required metadata.
 
 You may also define your own metadata fields.  Note, however, that all names in the config.ini are reserved, as are the following:
 
-  * titleattrs
+  * titleclass
   * permalink
 
 

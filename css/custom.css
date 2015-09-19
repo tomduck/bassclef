@@ -70,13 +70,20 @@ p code {
 
 .titleblock { }
 
-.title, .subtitle, .dateline{ }
-
 .dateline a {
     color: inherit;
     text-decoration: none;
 }
+
 .dateline a:hover { color: #1EAEDB; }
+
+.section {
+    color: #222;
+    font-weight: bold;
+    margin-bottom: 1rem; 
+}
+
+.title, .subtitle, .dateline{ }
 
 .badge {
     border-radius: 50%;
@@ -133,14 +140,6 @@ p code {
 
 #nav li:last-child {
     margin: 0 0 0 0;
-}
-
-#sectionblock{ margin-bottom: 4rem; }
-
-#section {
-    color: #222;
-    font-weight: bold;
-    margin-bottom: 1rem; 
 }
 
 #footer a:link { color: inherit; }

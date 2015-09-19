@@ -94,8 +94,8 @@ def preprocess(path):
 
     # Insert the social widgets
     if 'title' in meta:
-        is_social = meta['social'] if 'social' in meta else True
-        if is_social:
+        show_social = meta['show_social'] if 'show_social' in meta else True
+        if show_social:
             lines.insert(0, '\n'.join(social(meta['title'], path2url(path))))
         else:
             lines.insert(0, '<p></p>')
