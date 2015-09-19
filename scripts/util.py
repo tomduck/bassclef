@@ -48,9 +48,9 @@ def config():
 def metadata(f, printmeta=False, permalink=None):
     """Returns the metadata and lines from the top of a markdown file."""
 
-    # Make sure there is a YAML block at the top of the file
+    # Check for a YAML block at the top of the file
     if f.readline().strip() != '---':
-        raise RuntimeError('Expected YAML metadata at top of file')
+        return {}
 
     # Read in and parse the metadata
     lines = ['---\n']
