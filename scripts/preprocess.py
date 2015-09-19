@@ -77,23 +77,20 @@ def preprocess(path):
     with open(path) as f:
 
         # Load the metadata
-        update = { 'permalink':path2url(path) }
+        update = { 'titleclass':'title', 'permalink':path2url(path) }
         meta = metadata(f, update, printmeta=True)
 
         # Read in the lines
         lines = [line.strip() for line in f]
 
-
-    # Extract metadata fields we need to deal with
+    # Extract the metadata fields we need
     updated = meta['updated'] if 'updated' in meta else None
     image = meta['image'] if 'image' in meta else None
     caption = meta['caption'] if 'caption' in meta else ''
 
-
     # Insert the image
     if image:
         lines = insert_figure(lines, image, caption)
-
 
     # Insert the social widgets
     if 'title' in meta:
@@ -107,7 +104,6 @@ def preprocess(path):
     if updated:
         lines.append('')
         lines.append('*(Updated %s.)*' % updated)
-
 
     # Print out the new lines
     print('\n'.join(lines))

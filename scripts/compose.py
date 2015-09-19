@@ -82,7 +82,7 @@ def content(f, url, n):
         line = line.replace('][', ']['+str(n)+':')
         if refpatt.search(line):
             line = '['+str(n)+':'+line[1:]
-        
+
         # Check for a break point
         if line == '<!-- break -->':
             breakpoint = True
@@ -142,7 +142,8 @@ def process_mdin_file(path):
     with open(path) as f:
 
         # Load the metadata
-        meta = metadata(f, printmeta=True, permalink=path2url(path))
+        update = {'titleclass':'section', 'permalink':path2url(path)}
+        metadata(f, update, printmeta=True)
 
         # Get the remaining lines
         lines = [line.strip() for line in f if len(line.strip())]

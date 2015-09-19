@@ -11,7 +11,7 @@
   <![endif]-->
 
   <!-- Standard document metadata -->
-  <title>$if(title)$$title$$else$$if(section)$$section$$endif$$endif$$if(domainname)$ | $domainname$$endif$</title>
+  <title>$if(title)$$title$$endif$$if(domainname)$ | $domainname$$endif$</title>
   <meta name="description" content="$if(description)$$description$$else$$if(subtitle)$$subtitle$$endif$$endif$" />
 
   <!-- schema.org metadata: https://developers.google.com/structured-data/ -->
@@ -28,9 +28,7 @@
   <!-- OpenGraph metadata: http://ogp.me/ -->
 $if(title)$
   <meta property="og:title" content="$title$$if(domainname)$ | $domainname$$endif$" />
-$else$$if(section)$
-  <meta property="og:title" content="$section$$if(domainname)$ | $domainname$$endif$" />
-$endif$$endif$
+$endif$
 $if(description)$
   <meta property="og:description" content="$description$" />
 $else$$if(subtitle)$
@@ -51,9 +49,7 @@ $if(twittername)$
 $endif$
 $if(title)$
   <meta name="twitter:title" content="$title$$if(domainname)$ | $domainname$$endif$" />
-$else$$if(section)$
-  <meta name="twitter:title" content="$section$$endif$$if(domainname)$ | $domainname$$endif$" />
-$endif$$endif$
+$endif$
 $if(description)$
   <meta name="twitter:description" content="$description$" />
 $else$$if(subtitle)$
@@ -121,20 +117,12 @@ $if(title)$
 $if(date)$
   <h6 class="dateline">$date$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
 $endif$
-  <h1 class="title">$title$</h1>
+  <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$</h1>
 $if(subtitle)$
   <h4 class="subtitle">$subtitle$</h4>
 $endif$
 </div> <!-- div class="titleblock" -->
 $else$
-$if(section)$
-<div id="sectionblock"> 
-  <h2 id="section">$section$</h2>
-$if(subtitle)$
-  <h4 id="subtitle">$subtitle$</h4>
-$endif$
-</div> <!-- id="sectionblock" -->
-$endif$
 $endif$
 
 $body$

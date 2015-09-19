@@ -36,7 +36,7 @@ def config():
     # Add some new entries to the dict
     if 'siteurl' in cfg:
         cfg['domainname'] = urlparse(cfg['siteurl'])[1]
-        
+
     # Sanity checks
     if 'twittername' in cfg:
         if cfg['twittername'].startswith('@'):
@@ -45,44 +45,56 @@ def config():
     return cfg
 
 
-def metadata(f, printmeta=False, permalink=None):
-    """Returns the metadata and lines from the top of a markdown file."""
+def metadata(f, update=None, printmeta=False):
+    """Returns the metadata from the top of a markdown file.
+
+    update - additional metadata to include; existing fields are not overwritten
+    printmeta - flags that the lines should be printed to stdout
+    """
 
     # Check for a YAML block at the top of the file
     if f.readline().strip() != '---':
         return {}
 
-    # Read in and parse the metadata
-    lines = ['---\n']
+    # Read in the metadata
+    lines = ['---']
     for line in f:
+        line = line.strip()
         lines.append(line)
-        if line.startswith('...'):
+        if line == '...':
             break
 
-    # Insert config entries as metadata
+    # Append config variables as metadata
     for k, v in config().items():
-        lines.insert(-1, '%s: %s\n'%(k, v))
+        lines.insert(-1, '%s: %s'%(k, v))
 
-    # Insert permalink as metadata
-    if permalink:
-        lines.insert(-1, 'permalink: %s\n'%permalink)
+    # Do an initial parse of the metadata
+    meta = yaml.load('\n'.join(lines))
 
-    lines = ''.join(lines)
+    # Append updates to the lines.  Check with the existing meta first so
+    # that we don't overwrite anything.
+    if update:
+        for k, v in update.items():
+            if k not in meta:
+                lines.insert(-1, '%s: %s' % (k, v))
 
-    # Print the metadata out if requested
+    # Join the lines together
+    lines = '\n'.join(lines)
+
+    # Print the metadata to stdout if requested
     if printmeta:
         print(lines)
 
-    # Parse and return the metadata and lines
+    # Return the metadata
     return yaml.load(lines)
 
 
 def path2url(path, relative=False):
-    """Converts a markdown source path to a www html url.
+    """Converts a markdown content path to a www html url.
 
-    path - the path to convert.
-    relative - flags whether the returned url should be relative
-               (versus absolute).
+    path - the path to convert
+    relative - flags that the returned url should be relative; otherwise
+               a fully-resolved url is returned
     """
     assert path.startswith('content/') or path.startswith('/tmp/')
     # Trim off content/ or /tmp/ from the path
@@ -101,14 +113,12 @@ def path2url(path, relative=False):
 def social(msg, url):
     """Returns lines for social widgets.
 
-    msg - the message to share.
-    url - the url to share.
+    msg - the message to share
+    url - the url to share
     """
 
     # Append a period to the end of the message (if needed)
-    if msg[-1] in string.ascii_letters + string.digits:
-        msg = msg + '.'
-
+    msg = msg if msg[-1] in string.ascii_letters + string.digits else msg + '.'
 
     # Get the configuration
     cfg = config()
