@@ -126,7 +126,7 @@ def process_md_file(path, n):
 
         # Social widgets
         show_social = meta['show_social'] if 'show_social' in meta else True
-        if show__social and 'title' in meta:
+        if show_social and 'title' in meta:
             print('\n'.join(social(meta['title'], path2url(path))))
 
         # Content
