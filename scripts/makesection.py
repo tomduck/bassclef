@@ -18,13 +18,13 @@
 
   Usage: makesection.py content/.../filename.md.in
 
-  This script reads a .md.in file and writes a .md file to stdout.  The
-  input file must have YAML metadata that defines the section name.  The
-  metadata should be followed by a list of files to include in the output
-  (after some processing).
+  This script reads a .md.in file and writes a .md file to stdout.  Filenames
+  listed alone on a line are read, processed, and inserted.  Other elements
+  are left untouched.
 """
 
 import sys
+import os.path
 import re
 
 from util import metadata, path2url, social
@@ -61,50 +61,61 @@ def titleblock(meta, url):
 
 
 def content(f, url, n):
-    """Returns lines for the content."""
+    """Returns lines for the content of a .md file.
 
-    refpatt = re.compile(r'^\[.*?\]:')  # Link reference pattern
-    breakpoint = False  # Flags when breakpoint found
-    lines = []
+    The content is truncated where <!-- break --> is found.
+    """
 
+    refpatt = re.compile(r'^\[.*?]:')  # Link reference pattern
+
+    breakpoint = False  # Flags that a break point was found
+    lines = []          # The list of processed lines
+
+
+    # Read, process, and store each line
     for line in f:
+
+        # Strip whitespace at the ends
         line = line.strip()
 
-        # Print out any references that are found.  Put the file number
-        # in the reference in order to avoid collisions.
+        # Use the number n to give each link and reference a namespace
+        line = line.replace('][', ']['+str(n)+':')
         if refpatt.search(line):
-            lines.append('['+str(n)+':'+line[1:])
-            continue
-
+            line = '['+str(n)+':'+line[1:]
+        
         # Check for a break point
         if line == '<!-- break -->':
             breakpoint = True
 
-        # Print out lines unless the break point was found.  Put the
-        # file number in the reference as above.
-        if not breakpoint:
-            lines.append(line.replace('][', ']['+str(n)+':'))
+        # Store the line.  Cut out all content after <!-- break --> except
+        # for references.
+        if not breakpoint or refpatt.search(line):
+            lines.append()
 
+
+    # Add a 'Read more...' link if <!-- break --> was found.
     if breakpoint:
         lines.append('\n[Read more...](%s)\n'%url)
 
+    # Return the processed lines
     return lines
 
 
-def process_title_file(path, n):
-    """Processes the title file using the current, previous and next paths.
+def process_md_file(path, n):
+    """Processes a .md file.
 
-    n - a unique file number; must be 0 for the first file
+    n - a unique file number used for namespacing; it must be 0 for the
+        first file.
     """
 
-    # Print a rule between files
+    # Print a horizontal rule between files
     if n != 0:
         print('\n<hr />\n')
 
     # Get the url
     url = path2url(path, relative=True)
 
-    # Read in file and print each line until the break line
+    # Read, process and print the file
     with open(path) as f:
 
         # Retrieve the metadata
@@ -114,33 +125,44 @@ def process_title_file(path, n):
         print('\n'.join(titleblock(meta, url)))
 
         # Social widgets
-        if 'title' in meta:
+        is_social = meta['social'] if 'social' in meta else True
+        if is_social and 'title' in meta:
             print('\n'.join(social(meta['title'], path2url(path))))
 
         # Content
         print('\n'.join(content(f, url, n)))
 
 
-def process_section_file(path):
-    """Processes the section file at path."""
+def process_mdin_file(path):
+    """Processes the .md.in file at path."""
 
     assert path.startswith('content/')
 
-    # Process the section file
+    # Read in the metadata and lines
     with open(path) as f:
 
         # Load the metadata
         meta = metadata(f, printmeta=True, permalink=path2url(path))
-        assert 'section' in meta
 
-        # Get the paths to the title files
-        paths = [line.strip() for line in f if len(line.strip())]
+        # Get the remaining lines
+        lines = [line.strip() for line in f if len(line.strip())]
 
 
-    # Process each title file
-    for n, path in enumerate(paths):
-        process_title_file(path, n)
+    # Process the lines
+    n = 0  # Used to provide a unique namespace for each file
+    for line in lines:
+
+        # Strip away whitespace at ends
+        line = line.strip()
+
+        # If a filename is given then read, process, and print the file;
+        # otherwise, print the line as-is.
+        if os.path.isfile(line):
+            process_md_file(path, n)
+            n += 1
+        else:
+            print(line)
 
 
 if __name__ == '__main__':
-    process_section_file(sys.argv[1])
+    process_mdin_file(sys.argv[1])
