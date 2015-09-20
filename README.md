@@ -34,7 +34,7 @@ Workflow
 
 A bassclef session proceeds as follows.
 
-All work is done in `bassclef` directory.  Commands are executed in the `bash` shell.
+All work is done in the `bassclef` directory.  Commands are executed in the `bash` shell.
 
 To begin, enter some [markdown] into `content/index.md` using a text editor. For example:
 
