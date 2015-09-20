@@ -114,12 +114,14 @@ $endif$
 <div class="row content">
 <div class="twelve columns">
 
-$if(title)$
+$if(showtitle)$
 <div class="titleblock">  
 $if(date)$
   <h6 class="dateline">$date$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
 $endif$
+$if(title)$  
   <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$</h1>
+$endif$
 $if(subtitle)$
   <h4 class="subtitle">$subtitle$</h4>
 $endif$

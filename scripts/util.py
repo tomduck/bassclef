@@ -45,10 +45,10 @@ def config():
     return cfg
 
 
-def metadata(f, update=None, printmeta=False):
+def metadata(f, defaults=None, printmeta=False):
     """Returns the metadata from the top of a markdown file.
 
-    update - additional metadata to include; existing fields are not overwritten
+    defaults - attitional default metadata to include
     printmeta - flags that the lines should be printed to stdout
     """
 
@@ -71,10 +71,10 @@ def metadata(f, update=None, printmeta=False):
     # Do an initial parse of the metadata
     meta = yaml.load('\n'.join(lines))
 
-    # Append updates to the lines.  Check with the existing meta first so
+    # Append defaults to the lines.  Check with the existing meta first so
     # that we don't overwrite anything.
-    if update:
-        for k, v in update.items():
+    if defaults:
+        for k, v in defaults.items():
             if k not in meta:
                 lines.insert(-1, '%s: %s' % (k, v))
 
