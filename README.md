@@ -167,7 +167,7 @@ and
   * showsocial - flags that social buttons should be shown (default
     True) 
 
-For example, the metadata block for one of the articles on my Web site looks like this:
+For example, the metadata block for one of the [articles] on my Web site looks like this:
 
     ---
     title: Echoes of Walkerton in Environment Canada cuts
@@ -186,6 +186,7 @@ You may define your own metadata fields.  Note, however, that all names in the c
   * titleclass
   * permalink
 
+[articles]: http://tomduck.ca/commentary/2014-03-19_echoes-of-walkerton.html
 
 ### Markdown ###
 
@@ -288,7 +289,6 @@ One important thing the scripts do is inject social widgets.  So, code for the w
 Bassclef uses [Open Sans] for its font.  For privacy reasons this is aggregated with bassclef rather than linking to google Web fonts.  There is no need to expose users to unnecessary tracking
 
 [Font Awesome] is used for the social widgets.
-
 [Open Sans]: https://www.google.com/fonts/specimen/Open+Sans
 [Font Awesome]: http://fontawesome.io/
 
