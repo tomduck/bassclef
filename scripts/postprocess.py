@@ -41,6 +41,10 @@ def postprocess():
     for i, line in enumerate(lines):
         lines[i] = line.replace(old, new)
 
+    # Change <p><br /></p> to just <br />
+    for i, line in enumerate(lines):
+        lines[i] = line.replace('<p><br /></p>', '<br />\n')
+    
 
     ## Functionality fixes ##
 
