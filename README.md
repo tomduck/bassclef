@@ -253,7 +253,7 @@ Deployment
 TO BE WRITTEN.
 
 
-### Deploying to [GitHub Pages] ###
+### Deploying to GitHub Pages ###
 
 TO BE WRITTEN.
 
@@ -261,7 +261,7 @@ TO BE WRITTEN.
 Developer Information
 ---------------------
 
-Below is more advanced information for developers.  Most users will not require this information.
+Below is more advanced information for developers that most users will not require.
 
 
 ### HTML Templates ###
