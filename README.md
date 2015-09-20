@@ -18,7 +18,7 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
  7. [CSS Styles](#css-styles)
  8. [Deployment](#deployment) 
  9. [Developer Information](#developer-information) 
-10. [Licensing](#licensing)
+ 10. [Licensing](#licensing)
 
 
 [CMS]: https://en.wikipedia.org/wiki/Content_management_system
