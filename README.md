@@ -18,12 +18,12 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
  7. [CSS Styles](#css-styles)
  8. [Deployment](#deployment) 
  9. [Developer Information](#developer-information) 
- 10. [Licensing](#licensing)
+10. [Licensing](#licensing)
 
 
 [CMS]: https://en.wikipedia.org/wiki/Content_management_system
 
-[inspiration]: https://tylercipriani.com/2014/05/13/replace-jekyll-with-pandoc-makefile.html
+[inspired]: https://tylercipriani.com/2014/05/13/replace-jekyll-with-pandoc-makefile.html
 
 
 Workflow
@@ -35,30 +35,27 @@ All work is done in `bassclef` directory.  Commands are executed in the `bash` s
 
 To generate `www/index.html`, open `content/index.md` in a text editor.  Content is written in [markdown]; for example:
 
-~~~
-Hello, world!
-=============
+    Hello, world!
+    =============
 
-This is a test.
-~~~
+    This is a test.
 
 To build the site:
 
-~~~ .bash
-$ make
-~~~
+    $ make
 
 To run the test server:
 
-~~~ .bash
-$ make serve
-~~~
+    $ make serve
 
 (type `^C` to exit).  The test site can be viewed at <http://127.0.0.1:8000/>.
 
 When ready, the site can be deployed to your server or via [GitHub] pages.
 
 That's it!
+
+[markdown]: https://daringfireball.net/projects/markdown/syntax
+[GitHub]: https://github.com/
 
 
 Prerequisites
@@ -84,6 +81,14 @@ The following prerequisites must be installed before proceeding:
 
   * [ImageMagick] convert for image processing.
 
+[Git]: https://git-scm.com/
+[Pandoc]: http://pandoc.org/README.html
+[Pandoc User Guide]: http://pandoc.org/README.html
+[GNU make]: https://www.gnu.org/software/make/
+[Python]: http://python.org/
+[pyyaml]: http://pyyaml.org/
+[ImageMagick]: http://imagemagick.org/script/index.php
+
 
 Installation
 ------------
@@ -92,39 +97,35 @@ Installation requires the following steps:
 
  1) Clone baseclef's git repository with the `--recursive` flag:
 
-    ~~~ .bash
     $ git clone https://github.com/tomduck/baseclef.git --recursive
-    ~~~~
 
-    Change into your installation directory:
+Change into your installation directory:
 
-    ~~~ .bash
     $ cd bassclef
-    ~~~~
 
 
  2) Execute `make && make serve` and point your browser at
-    <http://127.0.0.1:8000/> to test your installation.  You should see a
-    page claiming "Success!".
+<http://127.0.0.1:8000/> to test your installation.  You should
+see a page claiming "Success!".
 
-    If the install wasn't successful, check the error message from
-    the build process.  You may need to:
+If the install wasn't successful, check the error message from
+the build process.  You may need to:
 
-      * Install a prerequisite that you are missing;
-      * install Python 3 (python 2 is not enough);
-      * install PyYAML into Python 3 (use `pip3` for this).
+  * Install a prerequisite that you are missing;
+  * install Python 3 (python 2 is not enough);
+  * install PyYAML into Python 3 (use `pip3` for this).
 
-    If you experience other troubles, please file an Issue at the
-    bassclef GitHub [repository](http://github.com/tomduck/bassclef).
+If you experience other troubles, please file an Issue at the
+bassclef GitHub [repository](http://github.com/tomduck/bassclef).
 
 
  3) Create a new branch for your content:
 
-    ~~~ .bash
     $ git checkout -b <branchname>
-    ~~~
-    (replace `<branchname>` with the name you have chosen.  You are
-    now ready to begin building content.
+
+(replace `<branchname>` with the name you have chosen.  You are
+now ready to begin building content.
+
 
  4) Edit the `config.ini` file to provide the basic configuration. 
 
@@ -189,23 +190,17 @@ Building and Testing
 
 To build your site run
 
-~~~ .bash
-$ make
-~~~
+    $ make
 
 All files are written to the `www/` folder.
 
 To test your site run
 
-~~~ .bash
-$ make serve
-~~~
+    $ make serve
 
 If you are confident the build will succeed, use
 
-~~~ .bash
-$ make && make serve
-~~~
+    $ make && make serve
 
 instead.
 
@@ -225,6 +220,8 @@ CSS Styles
 
 Knowledge of css is required to give your site its own look-and-feel.  If you want to adjust the css, you may either edit `css/bassclef.css` or create a new `css/custom.css` and patch it into the Makefile.
 
+[Skeleton]: http://getskeleton.com/
+
 
 Deployment
 ----------
@@ -241,6 +238,8 @@ Below is more advanced information for developers.  Most users will not require 
 ### HTML Templates ###
 
 Bassclef's pandoc html template is given in `templates/default.html5`.  If you want to edit it, read about [pandoc templates] first.  All bassclef metadata and config.ini fields are available to the template.
+
+[pandoc templates]: http://pandoc.org/README.html#templates
 
 
 ### Scripts ###
@@ -262,6 +261,9 @@ Bassclef uses [Open Sans] for its font.  For privacy reasons this is aggregated 
 
 [Font Awesome] is used for the social widgets.
 
+[Open Sans]: https://www.google.com/fonts/specimen/Open+Sans
+[Font Awesome]: http://fontawesome.io/
+
 
 Licensing
 ---------
@@ -269,18 +271,3 @@ Licensing
 Bassclef source files are licensed under the GNU General Public License (GPL), version 3.
 
 There are GPL-compatible and GPL-friendly packages aggregated with Bassclef.  These are found in the submodules directory, and are automatically retrieved from separate repositories when you install Bassclef.
-
-
-[markdown]: https://daringfireball.net/projects/markdown/syntax
-[Pandoc]: http://pandoc.org/README.html
-[Pandoc User Guide]: http://pandoc.org/README.html
-[Python]: http://python.org/
-[pyyaml]: http://pyyaml.org/
-[GNU make]: https://www.gnu.org/software/make/
-[Skeleton]: http://getskeleton.com/
-[Open Sans]: https://www.google.com/fonts/specimen/Open+Sans
-[Font Awesome]: http://fontawesome.io/
-[Git]: https://git-scm.com/
-[GitHub]: https://github.com/
-[ImageMagick]: http://imagemagick.org/script/index.php
-[pandoc templates]: http://pandoc.org/README.html#templates
