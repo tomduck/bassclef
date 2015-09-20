@@ -101,7 +101,7 @@ def preprocess(path):
         if showsocial:
             lines.insert(0, '\n'.join(social(meta['title'], path2url(path))))
         else:
-            lines.insert(0, '<p></p>')
+            lines.insert(0, '<br />\n')
 
     # Append a line indicating updates
     if updated:
