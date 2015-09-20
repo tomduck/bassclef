@@ -62,7 +62,7 @@ TARGET_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
                            $(WWW)/fonts/font-awesome/%,\
                            $(SOURCE_FONTAWESOME_FONTS))
 
-TARGET_CUSTOM_CSS = $(WWW)/css/custom.css
+TARGET_BASSCLEF_CSS = $(WWW)/css/bassclef.css
 TARGET_SKELETON_CSS = $(patsubst submodules/skeleton/%,$(WWW)/%,\
                       $(SOURCE_SKELETON_CSS))
 TARGET_OPENSANS_CSS = $(WWW)/css/open-sans.css
@@ -98,7 +98,7 @@ scripts/preprocess.py $< | \
            --css /css/skeleton.css \
            --css /css/open-sans.css \
            --css /css/font-awesome.min.css \
-           --css /css/custom.css | \
+           --css /css/bassclef.css | \
     scripts/postprocess.py > $@;
 endef
 
@@ -127,10 +127,10 @@ $(WWW)/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
 	$(md2html)
 
 
-css: $(TARGET_CUSTOM_CSS) $(TARGET_SKELETON_CSS) $(TARGET_OPENSANS_CSS) \
+css: $(TARGET_BASSCLEF_CSS) $(TARGET_SKELETON_CSS) $(TARGET_OPENSANS_CSS) \
      $(TARGET_FONTAWESOME_CSS)
 
-$(WWW)/css/custom.css: css/custom.css
+$(WWW)/css/bassclef.css: css/bassclef.css
 	$(copyfiles)
 
 $(WWW)/css/%.css: submodules/skeleton/css/%.css
