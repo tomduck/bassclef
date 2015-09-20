@@ -95,9 +95,9 @@ Installation
 
 Installation requires the following steps:
 
- 1) Clone baseclef's git repository with the `--recursive` flag:
+ 1) Clone bassclef's git repository with the `--recursive` flag:
 
-    $ git clone https://github.com/tomduck/baseclef.git --recursive
+    $ git clone https://github.com/tomduck/bassclef.git --recursive
 
 Change into your installation directory:
 
