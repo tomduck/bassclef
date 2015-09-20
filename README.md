@@ -6,8 +6,16 @@ Bassclef uses command-line tools to build static Web pages from plain old text f
 
 It's a feather-weight [CMS] for the impatient.  There are no dababases or programming frameworks.  Content is king.
 
-Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".  It was initially developed (and continues) to manage my blog at <http://tomduck.ca/>.
+Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile", and can be used to generate [GitHub Pages].  It was initially developed (and continues) to manage my blog at <http://tomduck.ca/>.
 
+[CMS]: https://en.wikipedia.org/wiki/Content_management_system
+
+[inspired]: https://tylercipriani.com/2014/05/13/replace-jekyll-with-pandoc-makefile.html
+
+[GitHub Pages]: https://pages.github.com/
+
+
+### Contents ###
 
  1. [Workflow](#workflow)
  2. [Prerequisites](#prerequisites) 
@@ -21,11 +29,6 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
  10. [Licensing](#licensing)
 
 
-[CMS]: https://en.wikipedia.org/wiki/Content_management_system
-
-[inspired]: https://tylercipriani.com/2014/05/13/replace-jekyll-with-pandoc-makefile.html
-
-
 Workflow
 --------
 
@@ -33,7 +36,7 @@ A bassclef session proceeds as follows.
 
 All work is done in `bassclef` directory.  Commands are executed in the `bash` shell.
 
-To generate `www/index.html`, open `content/index.md` in a text editor.  Content is written in [markdown]; for example:
+To begin, enter some [markdown] into `content/index.md` using a text editor. For example:
 
     Hello, world!
     =============
@@ -44,40 +47,43 @@ To build the site:
 
     $ make
 
+This generates `www/index.html`.
+
 To run the test server:
 
     $ make serve
 
 (type `^C` to exit).  The test site can be viewed at <http://127.0.0.1:8000/>.
 
-When ready, the site can be deployed to your server or via [GitHub] pages.
-
-That's it!
+That's it!  Deployment is up to you, although there is some advice on how to do that below.
 
 [markdown]: https://daringfireball.net/projects/markdown/syntax
-[GitHub]: https://github.com/
 
 
 Prerequisites
 -------------
 
-The following prerequisites must be installed before proceeding:
+Before proceeding, you should install and know how to use these tools:
 
-  * [Git] to manage the bassclef sources and your content.  Some
-    familiarity with git (or version control systems in general) is
-    needed.
+  * [Git] to manage the bassclef sources and your content.
 
-  * [Pandoc] for html generation from markdown content.  Read the
-    [Pandoc User Guide] for extensions to standard markdown.
+  * [Pandoc] for html generation from markdown content.
+
+Pandoc is a command-line tool that converts markdown-formatted text files into html (or latex, pdf, etc).  You should read the [Pandoc User Guide] to familiarize yourself with Pandoc's dialect of markdown.
+
+The following tools need to be installed, but you don't need to have any experience with them:
 
   * [GNU make] to manage the build.  Make normally comes
     pre-installed on unix-like systems (e.g., linux and Mac OS X). 
 
-  * [Python] 3 with for bassclef's preprocessing and postprocessing
+  * [Python] 3 for bassclef's preprocessing and postprocessing
     scripts.  Python 2 will not suffice.
 
   * [PyYAML], a module for Python 3.  The usual command (as root) to
-    download and install it is `pip3 install pyyaml`.
+    download and install it is `pip3 install pyyaml`.  You may get
+    a message saying "fatal error: 'yaml.h' file not found".
+    Ignore it.  The error is due to a missing C-extension library
+    that PyYAML will use if available.
 
   * [ImageMagick] convert for image processing.
 
@@ -93,9 +99,9 @@ The following prerequisites must be installed before proceeding:
 Installation
 ------------
 
-Installation requires the following steps:
+To install bassclef take the following steps:
 
- 1) Clone bassclef's git repository with the `--recursive` flag:
+ 1) Clone bassclef's git repository (or your fork on [GitHub]) with the `--recursive` flag:
 
     $ git clone https://github.com/tomduck/bassclef.git --recursive
 
@@ -115,8 +121,8 @@ the build process.  You may need to:
   * install Python 3 (python 2 is not enough);
   * install PyYAML into Python 3 (use `pip3` for this).
 
-If you experience other troubles, please file an Issue at the
-bassclef GitHub [repository](http://github.com/tomduck/bassclef).
+If you experience other any troubles, please file an Issue at the
+[bassclef repository].
 
 
  3) Create a new branch for your content:
@@ -129,16 +135,19 @@ now ready to begin building content.
 
  4) Edit the `config.ini` file to provide the basic configuration. 
 
+[GitHub]: http://github.com/
+[bassclef repository]: http://github.com/tomduck/bassclef
+
 
 Writing Content
 ---------------
 
-Markdown text files go in the `content` directory.  You may use whatever directory structure you wish.  The only requirement is that the files have `.md` extensions.  The `.md` files are used to generate `.html` files with the same filename and in the same directory structure.  Processing is guided by the config.ini and metadata blocks in your documents.
+Markdown text files go in the `content` directory.  You may use whatever directory structure you wish.  The only requirement is that the files have `.md` extensions.  The `.md` files are used to generate `.html` files with the same filename and in a similar directory structure under `www/`.  Processing is guided by the config.ini and metadata blocks in your documents.
 
 
 ### Metadata ###
 
-A metadata block may be placed at the top of a markdown file.  It should be bounded by a `---` at the top and a `...` at the bottom.
+Metadata should be placed at the top of a markdown file.  The metadata block should be bounded by a `---` at the top and a `...` at the bottom.
 
 Metadata fields recognized by bassclef include
 
@@ -158,9 +167,21 @@ and
   * showsocial - flags that social buttons should be shown (default
     True) 
 
-There are no required metadata.
+For example, the metadata block for one of the articles on my Web site looks like this:
 
-You may also define your own metadata fields.  Note, however, that all names in the config.ini are reserved, as are the following:
+    ---
+    title: Echoes of Walkerton in Environment Canada cuts
+    subtitle: Health and safety of Canadians is at risk with latest slashing of Environment Canada budget.
+    date: 19 March 2014
+    publisher: The Toronto Star
+    source: https://www.thestar.com/opinion/commentary/2014/03/19/echoes_of_walkerton_in_environment_canada_cuts.html
+    image: /images/thumbs/2014-03-19_thestar.png
+    caption: As seen in [The Toronto Star][0].
+    ...
+
+There are no required fields.
+
+You may define your own metadata fields.  Note, however, that all names in the config.ini are reserved, as are the following:
 
   * titleclass
   * permalink
@@ -173,16 +194,16 @@ Content is written in [Pandoc-flavoured markdown][Pandoc Users Guide].  Markdown
 
 ### Images ###
 
-The metadata image will be inserted between the first and second elements of your content.  It is also used to construct tags for Facebook, Google Plus and Twitter.  For better control, mark where the image should be inserted using a `<!-- image -->` tag (on its own line).
+The image described in your metadata block will be inserted between the first and second elements of your content.  It is also used to construct tags for Facebook, Google Plus and Twitter.  For better control, mark where the image should be inserted using a `<!-- image -->` tag (on its own line).
 
 
 ### Composed pages ###
 
-Bassclef supports the generation of composed pages via `.md.in` files.  Such files are used to create temporary `.md` files from which `.html` files are generated).  This functionality is needed to generate blog pages.
+Bassclef supports the generation of composed pages via `.md.in` files.  These are used to create temporary `.md` files from which `.html` files are generated.  Composed pages can be used to generate a blog.
 
 The composed page should consist of ordinary markdown and filename lines.  If the filenames refer to `.md` content files, then they are read, processed and inserted; otherwise they are printed out as-is.
 
-Normally the entire content of the referenced file is inserted.  You can use `<!-- break -->` in the inserting file to indicate that any remaining content be truncated.  "Read more..." links are automatically added to the composed page.
+Normally the entire content of the referenced file is inserted.  You can use `<!-- break -->` in the file being inserted to indicate that any remaining content be truncated.  "Read more..." links are automatically added to the composed page.
 
 
 Building and Testing
@@ -225,6 +246,13 @@ Knowledge of css is required to give your site its own look-and-feel.  If you wa
 
 Deployment
 ----------
+
+### Deploying to a server ###
+
+TO BE WRITTEN.
+
+
+### Deploying to [GitHub Pages] ###
 
 TO BE WRITTEN.
 
