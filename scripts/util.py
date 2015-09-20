@@ -23,8 +23,11 @@ import yaml
 from urllib.parse import urlencode, urljoin, urlparse
 
 
-def config():
-    """Returns the configuration as a dict."""
+def config(field=None):
+    """Returns the configuration as a dict.
+
+    field - if this is defined, return only this item
+    """
 
     # Read the configuration into a dict
     parser = configparser.ConfigParser()
@@ -37,12 +40,16 @@ def config():
     if 'siteurl' in cfg:
         cfg['domainname'] = urlparse(cfg['siteurl'])[1]
 
+
     # Sanity checks
     if 'twittername' in cfg:
         if cfg['twittername'].startswith('@'):
             cfg['twittername'] = cfg['twittername'][1:]
 
-    return cfg
+    if field in cfg:
+        return cfg[field]
+    else:
+        return cfg
 
 
 def metadata(f, defaults=None, printmeta=False):

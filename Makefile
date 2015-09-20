@@ -25,7 +25,8 @@ SHELL = /bin/bash -o pipefail
 .DELETE_ON_ERROR:
 
 # Directories
-WWW = www
+SRC = $(shell python3 -c "from scripts import util; print(util.config('srcdir'));")
+WWW = $(shell python3 -c "from scripts import util; print(util.config('wwwdir'));")
 TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
 
 # Error checking
@@ -63,7 +64,7 @@ TARGET_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
                            $(WWW)/fonts/font-awesome/%,\
                            $(SOURCE_FONTAWESOME_FONTS))
 
-TARGET_BASSCLEF_CSS = $(patsubst css/%,$(WWW)/%,$(SOURCE_BASSCLEF_CSS))
+TARGET_BASSCLEF_CSS = $(patsubst css/%,$(WWW)/css/%,$(SOURCE_BASSCLEF_CSS))
 TARGET_SKELETON_CSS = $(patsubst submodules/skeleton/%,$(WWW)/%,\
                       $(SOURCE_SKELETON_CSS))
 TARGET_OPENSANS_CSS = $(WWW)/css/open-sans.css
