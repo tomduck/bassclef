@@ -42,6 +42,7 @@ SOURCE_MD = $(wildcard content/*.md)  $(wildcard content/*/*.md)
 SOURCE_OPENSANS_FONTS =  $(wildcard submodules/open-sans/fonts/*/*)
 SOURCE_FONTAWESOME_FONTS =  $(wildcard submodules/font-awesome/fonts/*)
 
+SOURCE_BASSCLEF_CSS = $(wildcard css/*.css)
 SOURCE_SKELETON_CSS = $(wildcard submodules/skeleton/css/*.css)
 SOURCE_FONTAWESOME_CSS = $(wildcard submodules/font-awesome/css/*)
 
@@ -62,7 +63,7 @@ TARGET_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
                            $(WWW)/fonts/font-awesome/%,\
                            $(SOURCE_FONTAWESOME_FONTS))
 
-TARGET_BASSCLEF_CSS = $(WWW)/css/bassclef.css
+TARGET_BASSCLEF_CSS = $(patsubst css/%,$(WWW)/%,$(SOURCE_BASSCLEF_CSS))
 TARGET_SKELETON_CSS = $(patsubst submodules/skeleton/%,$(WWW)/%,\
                       $(SOURCE_SKELETON_CSS))
 TARGET_OPENSANS_CSS = $(WWW)/css/open-sans.css
@@ -130,7 +131,7 @@ $(WWW)/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
 css: $(TARGET_BASSCLEF_CSS) $(TARGET_SKELETON_CSS) $(TARGET_OPENSANS_CSS) \
      $(TARGET_FONTAWESOME_CSS)
 
-$(WWW)/css/bassclef.css: css/bassclef.css
+$(WWW)/css/%: css/%
 	$(copyfiles)
 
 $(WWW)/css/%.css: submodules/skeleton/css/%.css
