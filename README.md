@@ -10,12 +10,15 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
 
 
  1. [Workflow](#workflow)
- 2. [Technologies](#technologies) 
- 3. [Prerequisites](#prerequisites) 
- 4. [Installation](#installation)
- 5. [Writing Content](#writing-content)
- 6. [Deployment](#deployment)
- 7. [Licensing](#licensing)
+ 2. [Prerequisites](#prerequisites) 
+ 3. [Installation](#installation)
+ 4. [Writing Content](#writing-content)
+ 5. [Building and Testing](#building-and-testing)
+ 6. [Images](#images)
+ 7. [CSS Styles](#css-styles)
+ 8. [Deployment](#deployment) 
+ 9. [Developer Information](#developer-information) 
+ 10. [Licensing](#licensing)
 
 
 [CMS]: https://en.wikipedia.org/wiki/Content_management_system
@@ -151,7 +154,7 @@ and
 
   * showtitle - flags that title block should be shown (default
     True)
-  * showsocial - flags  social buttons should be shown (default
+  * showsocial - flags that social buttons should be shown (default
     True) 
 
 There are no required metadata.
@@ -174,23 +177,91 @@ The metadata image will be inserted between the first and second elements of you
 
 ### Composed pages ###
 
-Bassclef supports the generation of composed pages via `.md.in` files.  This file is used to generate a `.md` file (from which a `.html` file will be created).
+Bassclef supports the generation of composed pages via `.md.in` files.  Such files are used to create temporary `.md` files from which `.html` files are generated).  This functionality is needed to generate blog pages.
 
-The composed page consists of ordinary markdown and filenames.  If the filenames refer to `.md` content files, then they are read, processed and inserted; otherwise they are printed out as-is.
+The composed page should consist of ordinary markdown and filename lines.  If the filenames refer to `.md` content files, then they are read, processed and inserted; otherwise they are printed out as-is.
 
-
-
-### Reserved names ###
+Normally the entire content of the referenced file is inserted.  You can use `<!-- break -->` in the inserting file to indicate that any remaining content be truncated.  "Read more..." links are automatically added to the composed page.
 
 
+Building and Testing
+--------------------
+
+To build your site run
+
+~~~ .bash
+$ make
+~~~
+
+All files are written to the `www/` folder.
+
+To test your site run
+
+~~~ .bash
+$ make serve
+~~~
+
+If you are confident the build will succeed, use
+
+~~~ .bash
+$ make && make serve
+~~~
+
+instead.
 
 
-Styling Content
----------------
+Images
+------
+
+High-resolution images should be stored in the `images/` folder.  These images are copied to `www/images` during the build process.  Large thumbnails are generated and stored in `www/images/thumbs/`.  You should link to the thumbs from your content.
+
+SVG images are handled separately because of the vector format.  They should be placed in `images/svg/`.  The build process writes png versions into the `www/images/thumbs/` and `www/images/icons/` directories.
+
+
+CSS Styles
+----------
+
+[Skeleton] provides a foundation of responsive css that allows bassclef sites to be viewed on either a computer or a mobile.  Custom css for bassclef is provided by `css/bassclef.css`.
+
+Knowledge of css is required to give your site its own look-and-feel.  If you want to adjust the css, you may either edit `css/bassclef.css` or create a new `css/custom.css` and patch it into the Makefile.
 
 
 Deployment
 ----------
+
+TO BE WRITTEN.
+
+
+Developer Information
+---------------------
+
+Below is more advanced information for developers.  Most users will not require this information.
+
+
+### HTML Templates ###
+
+Bassclef's pandoc html template is given in `templates/default.html5`.  If you want to edit it, read about [pandoc templates] first.  All bassclef metadata and config.ini fields are available to the template.
+
+
+### Scripts ###
+
+There are three python scripts used in the build process:
+
+  * `scripts/compose.py`: Processes all `.md.in` files;
+  * `scripts/preprocess.py`: Preprocesses all `.md` files; and
+  * `scripts/postprocess.py`: Postprocesses all pandoc output.
+
+There is also `scripts/util.py` which provides common code for the three scripts.
+
+One important thing the scripts do is inject social widgets.  So, code for the widgets is found in `scripts/util.py` and not `templates/default.html5` as you might expect.
+
+
+### Fonts ###
+
+Bassclef uses [Open Sans] for its font.  For privacy reasons this is aggregated with bassclef rather than linking to google Web fonts.  There is no need to expose users to unnecessary tracking
+
+[Font Awesome] is used for the social widgets.
+
 
 Licensing
 ---------
@@ -198,7 +269,6 @@ Licensing
 Bassclef source files are licensed under the GNU General Public License (GPL), version 3.
 
 There are GPL-compatible and GPL-friendly packages aggregated with Bassclef.  These are found in the submodules directory, and are automatically retrieved from separate repositories when you install Bassclef.
-
 
 
 [markdown]: https://daringfireball.net/projects/markdown/syntax
@@ -212,15 +282,5 @@ There are GPL-compatible and GPL-friendly packages aggregated with Bassclef.  Th
 [Font Awesome]: http://fontawesome.io/
 [Git]: https://git-scm.com/
 [GitHub]: https://github.com/
-[ImageMagick]:
-
-
-
-  * [Skeleton] for responsive css.  Knowledge of css is required to
-    give your site its own look-and-feel.
-
-  * [Open Sans] as the font.  This is provided with Bassclef.
-
-  * [Font Awesome] for social widgets.
-
-  * [Git] 
+[ImageMagick]: http://imagemagick.org/script/index.php
+[pandoc templates]: http://pandoc.org/README.html#templates
