@@ -100,20 +100,17 @@ To install bassclef take the following steps:
 
  1) Download the bassclef sources.  You may either download the
     archive or retrieve it with git.
+
+Cloning bassclef's git repository must be done with the
+`--recursive` flag:
     
-    Cloning bassclef's git repository must be done with the
-    `--recursive` flag:
-    
-    ```
     $ git clone https://github.com/tomduck/bassclef.git --recursive
-    ```
+
+Change into your installation directory before continuing
+further:
     
-    Change into your installation directory before continuing
-    further:
-    
-    ```
     $ cd bassclef
-    ```
+
 
  2) To test your installation, execute `make && make serve` and
     point your browser at <http://127.0.0.1:8000/>.  You should
