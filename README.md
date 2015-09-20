@@ -33,7 +33,7 @@ Hello, World!
 
 Workflow with bassclef is very straight-forward.  Commands are executed in the `bash` shell, and assume that you are in the `bassclef` directory.
 
-Suppose we want to generate an `index.html` file.  We begin by entering some [markdown] into `content/index.md` using a text editor. For example:
+Suppose we want to generate an `index.html` file.  We begin by entering some content into `content/index.md` using a text editor. For example:
 
     Hello, world!
     =============
@@ -52,7 +52,6 @@ To run the test server:
 
 That's it!
 
-[markdown]: https://daringfireball.net/projects/markdown/syntax
 
 
 Getting Started
@@ -101,17 +100,17 @@ To install bassclef take the following steps:
 
  1) Download the bassclef sources.  You may either download the
     archive or retrieve it with git.
-
+    
     Cloning bassclef's git repository must be done with the
     `--recursive` flag:
-
+    
     ```
     $ git clone https://github.com/tomduck/bassclef.git --recursive
     ```
-
+    
     Change into your installation directory before continuing
     further:
-
+    
     ```
     $ cd bassclef
     ```
@@ -149,14 +148,19 @@ Writing Content
 
 ### Markdown documents ###
 
-All content is written in [markdown], an easy-to-read Web writing format.  Pandoc, bassclef's markdown processor, allows a number of extensions to standard markdown that are described in the [Pandoc User Guide].
+All content is written in [markdown], an easy-to-read Web writing format.  If you are not familiar with markdown, check out GitHub's [Markdown Basics].  Bassclef's markdown processor supports a number of extensions to standard markdown; please see the [Pandoc User Guide].
 
-Markdown text files should be put in the `content` directory.  You may use whatever subdirectory structure you wish.  You can also choose whatever filenames you want so long as they are given a `.md` extension.  The processing is guided by your `config.ini` and metadata blocks in your markdown documents.
+Markdown text files should be put in the `content` directory.  You may use whatever subdirectory structure you wish.  You can also choose whatever filenames you want so long as they are given a `.md` extension.
+
+Html files are generated for your content.  The processing is guided by your `config.ini` and metadata blocks in your markdown sources.
+
+[markdown]: https://daringfireball.net/projects/markdown/syntax
+[Markdown Basics]: https://help.github.com/articles/markdown-basics/
 
 
 ### Metadata ###
 
-Metadata should be placed at the top of a markdown file.  The metadata block should be bounded by a `---` at the top and a `...` at the bottom.
+Metadata can be placed at the top of a markdown file.  The metadata block should be bounded by a `---` at the top and a `...` at the bottom.
 
 Metadata fields recognized by bassclef include
 
@@ -176,7 +180,7 @@ and
   * showsocial - flags that social buttons should be shown (default
     True) 
 
-For example, the metadata block for one of the [articles] on my Web site looks like this:
+Here is an example metadata block from one of the [articles] on my Web site:
 
     ---
     title: Echoes of Walkerton in Environment Canada cuts
@@ -196,10 +200,6 @@ You may define your own metadata fields.  Note, however, that all names in the c
   * permalink
 
 [articles]: http://tomduck.ca/commentary/2014-03-19_echoes-of-walkerton.html
-
-### Markdown ###
-
-Content is written in [Pandoc-flavoured markdown][Pandoc Users Guide].  Markdown is a plain-text Web writing format.  Writing markdown content is much like writing an email.
 
 
 ### Images ###
