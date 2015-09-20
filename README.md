@@ -6,18 +6,17 @@ Bassclef uses command-line tools to build static Web pages from plain old text f
 
 It's a feather-weight [CMS] for the impatient.  There are no dababases or programming frameworks.  Content is king.
 
-Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile", and can be used to generate [GitHub Pages].  It was initially developed (and continues) to manage my blog at <http://tomduck.ca/>.
+Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile", and can be used to generate [GitHub Pages] for your [GitHub] project.  It was initially developed (and continues) to manage my blog at <http://tomduck.ca/>.
 
 [CMS]: https://en.wikipedia.org/wiki/Content_management_system
-
 [inspired]: https://tylercipriani.com/2014/05/13/replace-jekyll-with-pandoc-makefile.html
-
 [GitHub Pages]: https://pages.github.com/
+[GitHub]: https://github.com/
 
 
 ### Contents ###
 
- 1. [Workflow](#workflow)
+ 1. [Hello, World!](#hello-world)
  2. [Prerequisites](#prerequisites) 
  3. [Installation](#installation)
  4. [Writing Content](#writing-content)
@@ -29,25 +28,21 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
  10. [Licensing](#licensing)
 
 
-Workflow
---------
+Hello, World!
+-------------
 
-A bassclef session proceeds as follows.
+Workflow with bassclef is very straight-forward.  Commands are executed in the `bash` shell, and assume that you are in the `bassclef` directory.
 
-All work is done in the `bassclef` directory.  Commands are executed in the `bash` shell.
-
-To begin, enter some [markdown] into `content/index.md` using a text editor. For example:
+Suppose we want to generate an `index.html` file.  We begin by entering some [markdown] into `content/index.md` using a text editor. For example:
 
     Hello, world!
     =============
 
     This is a test.
 
-To build the site:
+To build `www/index.html`, type:
 
     $ make
-
-This generates `www/index.html`.
 
 To run the test server:
 
@@ -55,26 +50,25 @@ To run the test server:
 
 (type `^C` to exit).  The test site can be viewed at <http://127.0.0.1:8000/>.
 
-That's it!  Deployment is up to you, although there is some advice on how to do that below.
+That's it!
 
 [markdown]: https://daringfireball.net/projects/markdown/syntax
 
 
-Prerequisites
--------------
+Getting Started
+---------------
 
-Before proceeding, you should install and know how to use these tools:
+### Prerequisites ###
 
-  * [Git] to manage the bassclef sources and your content.
+Before proceeding, you will need to install the tools that bassclef needs.  The first two provide the foundation:
 
-  * [Pandoc] for html generation from markdown content.
+  * [Pandoc] is used to generate html from markdown content.
 
-Pandoc is a command-line tool that converts markdown-formatted text files into html (or latex, pdf, etc).  You should read the [Pandoc User Guide] to familiarize yourself with Pandoc's dialect of markdown.
+  * [GNU make] manages the build.  Make normally comes pre-installed
+    on unix-like systems (e.g., linux and Mac OS X).  We will use
+    the commands `make` and `make serve`, and nothing more.
 
-The following tools need to be installed, but you don't need to have any experience with them:
-
-  * [GNU make] to manage the build.  Make normally comes
-    pre-installed on unix-like systems (e.g., linux and Mac OS X). 
+The next three prerequisites operate entirely behind-the-scenes:
 
   * [Python] 3 for bassclef's preprocessing and postprocessing
     scripts.  Python 2 will not suffice.
@@ -87,32 +81,44 @@ The following tools need to be installed, but you don't need to have any experie
 
   * [ImageMagick] convert for image processing.
 
-[Git]: https://git-scm.com/
+Finally the following optional packages may be helpful:
+
+  * [Git] to manage your bassclef sources and content.  Git is
+    required if you want to install [GitHub Pages].
+
 [Pandoc]: http://pandoc.org/README.html
 [Pandoc User Guide]: http://pandoc.org/README.html
 [GNU make]: https://www.gnu.org/software/make/
 [Python]: http://python.org/
 [pyyaml]: http://pyyaml.org/
 [ImageMagick]: http://imagemagick.org/script/index.php
+[Git]: https://git-scm.com/
 
 
-Installation
-------------
+### Installation ###
 
 To install bassclef take the following steps:
 
- 1) Clone bassclef's git repository (or your fork on [GitHub]) with the `--recursive` flag:
+ 1) Download the bassclef sources.  You may either download the
+    archive or retrieve it with git.
 
+    Cloning bassclef's git repository must be done with the
+    `--recursive` flag:
+
+    ```
     $ git clone https://github.com/tomduck/bassclef.git --recursive
+    ```
 
-Change into your installation directory:
+    Change into your installation directory before continuing
+    further:
 
+    ```
     $ cd bassclef
+    ```
 
-
- 2) Execute `make && make serve` and point your browser at
-<http://127.0.0.1:8000/> to test your installation.  You should
-see a page claiming "Success!".
+ 2) To test your installation, execute `make && make serve` and
+    point your browser at <http://127.0.0.1:8000/>.  You should
+    see a page claiming "Success!".
 
 If the install wasn't successful, check the error message from
 the build process.  You may need to:
@@ -129,20 +135,23 @@ If you experience other any troubles, please file an Issue at the
 
     $ git checkout -b <branchname>
 
-(replace `<branchname>` with the name you have chosen.  You are
+(replace `<branchname>` with the name you have chosen).  You are
 now ready to begin building content.
 
 
  4) Edit the `config.ini` file to provide the basic configuration. 
 
-[GitHub]: http://github.com/
 [bassclef repository]: http://github.com/tomduck/bassclef
 
 
 Writing Content
 ---------------
 
-Markdown text files go in the `content` directory.  You may use whatever directory structure you wish.  The only requirement is that the files have `.md` extensions.  The `.md` files are used to generate `.html` files with the same filename and in a similar directory structure under `www/`.  Processing is guided by the config.ini and metadata blocks in your documents.
+### Markdown documents ###
+
+All content is written in [markdown], an easy-to-read Web writing format.  Pandoc, bassclef's markdown processor, allows a number of extensions to standard markdown that are described in the [Pandoc User Guide].
+
+Markdown text files should be put in the `content` directory.  You may use whatever subdirectory structure you wish.  You can also choose whatever filenames you want so long as they are given a `.md` extension.  The processing is guided by your `config.ini` and metadata blocks in your markdown documents.
 
 
 ### Metadata ###
