@@ -1,5 +1,5 @@
 ---
-title: Licenses
+title: 7. Licenses
 showsocial: False
 ...
 

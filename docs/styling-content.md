@@ -1,5 +1,5 @@
 ---
-title: Styling Content
+title: 5. Styling Content
 showsocial: False 
 ...
 

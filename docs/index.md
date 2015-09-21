@@ -1,6 +1,6 @@
 ---
 title: Bassclef
-subtitle: The featherweight command-line CMS for the impatient.
+subtitle: A featherweight command-line CMS for the impatient.
 image: /images/bassclef-logo.png
 showimage: False
 showsocial: False
@@ -17,21 +17,27 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
 
 ### Contents ###
 
-  * [Example Session](example-session.html) 
-  * [Getting Started](getting-started.html) 
+
+ 1. [Example Session](example-session.html)
+ 2. [Getting Started](getting-started.html)
       - Prerequisites
       - Installing bassclef
-  * [Writing Content](writing-content.html)
+ 3. [Writing Content](writing-content.html)
       - Markdown documents
       - Metadata
       - Images
       - Composed pages
-  * [Building and Testing](building-and-testing.html)
-  * [Styling Content](styling-content.html)
+ 4. [Building and Testing](building-and-testing.html)
+ 5. [Styling Content](styling-content.html)
       - CSS styles
       - HTML templates
       - Scripts
       - Fonts
+ 6. [Deploying Bassclef](deploying-bassclef.html) 
+      - Deplying to GitHub Pages
+      - Deploying to a server
+ 7. [Licenses](licenses.html) 
+
 
 *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 

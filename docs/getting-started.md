@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: 2. Getting Started
 showsocial: False 
 ...
 

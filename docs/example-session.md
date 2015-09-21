@@ -1,5 +1,5 @@
 ---
-title: Example Session
+title: 1. Example Session
 showsocial: False
 ...
 
