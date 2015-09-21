@@ -25,9 +25,6 @@ a:hover { text-decoration: underline; }
 h1 a:link { color: inherit; }
 h1 a:hover { text-decoration: none; color: #1EAEDB; }
 
-ul, ol {
-    margin-left: 4rem;
-}
 
 hr { width: 50%; }
 
@@ -45,6 +42,12 @@ figcaption {
 }
 
 img { max-width: 100%; }
+
+ul ul, ol ul, ul ol, ol ol { margin-left: 4rem; }
+
+li:first-child {
+    margin-left: 0;
+}
 
 nav {
     text-align: center;
