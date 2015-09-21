@@ -48,12 +48,18 @@ nav {
 
 footer { margin-bottom: 2rem; }
 
+ul, ol {
+    list-style-position: outside;
+    margin-left: 4rem;
+}
+
 li p { display: inline; }
 
 p code {
     background: none;
     border: none;
 }
+
 
 /*****************************************************************************/
 /* CLASSES */
