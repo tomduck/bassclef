@@ -61,13 +61,13 @@ def metadata(f, defaults=None, printmeta=False):
     """
 
     # Check for a YAML block at the top of the file
-    if f.readline().strip() != '---':
+    if f.readline().rstrip() != '---':
         return {}
 
     # Read in the metadata
     lines = ['---']
     for line in f:
-        line = line.strip()
+        line = line.rstrip()
         lines.append(line)
         if line == '...':
             break

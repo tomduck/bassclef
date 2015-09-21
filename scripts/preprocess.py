@@ -83,7 +83,7 @@ def preprocess(path):
         meta = metadata(f, defaults, printmeta=True)
 
         # Read in the lines
-        lines = [line.strip() for line in f]
+        lines = [line.rstrip() for line in f]
 
     # Extract the metadata fields we need
     updated = meta['updated'] if 'updated' in meta else None

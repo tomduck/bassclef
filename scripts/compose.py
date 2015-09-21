@@ -75,8 +75,8 @@ def content(f, url, n):
     # Read, process, and store each line
     for line in f:
 
-        # Strip whitespace at the ends
-        line = line.strip()
+        # Strip whitespace at the right end
+        line = line.rstrip()
 
         # Use the number n to give each link and reference a namespace
         line = line.replace('][', ']['+str(n)+':')
@@ -146,15 +146,15 @@ def process_mdin_file(path):
         metadata(f, update, printmeta=True)
 
         # Get the remaining lines
-        lines = [line.strip() for line in f if len(line.strip())]
+        lines = [line.rstrip() for line in f if len(line.rstrip())]
 
 
     # Process the lines
     n = 0  # Used to provide a unique namespace for each file
     for line in lines:
 
-        # Strip away whitespace at ends
-        line = line.strip()
+        # Strip away whitespace at the right end
+        line = line.rstrip()
 
         # If a filename is given then read, process, and print the file;
         # otherwise, print the line as-is.
