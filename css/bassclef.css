@@ -26,7 +26,6 @@ h1 a:link { color: inherit; }
 h1 a:hover { text-decoration: none; color: #1EAEDB; }
 
 ul, ol {
-    list-style-position: inside;
     margin-left: 4rem;
 }
 
@@ -35,7 +34,7 @@ hr { width: 50%; }
 figure {
     display: table;
     float: left;
-    margin: 1.5rem 4rem 1.5rem 2rem;
+    margin: 1.5rem 3rem 1.5rem 2rem;
 }
 
 figcaption {
