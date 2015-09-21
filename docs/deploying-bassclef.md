@@ -58,7 +58,20 @@ Point your browser at <http://username.github.io/repository> to see the result.
 Deploying to a server
 ---------------------
 
-TO BE WRITTEN.
+One approach to deploying your site to a server is to simply copy across the generated files in `www/`.
+
+However, you may also use git to deploy the site.  This requires some technical know-how, and so I will describe the process in brief.
+
+Create a bare repository on your server for your sources, and install a post-release hook that responds to new tags.  Add the following code to your bassclef `Makefile`:
+
+~~~
+~~~
+
+Here is an example post-release hook:
+
+~~~
+~~~
+
 
 
 *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
