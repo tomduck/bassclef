@@ -1,5 +1,5 @@
 ---
-title: Deploying Bassclef Sites
+title: Deploying Bassclef
 showsocial: False 
 ...
 
@@ -22,7 +22,7 @@ TO BE WRITTEN.
 
 
 <nav>
-[<< Styling Content](/docs/styling-content.html) |
-[Top](/docs/index.html) |
-[Licenses >>](/docs/licenses.html)
+[<< Styling Content](styling-content.html) |
+[Top](index.html) |
+[Licenses >>](licenses.html)
 </nav>

@@ -3,7 +3,7 @@ title: Styling Content
 showsocial: False 
 ...
 
-CSS Styles
+CSS styles
 ----------
 
 [Skeleton] provides a foundation of responsive css that allows bassclef sites to be viewed on either a computer or a mobile.  Custom css for bassclef is provided by `css/bassclef.css`.
@@ -16,10 +16,12 @@ Knowledge of css is required to give your site its own look-and-feel.  If you wa
 *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 
 
-HTML Templates
+HTML templates
 --------------
 
-Bassclef's pandoc html template is given in `templates/default.html5`.  If you want to edit it, read about [pandoc templates] first.  All bassclef metadata and config.ini fields are available to the template.
+Bassclef's html template is given in `templates/default.html5`.  If you want to edit it, read about [pandoc templates] first.  All bassclef metadata and config.ini fields are available to the template.
+
+Note that the template uses Skeleton's classes to provide a responsive layout.
 
 [pandoc templates]: http://pandoc.org/README.html#templates
 
@@ -47,9 +49,10 @@ One important thing the scripts do is inject social widgets.  So, code for the w
 Fonts
 -----
 
-Bassclef uses [Open Sans] for its font.  For privacy reasons this is aggregated with bassclef rather than linking to google Web fonts.  There is no need to expose users to unnecessary tracking
+Bassclef uses [Open Sans] for its font.  For privacy reasons this is provided with bassclef rather than linking to google Web fonts.
 
 [Font Awesome] is used for the social widgets.
+
 [Open Sans]: https://www.google.com/fonts/specimen/Open+Sans
 [Font Awesome]: http://fontawesome.io/
 
@@ -58,7 +61,7 @@ Bassclef uses [Open Sans] for its font.  For privacy reasons this is aggregated 
 
 
 <nav>
-[<< Building and Testing](/docs/building-and-testing.html) |
-[Top](/docs/index.html) |
-[Deploying Bassclef >>](/docs/deploying-bassclef.html)
+[<< Building and Testing](building-and-testing.html) |
+[Top](index.html) |
+[Deploying Bassclef >>](deploying-bassclef.html)
 </nav>

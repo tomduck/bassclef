@@ -88,10 +88,11 @@ def preprocess(path):
     # Extract the metadata fields we need
     updated = meta['updated'] if 'updated' in meta else None
     image = meta['image'] if 'image' in meta else None
+    showimage = meta['showimage'] if 'showimage' in meta else True
     caption = meta['caption'] if 'caption' in meta else ''
 
     # Insert the image
-    if image:
+    if image and showimage:
         lines = insert_figure(lines, image, caption)
 
     # Insert the social widgets

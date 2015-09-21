@@ -5,23 +5,24 @@ showsocial: False
 
 To build your site run
 
-```
+~~~ .bash  
 $ make
-```
+~~~
 
-All files are written to the `www/` folder.
+All files are written to the `www/` folder (or whatever you have indicated in your `config.ini`.
 
 To test your site run
 
-```
+~~~ .bash 
+
 $ make serve
-```
+~~~
 
-If you are confident the build will succeed, use
+(press `^C` to exit the server).  If you are confident that the build will succeed, you may use
 
-```
+~~~ .bash 
 $ make && make serve
-```
+~~~
 
 instead.
 
@@ -31,7 +32,7 @@ instead.
 
 
 <nav>
-[<< Writing Content](/docs/writing-content.html) |
-[Top](/docs/index.html) |
-[Styling Content >>](/docs/styling-content.html)
+[<< Writing Content](writing-content.html) |
+[Top](index.html) |
+[Styling Content >>](styling-content.html)
 </nav>
