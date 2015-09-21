@@ -37,11 +37,12 @@ Metadata fields recognized by bassclef include
 
 Bassclef employs these fields in various ways: for generating document headers, inserting images, creating social metadata, and so on.
 
-The following metadata flags may be set to True or False to control what is shown (default True):
+The following flags control how bassclef presents the metadata:
 
-  * showtitle
-  * showimage
-  * showsocial
+  * titleclass - the CSS class for the title
+  * showtitle - True/False
+  * showimage - True/False
+  * showsocial - True/False
 
 Here is an example metadata block from one of the [articles] at <http://tomduck.ca/>:
 
@@ -75,7 +76,7 @@ Images
 
 High-resolution images should be stored in the `images/` folder.  These images are copied to `www/images` during the build process.  Smaller versions are generated and stored in `www/images/sized/`.  You should link to the sized versions from your content.
 
-The image described in your metadata block will be inserted between the first and second elements of your content.  It is also used to construct tags for Facebook, Google Plus and Twitter.  For better control, mark where the metadata image should be inserted using a `<!-- image -->` tag (on its own line).
+The image described in your metadata block will be inserted between the first and second elements of your content.  It is also used to construct tags for Facebook, Google Plus and Twitter.  For better control, mark where the metadata image should be inserted using an `<!-- image -->` tag (on its own line).  You may also set the `showimage` metadata item to `False` and place the image by hand as a normal markdown figure.
 
 
 *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
