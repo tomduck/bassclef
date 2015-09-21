@@ -25,6 +25,11 @@ a:hover { text-decoration: underline; }
 h1 a:link { color: inherit; }
 h1 a:hover { text-decoration: none; color: #1EAEDB; }
 
+ul, ol {
+    list-style-position: outside;
+    margin-left: 4rem;
+}
+
 hr { width: 50%; }
 
 figure {
@@ -46,12 +51,11 @@ nav {
     text-align: center;
 }
 
-footer { margin-bottom: 2rem; }
-
-ul, ol {
-    list-style-position: outside;
-    margin-left: 4rem;
+nav ul {
+    margin-left: 0;
 }
+
+footer { margin-bottom: 2rem; }
 
 li p { display: inline; }
 
@@ -111,6 +115,8 @@ p code {
 }
 
 .social { }
+
+.social ul { margin-left: 0; }
 
 .social li {  /* Put social links all on one line */
     display: table-cell;
