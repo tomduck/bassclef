@@ -43,11 +43,12 @@ figcaption {
 
 img { max-width: 100%; }
 
-ul ul, ol ul, ul ol, ol ol { margin-left: 4rem; }
-
-li:first-child {
-    margin-left: 0;
+ul, ol {
+    list-style-position: outside;
+    margin-left: 2rem;
 }
+
+ul ul, ol ul, ul ol, ol ol { margin-left: 4rem; }
 
 nav {
     text-align: center;
@@ -58,8 +59,6 @@ nav ul {
 }
 
 footer { margin-bottom: 2rem; }
-
-li p { display: inline; }
 
 p code {
     background: none;
