@@ -158,7 +158,7 @@ def process_mdin_file(path):
 
         # If a filename is given then read, process, and print the file;
         # otherwise, print the line as-is.
-        if os.path.isfile(line):
+        if line.endswith('.md') and os.path.isfile(line):
             process_md_file(line, n)
             n += 1
         else:
