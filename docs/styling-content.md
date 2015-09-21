@@ -63,5 +63,5 @@ Bassclef uses [Open Sans] for its font.  For privacy reasons this is provided wi
 <nav>
 [<< Building and Testing](building-and-testing.html) |
 [Top](index.html) |
-[Deploying Bassclef >>](deploying-bassclef.html)
+[Deploying a Bassclef Site >>](deploying-bassclef.html)
 </nav>

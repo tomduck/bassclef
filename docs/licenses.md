@@ -12,6 +12,6 @@ There are GPL-compatible and GPL-friendly packages aggregated with Bassclef.  Th
 
 
 <nav>
-[<< Deploying Bassclef](deploying-bassclef.html) |
+[<< Deploying a Bassclef Site](deploying-bassclef.html) |
 [Top](/index.html)
 </nav>

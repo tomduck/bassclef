@@ -33,8 +33,8 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
       - HTML templates
       - Scripts
       - Fonts
- 6. [Deploying Bassclef](deploying-bassclef.html) 
-      - Deplying to GitHub Pages
+ 6. [Deploying a Bassclef Site](deploying-bassclef.html) 
+      - Deploying to GitHub Pages
       - Deploying to a server
  7. [Licenses](licenses.html) 
 
