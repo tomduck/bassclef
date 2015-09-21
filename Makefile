@@ -39,7 +39,7 @@ endif
 
 SOURCE_MD_IN = $(wildcard content/*.md.in) $(wildcard content/*/*.md.in)
 SOURCE_MD = $(wildcard content/*.md) $(wildcard content/*/*.md) \
-            $(wildcard doc/*.md)
+            $(wildcard docs/*.md)
 
 SOURCE_OPENSANS_FONTS =  $(wildcard submodules/open-sans/fonts/*/*)
 SOURCE_FONTAWESOME_FONTS =  $(wildcard submodules/font-awesome/fonts/*)
@@ -58,7 +58,7 @@ TARGET_MD = $(patsubst content/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
 
 TARGET_HTML = $(patsubst content/%.md,$(WWW)/%.html,$(SOURCE_MD)) \
               $(patsubst $(TMP)/%.md,$(WWW)/%.html,$(TARGET_MD))
-TARGET_DOC = $(patsubst doc/%.md,$(WWW)/doc/%.html,$(SOURCE_MD))
+TARGET_DOCS = $(patsubst docs/%.md,$(WWW)/docs/%.html,$(SOURCE_MD))
 
 TARGET_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
                        $(WWW)/fonts/open-sans/%,$(SOURCE_OPENSANS_FONTS))
@@ -129,9 +129,9 @@ $(WWW)/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
 	$(md2html)
 
 
-doc: $(TARGET_DOC)
+docs: $(TARGET_DOCS) images css
 
-$(WWW)/doc/%.html: doc/%.md scripts/preprocess.py scripts/postprocess.py \
+$(WWW)/docs/%.html: docs/%.md scripts/preprocess.py scripts/postprocess.py \
             scripts/util.py templates/default.html5 config.ini
 	$(md2html)
 
@@ -194,6 +194,6 @@ clean:
 	rm -rf $(WWW)/css
 	rm -rf $(WWW)/fonts
 	rm -rf $(WWW)/images
-	rm -rf $(WWW)/doc
+	rm -rf $(WWW)/docs
 
 .PHONY: markdown html css fonts images serve clean

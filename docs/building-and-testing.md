@@ -31,7 +31,7 @@ instead.
 
 
 <nav>
-[<< Writing Content](/doc/writing-content.html) |
-[Top](/doc/index.html) |
-[Styling Content >>](/doc/styling-content.html)
+[<< Writing Content](/docs/writing-content.html) |
+[Top](/docs/index.html) |
+[Styling Content >>](/docs/styling-content.html)
 </nav>

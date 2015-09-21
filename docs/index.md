@@ -1,7 +1,7 @@
 ---
 title: Bassclef
 subtitle: The featherweight command-line CMS for the impatient.
-image: /images/sized/bassclef2.png
+image: /images/bassclef-logo.png
 showsocial: False
 ...
 
@@ -22,43 +22,11 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
 ...
 
 
-Workflow
---------
-
-The basic workflow for bassclef is straight-forward.  We begin by creating some content using a text editor. For example:
-
-```
-Hello, world!
-=============
-
-This is a test.
-```
-
-Let's save this to `index.md`.  Content is written in [markdown], an easy-to-read Web writing format.  More on that later.
-
-To build the html, open a terminal and change to the `bassclef` install directory. Execute the following at the bash prompt (`$`):
-
-~~~
-$ make
-~~~
-
-An `index.html` is generated.
-
-To run the test server, execute
-
-```
-$ make serve
-```
-
-(type `^C` to exit).  The site is viewed at <http://127.0.0.1:8000/>.
-
-That's it!
-
-[markdown]: https://daringfireball.net/projects/markdown/syntax 
 
 
 *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 
+
 <nav>
-Top | [Getting started >>](/doc/getting-started.html)
+Top | [Getting started >>](/docs/getting-started.html)
 </nav>

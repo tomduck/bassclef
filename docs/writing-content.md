@@ -16,6 +16,9 @@ Html files are generated for your content.  The processing is guided by your `co
 [Pandoc User Guide]: http://pandoc.org/README.html
 
 
+*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+
+
 Metadata
 --------
 
@@ -63,6 +66,9 @@ You may define your own metadata fields.  Note, however, that all names in the c
 [articles]: http://tomduck.ca/commentary/2014-03-19_echoes-of-walkerton.html
 
 
+*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+
+
 Images
 ------
 
@@ -72,6 +78,9 @@ The image described in your metadata block will be inserted between the first an
 High-resolution images should be stored in the `images/` folder.  These images are copied to `www/images` during the build process.  Large thumbnails are generated and stored in `www/images/thumbs/`.  You should link to the thumbs from your content.
 
 SVG images are handled separately because of the vector format.  They should be placed in `images/svg/`.  The build process writes png versions into the `www/images/thumbs/` and `www/images/icons/` directories.
+
+
+*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 
 
 Composed pages
@@ -84,12 +93,11 @@ The composed page should consist of ordinary markdown and filename lines.  If th
 Normally the entire content of the referenced file is inserted.  You can use `<!-- break -->` in the file being inserted to indicate that any remaining content be truncated.  "Read more..." links are automatically added to the composed page.
 
 
-
 *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 
 
 <nav>
-[<< Getting Started](/doc/getting-started.html) |
-[Top](/doc/index.html) |
-[Building and Testing >>](/doc/building-and-testing.html)
+[<< Getting Started](/docs/getting-started.html) |
+[Top](/docs/index.html) |
+[Building and Testing >>](/docs/building-and-testing.html)
 </nav>

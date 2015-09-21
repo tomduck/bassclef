@@ -9,6 +9,9 @@ Deploying to a server
 TO BE WRITTEN.
 
 
+*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+
+
 Deploying to GitHub Pages
 -------------------------
 
@@ -19,7 +22,7 @@ TO BE WRITTEN.
 
 
 <nav>
-[<< Styling Content](/doc/styling-content.html) |
-[Top](/doc/index.html) |
-[Licenses >>](/doc/licenses.html)
+[<< Styling Content](/docs/styling-content.html) |
+[Top](/docs/index.html) |
+[Licenses >>](/docs/licenses.html)
 </nav>

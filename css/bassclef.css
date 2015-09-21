@@ -30,7 +30,7 @@ hr { width: 50%; }
 figure {
     display: table;
     float: left;
-    margin: 1em 25px;
+    margin: 1.5rem 2rem;
 }
 
 figcaption {

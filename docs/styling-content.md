@@ -13,12 +13,18 @@ Knowledge of css is required to give your site its own look-and-feel.  If you wa
 [Skeleton]: http://getskeleton.com/
 
 
+*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+
+
 HTML Templates
 --------------
 
 Bassclef's pandoc html template is given in `templates/default.html5`.  If you want to edit it, read about [pandoc templates] first.  All bassclef metadata and config.ini fields are available to the template.
 
 [pandoc templates]: http://pandoc.org/README.html#templates
+
+
+*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 
 
 Scripts
@@ -35,6 +41,9 @@ There is also `scripts/util.py` which provides common code for the three scripts
 One important thing the scripts do is inject social widgets.  So, code for the widgets is found in `scripts/util.py` and not `templates/default.html5` as you might expect.
 
 
+*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+
+
 Fonts
 -----
 
@@ -49,7 +58,7 @@ Bassclef uses [Open Sans] for its font.  For privacy reasons this is aggregated 
 
 
 <nav>
-[<< Building and Testing](/doc/building-and-testing.html) |
-[Top](/doc/index.html) |
-[Deploying Bassclef >>](/doc/deploying-bassclef.html)
+[<< Building and Testing](/docs/building-and-testing.html) |
+[Top](/docs/index.html) |
+[Deploying Bassclef >>](/docs/deploying-bassclef.html)
 </nav>

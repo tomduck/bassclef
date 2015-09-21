@@ -41,6 +41,9 @@ The following optional packages may also be helpful:
 [Git]: https://git-scm.com/
 
 
+*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+
+
 Installation
 ------------
 
@@ -89,7 +92,7 @@ Note: If you cloned the git repository the you may wish to create a new branch f
 
 
 <nav>
-[<< Introduction](/doc/index.html) |
-[Top](/doc/index.html) |
-[Writing Content >>](/doc/writing-content.html)
+[<< Example Session](/docs/example-session.html) |
+[Top](/docs/index.html) |
+[Writing Content >>](/docs/writing-content.html)
 </nav>
