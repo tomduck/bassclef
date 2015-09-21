@@ -41,6 +41,21 @@ def postprocess():
     for i, line in enumerate(lines):
         lines[i] = line.replace(old, new)
 
+    # Undo temporary changes made by util.metadata()
+    p1 = re.compile(r'<title>(\d+)// (.*?)</title>')
+    p2 = re.compile(r'<meta (.*?) content="(\d+)// (.*?)" />')
+    p3 = re.compile(r'(\s+)<h1 (.*?)>(\d+)// (.*?)</h1>')
+    for i, line in enumerate(lines):
+        if p1.search(line):
+            num, title = p1.search(line).groups()
+            lines[i] = '<title>%s. %s</title>' % (num, title)
+        if p2.search(line):
+            attrs, num, title = p2.search(line).groups()
+            lines[i] = '<meta %s content="%s. %s" />' % (attrs, num, title)
+        if p3.search(line):
+            spaces, attrs, num, title = p3.search(line).groups()
+            lines[i] = '%s<h1 %s>%s. %s</h1>' % (spaces, attrs, num, title)
+            
     # Change <p><br /></p> to just <br />
     for i, line in enumerate(lines):
         lines[i] = line.replace('<p><br /></p>', '<br />\n')

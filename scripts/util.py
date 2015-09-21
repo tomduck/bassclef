@@ -86,15 +86,25 @@ def metadata(f, defaults=None, printmeta=False):
             if k not in meta:
                 lines.insert(-1, '%s: %s' % (k, v))
 
-    # Join the lines together
-    lines = '\n'.join(lines)
-
     # Print the metadata to stdout if requested
     if printmeta:
-        print(lines)
+        
+        p = re.compile(r'^title: (\d+)\. (.*)')
+
+        for line in lines:
+
+            # Numbered titles get treated like lists by pandoc.  This messes
+            # up the html meta fields.  Make a temporary and unobtrosive
+            # change that we can undo in the postprocessing.
+            if p.search(line):
+                pre, post = p.search(line).groups()
+                print('title: %s// %s' % (pre, post))
+                continue
+        
+            print(line)
 
     # Return the metadata
-    return yaml.load(lines)
+    return yaml.load('\n'.join(lines))
 
 
 def path2url(path, relative=False):
