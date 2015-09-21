@@ -156,7 +156,7 @@ $endif$$endif$
   </p>
   <p>
   <a href="http://github.com/tomduck/bassclef">
-  <img src="/images/powered-by-bassclef.png" alt="powered-by-bassclef" />
+  <img src="/images/powered-by-bassclef.png" alt="powered-by-bassclef" id="powered-by" />
   </a>
   </p>
 </footer>

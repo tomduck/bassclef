@@ -153,3 +153,7 @@ p code {
 
 #footer a:link { color: inherit; }
 #footer a:hover { text-decoration: none; color: #1EAEDB; }
+
+#powered-by {
+    width: 17rem;
+}
