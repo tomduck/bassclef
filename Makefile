@@ -38,7 +38,8 @@ endif
 # Source files ---------------------------------------------------------------
 
 SOURCE_MD_IN = $(wildcard content/*.md.in) $(wildcard content/*/*.md.in)
-SOURCE_MD = $(wildcard content/*.md)  $(wildcard content/*/*.md)
+SOURCE_MD = $(wildcard content/*.md) $(wildcard content/*/*.md) \
+            $(wildcard doc/*.md)
 
 SOURCE_OPENSANS_FONTS =  $(wildcard submodules/open-sans/fonts/*/*)
 SOURCE_FONTAWESOME_FONTS =  $(wildcard submodules/font-awesome/fonts/*)
@@ -57,6 +58,7 @@ TARGET_MD = $(patsubst content/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
 
 TARGET_HTML = $(patsubst content/%.md,$(WWW)/%.html,$(SOURCE_MD)) \
               $(patsubst $(TMP)/%.md,$(WWW)/%.html,$(TARGET_MD))
+TARGET_DOC = $(patsubst doc/%.md,$(WWW)/doc/%.html,$(SOURCE_MD))
 
 TARGET_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
                        $(WWW)/fonts/open-sans/%,$(SOURCE_OPENSANS_FONTS))
@@ -73,10 +75,8 @@ TARGET_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/%,$(WWW)/%,\
 
 TARGET_IMG = $(patsubst %,$(WWW)/%,$(SOURCE_IMG)) \
              $(patsubst %,$(WWW)/%,$(SOURCE_SVG))
-TARGET_THUMBS = $(patsubst images/%,$(WWW)/images/thumbs/%,$(SOURCE_IMG)) \
-                $(patsubst images/svg/%.svg,$(WWW)/images/thumbs/%.png,\
-                  $(SOURCE_SVG))
-TARGET_ICONS = $(patsubst images/svg/%.svg,$(WWW)/images/icons/%.png,\
+TARGET_SIZED = $(patsubst images/%,$(WWW)/images/sized/%,$(SOURCE_IMG)) \
+               $(patsubst images/svg/%.svg,$(WWW)/images/sized/%.png,\
                  $(SOURCE_SVG))
 
 
@@ -129,6 +129,14 @@ $(WWW)/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
 	$(md2html)
 
 
+doc: $(TARGET_DOC)
+
+$(WWW)/doc/%.html: doc/%.md scripts/preprocess.py scripts/postprocess.py \
+            scripts/util.py templates/default.html5 config.ini
+	$(md2html)
+
+
+
 css: $(TARGET_BASSCLEF_CSS) $(TARGET_SKELETON_CSS) $(TARGET_OPENSANS_CSS) \
      $(TARGET_FONTAWESOME_CSS)
 
@@ -154,17 +162,13 @@ $(WWW)/fonts/font-awesome/%: submodules/font-awesome/fonts/%
 	$(copyfiles)
 
 
-images: $(TARGET_IMG) $(TARGET_THUMBS) $(TARGET_ICONS)
+images: $(TARGET_IMG) $(TARGET_SIZED)
 
-$(WWW)/images/icons/%.png: images/svg/%.svg
-	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	convert $< -resize x50 $@
-
-$(WWW)/images/thumbs/%.png: images/svg/%.svg
+$(WWW)/images/sized/%.png: images/svg/%.svg
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	convert $< -resize 250x $@
 
-$(WWW)/images/thumbs/%: images/%
+$(WWW)/images/sized/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	convert $< -resize 250x $@
 
@@ -190,5 +194,6 @@ clean:
 	rm -rf $(WWW)/css
 	rm -rf $(WWW)/fonts
 	rm -rf $(WWW)/images
+	rm -rf $(WWW)/doc
 
 .PHONY: markdown html css fonts images serve clean

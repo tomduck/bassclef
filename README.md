@@ -31,20 +31,22 @@ Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a 
 Hello, World!
 -------------
 
-Workflow with bassclef is very straight-forward.  Commands are executed in the `bash` shell, and assume that you are in the `bassclef` directory.
-
-Suppose we want to generate an `index.html` file.  We begin by entering some content into `content/index.md` using a text editor. For example:
+The basic workflow for bassclef is straight-forward.  We begin by creating some content using a text editor. For example:
 
     Hello, world!
     =============
 
     This is a test.
 
-To build `www/index.html`, type:
+Let's save this to `index.md`.  Content is written in [markdown], an easy-to-read Web writing format.  More on that later.
+
+To build the html, open a terminal and change to the `bassclef` install directory. Execute the following at the bash prompt(`$`):
 
     $ make
 
-To run the test server:
+Notice that `index.html` is generated.
+
+To run the test server, execute
 
     $ make serve
 
@@ -52,6 +54,7 @@ To run the test server:
 
 That's it!
 
+[markdown]: https://daringfireball.net/projects/markdown/syntax 
 
 
 Getting Started
@@ -69,27 +72,27 @@ Before proceeding, you will need to install the tools that bassclef needs.  The 
 
 The next three prerequisites operate entirely behind-the-scenes:
 
-  * [Python] 3 for bassclef's preprocessing and postprocessing
-    scripts.  Python 2 will not suffice.
+  * [Python] 3 is used for bassclef's preprocessing and
+    postprocessing scripts.  You *must* have version 3.x; python 2.x
+    will not suffice.
 
-  * [PyYAML], a module for Python 3.  The usual command (as root) to
-    download and install it is `pip3 install pyyaml`.  You may get
-    a message saying "fatal error: 'yaml.h' file not found".
-    Ignore it.  The error is due to a missing C-extension library
-    that PyYAML will use if available.
+  * [PyYAML], a third-party python module, is used for metadata
+    parsing.  The usual command to download and install it (as root)
+    is `pip3 install pyyaml`.  You may get a message saying "fatal
+    error: 'yaml.h' file not found".  Ignore it.  The complaint is
+    due to an optional C-extension library that can't be found.
 
   * [ImageMagick] convert for image processing.
 
-Finally the following optional packages may be helpful:
+The following optional packages may also be helpful:
 
-  * [Git] to manage your bassclef sources and content.  Git is
-    required if you want to install [GitHub Pages].
+  * [Git] may be used to manage your bassclef sources and content. 
+    It is required if you want to *install* [GitHub Pages].
 
 [Pandoc]: http://pandoc.org/README.html
-[Pandoc User Guide]: http://pandoc.org/README.html
 [GNU make]: https://www.gnu.org/software/make/
 [Python]: http://python.org/
-[pyyaml]: http://pyyaml.org/
+[PyYAML]: http://pyyaml.org/
 [ImageMagick]: http://imagemagick.org/script/index.php
 [Git]: https://git-scm.com/
 
@@ -106,8 +109,7 @@ Cloning bassclef's git repository must be done with the
     
     $ git clone https://github.com/tomduck/bassclef.git --recursive
 
-Change into your installation directory before continuing
-further:
+Before continuing further, change into your installation directory:
     
     $ cd bassclef
 
@@ -120,22 +122,19 @@ If the install wasn't successful, check the error message from
 the build process.  You may need to:
 
   * Install a prerequisite that you are missing;
-  * install Python 3 (python 2 is not enough);
-  * install PyYAML into Python 3 (use `pip3` for this).
+  * install python 3 (python 2 is not enough); or
+  * install PyYAML into Python 3 (use `pip3`, not `pip`, for this).
 
 If you experience other any troubles, please file an Issue at the
-[bassclef repository].
+[bassclef repository] on [GitHub].
 
+ 3) Edit the `config.ini` file to provide the basic configuration. 
 
- 3) Create a new branch for your content:
+Note: If you cloned the git repository the you may wish to create a new branch for your changes:
 
     $ git checkout -b <branchname>
 
-(replace `<branchname>` with the name you have chosen).  You are
-now ready to begin building content.
-
-
- 4) Edit the `config.ini` file to provide the basic configuration. 
+(replace `<branchname>` with the name you have chosen).
 
 [bassclef repository]: http://github.com/tomduck/bassclef
 
@@ -151,8 +150,8 @@ Markdown text files should be put in the `content` directory.  You may use whate
 
 Html files are generated for your content.  The processing is guided by your `config.ini` and metadata blocks in your markdown sources.
 
-[markdown]: https://daringfireball.net/projects/markdown/syntax
 [Markdown Basics]: https://help.github.com/articles/markdown-basics/
+[Pandoc User Guide]: http://pandoc.org/README.html
 
 
 ### Metadata ###

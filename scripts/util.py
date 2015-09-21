@@ -17,10 +17,11 @@
 """util.py - functions for use by bassclef scripts."""
 
 import configparser
-
+import re
 import string
-import yaml
 from urllib.parse import urlencode, urljoin, urlparse
+
+import yaml
 
 
 def config(field=None):
@@ -103,11 +104,9 @@ def path2url(path, relative=False):
     relative - flags that the returned url should be relative; otherwise
                a fully-resolved url is returned
     """
-    assert path.startswith('content/') or path.startswith('/tmp/')
-    # Trim off content/ or /tmp/ from the path
-    path = path[8:] if path.startswith('content/') else path[5:]
-    if path.endswith('.in'):  # Trim off .in extension
-        path = path[:-2]
+
+    # Trim off the first directory and .in extension
+    path = re.compile('/?.*?/(.*?.md)').search(path).groups()[0]
     path = path.replace('.md', '.html')  # Change the file extension
     if path.endswith('index.html'):  # Remove index.html
         path = path[:-10]
