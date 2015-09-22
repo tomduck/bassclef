@@ -175,7 +175,7 @@ www$(WEBROOT)/%: %
 # Deploy rules ---------------------------------------------------------------
 
 serve:
-	cd www && python -m SimpleHTTPServer
+	cd www$(WEBROOT) && python -m SimpleHTTPServer
 
 
 # Housekeeping rules ---------------------------------------------------------
@@ -185,8 +185,6 @@ serve:
 
 clean:
 	rm -f www/*.html
-	rm -rf www/posts
-	rm -rf www/commentary
 	rm -rf www/css
 	rm -rf www/fonts
 	rm -rf www/images
