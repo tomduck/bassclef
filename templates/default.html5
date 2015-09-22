@@ -97,7 +97,7 @@ $endfor$
 <header>
 $if(sitename)$ 
   <hr class="full-width" />
-  <h2 id="logo"><a href="/">$sitename$</a></h2>
+  <h2 id="logo"><a href="$webroot$/">$sitename$</a></h2>
   <nav>
     <ul id="nav">
     </ul>
@@ -156,7 +156,7 @@ $endif$$endif$
   </p>
   <p>
   <a href="http://github.com/tomduck/bassclef">
-  <img src="/images/powered-by-bassclef.png" alt="powered-by-bassclef" id="powered-by" />
+  <img src="$webroot$/images/powered-by-bassclef.png" alt="powered-by-bassclef" id="powered-by" />
   </a>
   </p>
 </footer>
