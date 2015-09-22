@@ -24,9 +24,8 @@ SHELL = /bin/bash -o pipefail
 # Clean up on error (https://www.gnu.org/software/make/manual/make.html#Errors)
 .DELETE_ON_ERROR:
 
-# Directories
-SRC = $(shell python3 -c "from scripts import util; print(util.config('srcdir'));")
-WWW = $(shell python3 -c "from scripts import util; print(util.config('wwwdir'));")
+# Paths
+WEBROOT = $(shell python3 -c "from scripts import util; print(util.config('webroot'));")
 TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
 
 # Error checking
@@ -38,8 +37,7 @@ endif
 # Source files ---------------------------------------------------------------
 
 SOURCE_MD_IN = $(wildcard content/*.md.in) $(wildcard content/*/*.md.in)
-SOURCE_MD = $(wildcard content/*.md) $(wildcard content/*/*.md) \
-            $(wildcard docs/*.md)
+SOURCE_MD = $(wildcard content/*.md) $(wildcard content/*/*.md)
 
 SOURCE_OPENSANS_FONTS =  $(wildcard submodules/open-sans/fonts/*/*)
 SOURCE_FONTAWESOME_FONTS =  $(wildcard submodules/font-awesome/fonts/*)
@@ -49,35 +47,43 @@ SOURCE_SKELETON_CSS = $(wildcard submodules/skeleton/css/*.css)
 SOURCE_FONTAWESOME_CSS = $(wildcard submodules/font-awesome/css/*)
 
 SOURCE_IMG = $(wildcard images/*.*)
-SOURCE_SVG = $(wildcard images/svg/*.*)
 
 
 # Target files ---------------------------------------------------------------
 
 TARGET_MD = $(patsubst content/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
 
-TARGET_HTML = $(patsubst content/%.md,$(WWW)/%.html,$(SOURCE_MD)) \
-              $(patsubst $(TMP)/%.md,$(WWW)/%.html,$(TARGET_MD))
-TARGET_DOCS = $(patsubst docs/%.md,$(WWW)/docs/%.html,$(SOURCE_MD))
+TARGET_HTML = $(patsubst content/%.md,www$(WEBROOT)/%.html,$(SOURCE_MD)) \
+              $(patsubst $(TMP)/%.md,www$(WEBROOT)/%.html,$(TARGET_MD))
+
 
 TARGET_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
-                       $(WWW)/fonts/open-sans/%,$(SOURCE_OPENSANS_FONTS))
+                          www$(WEBROOT)/fonts/open-sans/%,\
+                          $(SOURCE_OPENSANS_FONTS))
+
 TARGET_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
-                           $(WWW)/fonts/font-awesome/%,\
-                           $(SOURCE_FONTAWESOME_FONTS))
+                             www$(WEBROOT)/fonts/font-awesome/%,\
+                             $(SOURCE_FONTAWESOME_FONTS))
 
-TARGET_BASSCLEF_CSS = $(patsubst css/%,$(WWW)/css/%,$(SOURCE_BASSCLEF_CSS))
-TARGET_SKELETON_CSS = $(patsubst submodules/skeleton/%,$(WWW)/%,\
-                      $(SOURCE_SKELETON_CSS))
-TARGET_OPENSANS_CSS = $(WWW)/css/open-sans.css
-TARGET_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/%,$(WWW)/%,\
-                         $(SOURCE_FONTAWESOME_CSS))
 
-TARGET_IMG = $(patsubst %,$(WWW)/%,$(SOURCE_IMG)) \
-             $(patsubst %,$(WWW)/%,$(SOURCE_SVG))
-TARGET_SIZED = $(patsubst images/%,$(WWW)/images/sized/%,$(SOURCE_IMG)) \
-               $(patsubst images/svg/%.svg,$(WWW)/images/sized/%.png,\
-                 $(SOURCE_SVG))
+TARGET_BASSCLEF_CSS = $(patsubst css/%,\
+                      www$(WEBROOT)/css/%,\
+                      $(SOURCE_BASSCLEF_CSS))
+
+TARGET_SKELETON_CSS = $(patsubst submodules/skeleton/%,\
+                        www$(WEBROOT)/%,\
+                        $(SOURCE_SKELETON_CSS))
+
+TARGET_OPENSANS_CSS = www$(WEBROOT)/css/open-sans.css
+
+TARGET_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/%,\
+                           www$(WEBROOT)/%,\
+                           $(SOURCE_FONTAWESOME_CSS))
+
+
+TARGET_IMG = $(patsubst %,www$(WEBROOT)/%,$(SOURCE_IMG))
+
+TARGET_SIZED = $(patsubst images/%,www$(WEBROOT)/images/sized/%,$(SOURCE_IMG))
 
 
 # Functions ------------------------------------------------------------------
@@ -96,11 +102,11 @@ scripts/preprocess.py $< | \
            -t html5 \
            --email-obfuscation=none \
            --template templates/default.html5 \
-           --css /css/normalize.css \
-           --css /css/skeleton.css \
-           --css /css/open-sans.css \
-           --css /css/font-awesome.min.css \
-           --css /css/bassclef.css | \
+           --css $(WEBROOT)/css/normalize.css \
+           --css $(WEBROOT)/css/skeleton.css \
+           --css $(WEBROOT)/css/open-sans.css \
+           --css $(WEBROOT)/css/font-awesome.min.css \
+           --css $(WEBROOT)/css/bassclef.css | \
     scripts/postprocess.py > $@;
 endef
 
@@ -120,80 +126,69 @@ $(TMP)/%.md: content/%.md.in $(SOURCE_MD) \
 
 html: $(TARGET_HTML)
 
-$(WWW)/%.html: $(TMP)/%.md scripts/preprocess.py scripts/postprocess.py \
-            scripts/util.py templates/default.html5 config.ini
+www$(WEBROOT)/%.html: $(TMP)/%.md scripts/preprocess.py \
+                         scripts/postprocess.py \
+                        scripts/util.py templates/default.html5 config.ini
 	$(md2html)
 
-$(WWW)/%.html: content/%.md scripts/preprocess.py scripts/postprocess.py \
-            scripts/util.py templates/default.html5 config.ini
+www$(WEBROOT)/%.html: content/%.md scripts/preprocess.py \
+                         scripts/postprocess.py \
+                         scripts/util.py templates/default.html5 config.ini
 	$(md2html)
-
-
-docs: $(TARGET_DOCS) images css
-
-$(WWW)/docs/%.html: docs/%.md scripts/preprocess.py scripts/postprocess.py \
-            scripts/util.py templates/default.html5 config.ini
-	$(md2html)
-
 
 
 css: $(TARGET_BASSCLEF_CSS) $(TARGET_SKELETON_CSS) $(TARGET_OPENSANS_CSS) \
      $(TARGET_FONTAWESOME_CSS)
 
-$(WWW)/css/%: css/%
+www$(WEBROOT)/css/%: css/%
 	$(copyfiles)
 
-$(WWW)/css/%.css: submodules/skeleton/css/%.css
+www$(WEBROOT)/css/%.css: submodules/skeleton/css/%.css
 	$(copyfiles)
 
-$(WWW)/css/open-sans.css: submodules/open-sans/open-sans.css
+www$(WEBROOT)/css/open-sans.css: submodules/open-sans/open-sans.css
 	$(copyfiles)
 
-$(WWW)/css/font-awesome%: submodules/font-awesome/css/font-awesome%
+www$(WEBROOT)/css/font-awesome%: submodules/font-awesome/css/font-awesome%
 	$(copyfiles)
 
 
 fonts: $(TARGET_OPENSANS_FONTS) $(TARGET_FONTAWESOME_FONTS)
 
-$(WWW)/fonts/open-sans/%: submodules/open-sans/fonts/%
+www$(WEBROOT)/fonts/open-sans/%: submodules/open-sans/fonts/%
 	$(copyfiles)
 
-$(WWW)/fonts/font-awesome/%: submodules/font-awesome/fonts/%
+www$(WEBROOT)/fonts/font-awesome/%: submodules/font-awesome/fonts/%
 	$(copyfiles)
 
 
 images: $(TARGET_IMG) $(TARGET_SIZED)
 
-$(WWW)/images/sized/%.png: images/svg/%.svg
+www$(WEBROOT)/images/sized/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	convert $< -resize 250x $@
 
-$(WWW)/images/sized/%: images/%
-	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	convert $< -resize 250x $@
-
-$(WWW)/%: %
+www$(WEBROOT)/%: %
 	$(copyfiles)
 
 
 # Deploy rules ---------------------------------------------------------------
 
 serve:
-	cd $(WWW) && python -m SimpleHTTPServer
+	cd www && python -m SimpleHTTPServer
 
 
 # Housekeeping rules ---------------------------------------------------------
 
-# Don't delete the $(WWW) directory!  The installed site has additional
+# Don't delete the www directory!  The installed site has additional
 # directories (e.g., piwik) that must remain.
 
 clean:
-	rm -f $(WWW)/*.html
-	rm -rf $(WWW)/posts
-	rm -rf $(WWW)/commentary
-	rm -rf $(WWW)/css
-	rm -rf $(WWW)/fonts
-	rm -rf $(WWW)/images
-	rm -rf $(WWW)/docs
+	rm -f www/*.html
+	rm -rf www/posts
+	rm -rf www/commentary
+	rm -rf www/css
+	rm -rf www/fonts
+	rm -rf www/images
 
 .PHONY: markdown html css fonts images serve clean

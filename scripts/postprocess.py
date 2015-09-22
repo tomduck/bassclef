@@ -25,6 +25,9 @@
 import sys
 import re
 
+from urllib.parse import urljoin
+
+from util import config
 
 def postprocess():
     """Postprocesses output piped from pandoc."""
@@ -42,18 +45,20 @@ def postprocess():
         lines[i] = line.replace(old, new)
 
     # Undo temporary changes made by util.metadata()
-    p1 = re.compile(r'<title>(\d+)// (.*?)</title>')
-    p2 = re.compile(r'<meta (.*?) content="(\d+)// (.*?)" />')
-    p3 = re.compile(r'(\s+)<h1 (.*?)>(\d+)// (.*?)</h1>')
+    p = re.compile(r'<title>(\d+)// (.*?)</title>')
     for i, line in enumerate(lines):
-        if p1.search(line):
-            num, title = p1.search(line).groups()
+        if p.search(line):
+            num, title = p.search(line).groups()
             lines[i] = '<title>%s. %s</title>' % (num, title)
-        if p2.search(line):
-            attrs, num, title = p2.search(line).groups()
+    p = re.compile(r'<meta (.*?) content="(\d+)// (.*?)" />')
+    for i, line in enumerate(lines):
+        if p.search(line):
+            attrs, num, title = p.search(line).groups()
             lines[i] = '<meta %s content="%s. %s" />' % (attrs, num, title)
-        if p3.search(line):
-            spaces, attrs, num, title = p3.search(line).groups()
+    p = re.compile(r'(\s+)<h1 (.*?)>(\d+)// (.*?)</h1>')
+    for i, line in enumerate(lines):
+        if p.search(line):
+            spaces, attrs, num, title = p.search(line).groups()
             lines[i] = '%s<h1 %s>%s. %s</h1>' % (spaces, attrs, num, title)
             
     # Change <p><br /></p> to just <br />
@@ -63,14 +68,22 @@ def postprocess():
 
     ## Functionality fixes ##
 
-    # Link thumbnail figure images to their larger versions
-    p = re.compile('(<img src="/images/thumbs/(.*)" .*? />)')
+    # Put webroot into image urls
+    p = re.compile('((src|href)="/images/(.*?)")')
     for i, line in enumerate(lines):
         if p.search(line):
-            old, img = p.search(line).groups()
-            new = '<a href="/images/%s">%s</a>' % (img, old)
+            old, tag, path = p.search(line).groups()
+            new = '%s="%s/images/%s"' % (tag, config('webroot'), path)
             lines[i] = line.replace(old, new)
 
+    # Link sized figure images to their larger versions
+    p = re.compile('(<img src="/images/sized/(.*)" .*? />)')
+    for i, line in enumerate(lines):
+        if p.search(line):
+            old, img, attrs = p.search(line).groups()
+            new = '<a href="/images/%s">%s</a>' % (img, old)
+            lines[i] = line.replace(old, new)
+    
     # Make badge links open a new tab when clicked
     p = re.compile('(<a href="(.*?)"><span class="fa (.*?)">)')
     for i, line in enumerate(lines):

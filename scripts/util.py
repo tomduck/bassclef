@@ -37,9 +37,14 @@ def config(field=None):
     for section in parser.sections():
         cfg.update({k:v for k, v in parser.items(section)})
 
+
     # Add some new entries to the dict
     if 'siteurl' in cfg:
+
         cfg['domainname'] = urlparse(cfg['siteurl'])[1]
+
+        webroot = urlparse(cfg['siteurl'])[2]
+        cfg['webroot']  = webroot[:-1] if webroot.endswith('/') else webroot
 
 
     # Sanity checks
@@ -79,13 +84,18 @@ def metadata(f, defaults=None, printmeta=False):
     # Do an initial parse of the metadata
     meta = yaml.load('\n'.join(lines))
 
+    # Error check the initial parse
+    for k, v in meta.items():
+        if k == 'image':
+            assert v.startswith('/') or v.startswith('http://')
+    
     # Append defaults to the lines.  Check with the existing meta first so
     # that we don't overwrite anything.
     if defaults:
         for k, v in defaults.items():
             if k not in meta:
                 lines.insert(-1, '%s: %s' % (k, v))
-
+                
     # Print the metadata to stdout if requested
     if printmeta:
         
