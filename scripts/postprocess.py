@@ -77,11 +77,11 @@ def postprocess():
             lines[i] = line.replace(old, new)
 
     # Link sized figure images to their larger versions
-    p = re.compile('(<img src="/images/sized/(.*)" .*? />)')
+    p = re.compile('(<img src="/images/sized/(.*?)" (.*?) />)')
     for i, line in enumerate(lines):
         if p.search(line):
             old, img, attrs = p.search(line).groups()
-            new = '<a href="/images/%s">%s</a>' % (img, old)
+            new = '<a href="/images/%s" %s >%s</a>' % (img, attrs, old)
             lines[i] = line.replace(old, new)
     
     # Make badge links open a new tab when clicked
