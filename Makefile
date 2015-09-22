@@ -175,7 +175,7 @@ www$(WEBROOT)/%: %
 # Deploy rules ---------------------------------------------------------------
 
 serve:
-	cd www$(WEBROOT) && python -m SimpleHTTPServer
+	cd www && python -m SimpleHTTPServer
 
 
 # Housekeeping rules ---------------------------------------------------------
@@ -184,9 +184,9 @@ serve:
 # directories (e.g., piwik) that must remain.
 
 clean:
-	rm -f www/*.html
-	rm -rf www/css
-	rm -rf www/fonts
-	rm -rf www/images
+	rm -f www$(WEBROOT)/*.html
+	rm -rf www$(WEBROOT)/css
+	rm -rf www$(WEBROOT)/fonts
+	rm -rf www$(WEBROOT)/images
 
 .PHONY: markdown html css fonts images serve clean
