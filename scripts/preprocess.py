@@ -23,7 +23,6 @@
 """
 
 import sys
-import re
 
 from util import metadata, path2url, social
 

@@ -25,7 +25,6 @@
 import sys
 import re
 
-from urllib.parse import urljoin
 
 from util import config
 
@@ -60,11 +59,11 @@ def postprocess():
         if p.search(line):
             spaces, attrs, num, title = p.search(line).groups()
             lines[i] = '%s<h1 %s>%s. %s</h1>' % (spaces, attrs, num, title)
-            
+
     # Change <p><br /></p> to just <br />
     for i, line in enumerate(lines):
         lines[i] = line.replace('<p><br /></p>', '<br />\n')
-    
+
 
     ## Functionality fixes ##
 
@@ -83,7 +82,7 @@ def postprocess():
             old, img, attrs = p.search(line).groups()
             new = '<a href="/images/%s" %s >%s</a>' % (img, attrs, old)
             lines[i] = line.replace(old, new)
-    
+
     # Make badge links open a new tab when clicked
     p = re.compile('(<a href="(.*?)"><span class="fa (.*?)">)')
     for i, line in enumerate(lines):
