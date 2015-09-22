@@ -155,7 +155,7 @@ $if(twitterprofile)$$if(twittername)$
 $endif$$endif$
   </p>
   <p>
-  <a href="http://github.com/tomduck/bassclef">
+  <a href="https://tomduck.github.io/bassclef/">
   <img src="$webroot$/images/powered-by-bassclef.png" alt="powered-by-bassclef" id="powered-by" />
   </a>
   </p>
