@@ -25,7 +25,6 @@ a:hover { text-decoration: underline; }
 h1 a:link { color: inherit; }
 h1 a:hover { text-decoration: none; color: #1EAEDB; }
 
-
 hr { width: 50%; }
 
 figure {
@@ -49,14 +48,6 @@ ul, ol {
 }
 
 ul ul, ol ul, ul ol, ol ol { margin-left: 4rem; }
-
-nav {
-    text-align: center;
-}
-
-nav ul {
-    margin-left: 0;
-}
 
 footer { margin-bottom: 2rem; }
 
@@ -136,30 +127,6 @@ p code {
 
 /*****************************************************************************/
 /* IDS */
-
-#logo {
-    font-size: 3.5rem; line-height: 1.2;  letter-spacing: -.1rem;
-    color: #222;
-    font-weight: bold;
-    margin-bottom: 1rem; 
-}
-
-#logo a:link { color: inherit; }
-#logo a:hover { text-decoration: none; color: #1EAEDB; }
-
-#byword { }
-
-#nav li {
-    display: inline;
-    margin: 0 20px 0 0;
-}
-
-#nav li:last-child {
-    margin: 0 0 0 0;
-}
-
-#footer a:link { color: inherit; }
-#footer a:hover { text-decoration: none; color: #1EAEDB; }
 
 #powered-by {
     width: 17rem;
