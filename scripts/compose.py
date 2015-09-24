@@ -89,15 +89,15 @@ def content(f, url, n):
             a, b = p1.search(line).groups()
             line = p1.sub('[%s][%d:%s]'%(a, n, b), line)
         if p2.search(line):
-            a = p2.search(line).groups()
+            a = p2.search(line).group()
             line = p2.sub('[%d:%s]:'%(n, a), line)
 
         # Do the same thing for footnotes
         if p3.search(line):
-            a = p3.search(line).groups()
+            a = p3.search(line).group()
             line = p3.sub('[^%d:%s]'%(n, a), line)
         if p4.search(line):
-            a = p4.search(line).groups()
+            a = p4.search(line).group()
             line = p4.sub('[^%d:%s]:'%(n, a), line)
 
         # Check for a break point
