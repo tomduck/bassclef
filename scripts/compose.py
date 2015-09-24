@@ -66,7 +66,13 @@ def content(f, url, n):
     The content is truncated where <!-- break --> is found.
     """
 
-    refpatt = re.compile(r'^\[.*?]:')  # Link reference pattern
+    # Reference and link patterns
+    p1 = re.compile(r'\[(.*?)\]\[(.*?)\]')
+    p2 = re.compile(r'^\[(?<!\^)(.*?)\]:')
+
+    # Reference and footnote patterns
+    p3 = re.compile(r'(?<!^)\[\^(.*?)\]')
+    p4 = re.compile(r'^\[\^(.*?)\]:')
 
     breakpoint = False  # Flags that a break point was found
     lines = []          # The list of processed lines
@@ -78,10 +84,21 @@ def content(f, url, n):
         # Strip whitespace at the right end
         line = line.rstrip()
 
-        # Use the number n to give each link and reference a namespace
-        line = line.replace('][', ']['+str(n)+':')
-        if refpatt.search(line):
-            line = '['+str(n)+':'+line[1:]
+        # Use the number n to give links a namespace
+        if p1.search(line):
+            a, b = p1.search(line).groups()
+            line = p1.sub('[%s][%d:%s]'%(a, n, b), line)
+        if p2.search(line):
+            a = p2.search(line).groups()
+            line = p2.sub('[%d:%s]:'%(n, a), line)
+
+        # Do the same thing for footnotes
+        if p3.search(line):
+            a = p3.search(line).groups()
+            line = p3.sub('[^%d:%s]'%(n, a), line)
+        if p4.search(line):
+            a = p4.search(line).groups()
+            line = p4.sub('[^%d:%s]:'%(n, a), line)
 
         # Check for a break point
         if line == '<!-- break -->':
@@ -89,7 +106,7 @@ def content(f, url, n):
 
         # Store the line.  Cut out all content after <!-- break --> except
         # for references.
-        if not breakpoint or refpatt.search(line):
+        if not breakpoint or p2.search(line) or p4.search(line):
             lines.append(line)
 
 
