@@ -54,6 +54,8 @@ footer { margin-bottom: 2rem; }
 p code {
     background: none;
     border: none;
+    padding: 0 0;
+    margin: 0 0;
 }
 
 
