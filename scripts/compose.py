@@ -68,10 +68,10 @@ def content(f, url, n):
 
     # Reference and link patterns
     p1 = re.compile(r'\[(.*?)\]\[(.*?)\]')
-    p2 = re.compile(r'^\[(?<!\^)(.*?)\]:')
+    p2 = re.compile(r'^\[(?!\^)(.*?)\]:')
 
     # Reference and footnote patterns
-    p3 = re.compile(r'(?<!^)\[\^(.*?)\]')
+    p3 = re.compile(r'(?!^)\[\^(.*?)\]')
     p4 = re.compile(r'^\[\^(.*?)\]:')
 
     breakpoint = False  # Flags that a break point was found
@@ -92,7 +92,8 @@ def content(f, url, n):
             a = p2.search(line).groups()[0]
             line = p2.sub('[%d:%s]:'%(n, a), line)
 
-        # Do the same thing for footnotes
+        # Do the same thing for footnotes.  Note that this currently does
+        # not detect multi-line footnotes.
         if p3.search(line):
             a = p3.search(line).groups()[0]
             line = p3.sub('[^%d:%s]'%(n, a), line)
