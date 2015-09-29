@@ -36,8 +36,9 @@ figure {
 figcaption {
     display: table-caption;
     caption-side: bottom;
-    text-align: left;
-    font-style: italic;
+    text-align: center;
+    font-style: normal;
+    font-size: 85%;
 }
 
 img { max-width: 100%; }
