@@ -67,12 +67,12 @@ def content(f, url, n):
     """
 
     # Reference and link patterns
-    p1 = re.compile(r'\[(.*?)\]\[(.*?)\]')
+    p1 = re.compile(r'(\[(.*?)\]\[(.*?)\])')
     p2 = re.compile(r'^\[(?!\^)(.*?)\]:')
 
     # Reference and footnote patterns
-    p3 = re.compile(r'(?!^)\[\^(.*?)\]')
-    p4 = re.compile(r'^\[\^(.*?)\]:')
+    p3 = re.compile(r'(?!^)(\[\^(.*?)\])')
+    #p4 = re.compile(r'^(\[\^(.*?)\]:)')
 
     breakpoint = False  # Flags that a break point was found
     lines = []          # The list of processed lines
@@ -85,21 +85,18 @@ def content(f, url, n):
         line = line.rstrip()
 
         # Use the number n to give links a namespace
-        if p1.search(line):
-            a, b = p1.search(line).groups()
-            line = p1.sub('[%s][%d:%s]'%(a, n, b), line)
+        while p1.search(line):
+            old, a, b = p1.search(line).groups()
+            new = '[%s][%d:%s]'%(a, n, b)
+            line = line.replace(old, new)
         if p2.search(line):
             a = p2.search(line).groups()[0]
             line = p2.sub('[%d:%s]:'%(n, a), line)
 
-        # Do the same thing for footnotes.  Note that this currently does
-        # not detect multi-line footnotes.
+        # Strip footnote references
         if p3.search(line):
             a = p3.search(line).groups()[0]
-            line = p3.sub('[^%d:%s]'%(n, a), line)
-        if p4.search(line):
-            a = p4.search(line).groups()[0]
-            line = p4.sub('[^%d:%s]:'%(n, a), line)
+            line = p3.sub('', line)
 
         # Check for a break point
         if line == '<!-- break -->':
@@ -107,7 +104,7 @@ def content(f, url, n):
 
         # Store the line.  Cut out all content after <!-- break --> except
         # for references.
-        if not breakpoint or p2.search(line) or p4.search(line):
+        if not breakpoint or p2.search(line):
             lines.append(line)
 
 
