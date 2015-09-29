@@ -67,7 +67,7 @@ def content(f, url, n):
     """
 
     # Reference and link patterns
-    p1 = re.compile(r'(\[(.*?)\]\[(.*?)\])')
+    p1 = re.compile(r'(\[(.*?)\]\[(?!%d:)(.*?)\])'%n)
     p2 = re.compile(r'^\[(?!\^)(.*?)\]:')
 
     # Reference and footnote patterns
