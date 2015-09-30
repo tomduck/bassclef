@@ -109,8 +109,10 @@ def preprocess(path):
         lines.append('')
         lines.append('*(Updated %s.)*' % updated)
 
-    # Print out the new lines
+    # Print out the new lines in a div
+    print('<div class="body">')
     print('\n'.join(lines))
+    print('</div> <!-- class="body" -->')
 
 
 if __name__ == '__main__':
