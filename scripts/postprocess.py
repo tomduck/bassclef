@@ -104,11 +104,11 @@ def postprocess():
         if line is None:
             continue
         if line.startswith('</div>') and lines[i+1].startswith('<!--'):
-            lines[i] = lines[i][:-1] + ' ' + lines[i+1]
+            lines[i] = lines[i][:-1] + ' ' + lines[i+1] + '\n'
             lines[i+1] = None
             continue
         if line.startswith('</div>') and lines[i+1].startswith('<p><!--'):
-            lines[i] = lines[i][:-1] + ' ' + lines[i+1][3:-5]
+            lines[i] = lines[i][:-1] + ' ' + lines[i+1][3:-5] + '\n'
             lines[i+1] = None
 
 

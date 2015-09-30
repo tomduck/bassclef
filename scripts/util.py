@@ -187,4 +187,4 @@ def social(msg, url):
 
     return '<div class="social">',\
       '\n'.join([twitter, facebook, google, linkedin, email]),\
-      '</div><!-- class="social" -->'
+      '</div> <!-- class="social" -->'
