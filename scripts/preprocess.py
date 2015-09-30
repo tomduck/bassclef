@@ -99,7 +99,8 @@ def preprocess(path):
         if showsocial:
             print('\n'.join(social(title, path2url(path))))
         else:
-            print('<br />\n')
+            print('<br />')
+        print()
 
     # Insert the image into the lines
     if image and showimage:
