@@ -101,6 +101,8 @@ def postprocess():
 
     # Don't separate /divs from their descriptions
     for i, line in enumerate(lines[:-1]):
+        if line is None:
+            continue
         if line.startswith('</div>') and lines[i+1].startswith('<!--'):
             lines[i] = lines[i][:-1] + ' ' + lines[i+1]
             lines[i+1] = None
