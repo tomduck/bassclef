@@ -86,23 +86,24 @@ def preprocess(path):
         lines = [line.rstrip() for line in f]
 
     # Extract the metadata fields we need
+    title = meta['title']
     updated = meta['updated'] if 'updated' in meta else None
     image = meta['image'] if 'image' in meta else None
     showimage = meta['showimage'] if 'showimage' in meta else True
     caption = meta['caption'] if 'caption' in meta else ''
+    showtitle = meta['showtitle'] if 'showtitle' in meta else True
+    showsocial = meta['showsocial'] if 'showsocial' in meta else True
 
-    # Insert the image
+    # Print the social widgets
+    if showtitle:
+        if showsocial:
+            print('\n'.join(social(title, path2url(path))))
+        else:
+            print('<br />\n')
+
+    # Insert the image into the lines
     if image and showimage:
         lines = insert_figure(lines, image, caption)
-
-    # Insert the social widgets
-    showtitle = meta['showtitle'] if 'showtitle' in meta else True
-    if showtitle:
-        showsocial = meta['showsocial'] if 'showsocial' in meta else True
-        if showsocial:
-            lines.insert(0, '\n'.join(social(meta['title'], path2url(path))))
-        else:
-            lines.insert(0, '<br />\n')
 
     # Append a line indicating updates
     if updated:
