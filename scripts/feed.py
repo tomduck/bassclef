@@ -51,7 +51,7 @@ def make_item(path):
     with open(path) as f:
         description = content(f)
 
-    # Replace entities
+    # Replace entities.  There is surely a better way.
     description = description.replace("’", '&apos;')
     description = description.replace('“', '&quot;')
     description = description.replace('”', '&quot;')
@@ -60,7 +60,8 @@ def make_item(path):
     description = description.replace('−', '&ndash;')
     description = description.replace('…', '&hellip;')
     description = description.replace(' ', '&nbsp;')
-
+    description = description.replace('°', '&deg;')
+    
     # Style the figure caption
     description = description.replace('<figcaption>',
                                       '<figcaption style="font-size: 80%;">')
