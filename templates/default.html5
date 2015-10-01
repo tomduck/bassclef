@@ -112,8 +112,15 @@ $if(date)$
   <h6 class="dateline">$date$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
 $endif$
 $if(title)$  
-  <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$</h1>
+  <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$$if(rssurl)$</h1>
 $endif$
+<div class="subscribe">
+  <ul>
+$if(rssurl)$ 
+    <li><a href="$rssurl$"</a><span class="fa fa-rss badge"></span></a></li>
+$endif$ 
+  </ul>
+</div> <!-- class="subscribe" -->
 $if(subtitle)$
   <h4 class="subtitle">$subtitle$</h4>
 $endif$
