@@ -112,7 +112,7 @@ $if(date)$
   <h6 class="dateline">$date$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
 $endif$
 $if(title)$  
-  <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$$if(rssurl)$</h1>
+  <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$</h1>
 $endif$
 <div class="subscribe">
   <ul>
@@ -125,7 +125,6 @@ $if(subtitle)$
   <h4 class="subtitle">$subtitle$</h4>
 $endif$
 </div> <!-- div class="titleblock" -->
-$else$
 $endif$
 
 $body$
