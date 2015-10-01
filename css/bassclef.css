@@ -77,7 +77,7 @@ p code {
 
 .centered-text { text-align: center; }
 
-.titleblock { }
+.titleblock { clear: both; }
 
 .dateline a {
     color: inherit;
@@ -120,6 +120,15 @@ p code {
 
 .social li:last-child {
     margin: 0 0 0 0;
+}
+
+.subscribe {
+    float: right;
+}
+
+.subscribe li {
+    display: table-cell;
+    padding: 0.5rem 0.3rem 0 0;
 }
 
 .fa:hover { /* Simulate link hover */
