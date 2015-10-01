@@ -139,7 +139,7 @@ www$(WEBROOT)/%.html: content/%.md scripts/preprocess.py \
 	$(md2html)
 
 
-rss: $(TARGET_XML):
+rss: $(TARGET_XML)
 
 $(WWW)/%.xml: content/%.md.in $(TARGET_HTML) scripts/feed.py
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
