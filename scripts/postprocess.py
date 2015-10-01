@@ -83,11 +83,12 @@ def postprocess():
             new = '<a href="/images/%s" %s >%s</a>' % (img, attrs, old)
             lines[i] = line.replace(old, new)
 
-    # Make badge links open a new tab when clicked.  Also, generate a tooltip.
-    p = re.compile('(<a href="(.*?)"><span class="fa (.*?)">)')
+    # Make social links open a new tab when clicked.  Also, generate a tooltip.
+    p = re.compile(r'(<a href="([^"]*?)"><span class="fa (.*?)">)')
     for i, line in enumerate(lines):
         if p.search(line):
             old, url, classes = p.search(line).groups()
+            
             if 'twitter' in old:
                 title = 'Tweet this'
             elif 'facebook' in old:
@@ -98,10 +99,14 @@ def postprocess():
                 title = 'Share this on LinkedIn'
             elif 'mailto' in old:
                 title = 'Share this by Email'
+            else:
+                msg = 'Cannot generate tooltip for badge lined to: ' + url
+                raise RuntimeError(msg)
 
             new = '<a href="%s" title="%s" target="_blank">'\
-              '<span class="fa %s">' \
-              % (url, title, classes)
+                  '<span class="fa %s">' \
+                  % (url, title, classes)
+                        
             lines[i] = line.replace(old, new)
 
 
