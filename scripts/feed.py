@@ -60,6 +60,7 @@ def make_item(path):
     description = description.replace('−', '&ndash;')
     description = description.replace('…', '&hellip;')
     description = description.replace(' ', '&nbsp;')
+    description = description.replace(' ', '')
     description = description.replace('°', '&deg;')
     
     # Style the figure caption
