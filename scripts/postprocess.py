@@ -111,7 +111,7 @@ def postprocess():
             lines[i] = lines[i][:-1] + ' ' + lines[i+1][3:-5] + '\n'
             lines[i+1] = None
             continue
-        if line.endswith('-->')
+        if line.endswith('-->'):
             lines[i] = line + '\n'
 
 
