@@ -55,12 +55,12 @@ def make_item(path):
     description = description.replace("’", '&apos;')
     description = description.replace('“', '&quot;')
     description = description.replace('”', '&quot;')
-    description = description.replace('–', '&ndash;')
-    description = description.replace('—', '&ndash;')
+    description = description.replace('–', '&ndash;')   # The are all different
+    description = description.replace('—', '&ndash;')   # dashes that show up.
     description = description.replace('−', '&ndash;')
     description = description.replace('…', '&hellip;')
     description = description.replace(' ', '&nbsp;')
-    description = description.replace(' ', '')
+    description = description.replace(' ', '')          # This is a thin space
     description = description.replace('°', '&deg;')
     
     # Style the figure caption
