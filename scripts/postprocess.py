@@ -83,13 +83,25 @@ def postprocess():
             new = '<a href="/images/%s" %s >%s</a>' % (img, attrs, old)
             lines[i] = line.replace(old, new)
 
-    # Make badge links open a new tab when clicked
+    # Make badge links open a new tab when clicked.  Also, generate a tooltip.
     p = re.compile('(<a href="(.*?)"><span class="fa (.*?)">)')
     for i, line in enumerate(lines):
         if p.search(line):
             old, url, classes = p.search(line).groups()
-            new = '<a href="%s" target="_blank"><span class="fa %s">' \
-              % (url, classes)
+            if 'twitter' in old:
+                title = 'Tweet this'
+            elif 'facebook' in old:
+                title = 'Share on facebook'
+            elif 'google' in old:
+                title = 'Share on Google+'
+            elif 'linkedin' in old:
+                title = 'Share on LinkedIn'
+            elif 'mailto' in old:
+                title = 'Share by email'
+
+            new = '<a href="%s" title="%s" target="_blank">'\
+              '<span class="fa %s">' \
+              % (url, title, classes)
             lines[i] = line.replace(old, new)
 
 
@@ -116,7 +128,7 @@ def postprocess():
     for i, line in enumerate(lines):
         if line is not None and line.startswith('<div class="body">'):
             lines[i] = '\n' + line
-        
+
 
     ## Output ##
 
