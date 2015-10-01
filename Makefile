@@ -56,6 +56,8 @@ TARGET_MD = $(patsubst content/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
 TARGET_HTML = $(patsubst content/%.md,www$(WEBROOT)/%.html,$(SOURCE_MD)) \
               $(patsubst $(TMP)/%.md,www$(WEBROOT)/%.html,$(TARGET_MD))
 
+TARGET_XML = $(patsubst content/%.md.in,$(WWW)/%.md,$(SOURCE_MD_IN))
+
 
 TARGET_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
                           www$(WEBROOT)/fonts/open-sans/%,\
@@ -113,7 +115,7 @@ endef
 
 # Build rules ----------------------------------------------------------------
 
-all: markdown html css fonts images
+all: markdown html rss css fonts images
 
 
 markdown: $(TARGET_MD)
@@ -135,6 +137,13 @@ www$(WEBROOT)/%.html: content/%.md scripts/preprocess.py \
                          scripts/postprocess.py \
                          scripts/util.py templates/default.html5 config.ini
 	$(md2html)
+
+
+rss: $(TARGET_XML):
+
+$(WWW)/%.xml: content/%.md.in $(TARGET_HTML) scripts/feed.py
+	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
+	scripts/feed.py $< > $@
 
 
 css: $(TARGET_BASSCLEF_CSS) $(TARGET_SKELETON_CSS) $(TARGET_OPENSANS_CSS) \
