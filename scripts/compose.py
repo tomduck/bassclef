@@ -153,11 +153,19 @@ def process_mdin_file(path):
 
     assert path.startswith('content/')
 
+    # Construct the rss url
+    rssurl = path2url(path, relative=True)
+    if not path.endswith('.html'):
+        rssurl = os.path.join(rssurl, 'index.html')
+    rssurl = rssurl.replace('.html', '.xml')
+
     # Read in the metadata and lines
     with open(path) as f:
 
         # Load the metadata
-        update = {'titleclass':'section', 'permalink':path2url(path)}
+        update = {'titleclass':'section',
+                  'permalink':path2url(path)
+                  'rssurl':rssurl}
         metadata(f, update, printmeta=True)
 
         # Get the remaining lines
