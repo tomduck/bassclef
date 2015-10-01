@@ -112,6 +112,11 @@ def postprocess():
             lines[i+1] = None
             continue
 
+    # Put some space before the div body tag
+    for i, line in enumerate(lines):
+    if line.startswith('<div class="body">'):
+        lines[i] = '\n' + line
+        
 
     ## Output ##
 
