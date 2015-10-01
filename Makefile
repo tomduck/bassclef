@@ -194,6 +194,7 @@ serve:
 
 clean:
 	rm -f www$(WEBROOT)/*.html
+	rm -f www$(WEBROOT)/*.xml
 	rm -rf www$(WEBROOT)/css
 	rm -rf www$(WEBROOT)/fonts
 	rm -rf www$(WEBROOT)/images
