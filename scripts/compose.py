@@ -164,7 +164,7 @@ def process_mdin_file(path):
 
         # Load the metadata
         update = {'titleclass':'section',
-                  'permalink':path2url(path)
+                  'permalink':path2url(path),
                   'rssurl':rssurl}
         metadata(f, update, printmeta=True)
 
