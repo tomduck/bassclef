@@ -111,10 +111,11 @@ def preprocess(path):
         lines.append('')
         lines.append('*(Updated %s.)*' % updated)
 
-    # Print out the new lines in a div
-    print('<div class="body">')
+    # Print out the new lines in a div.  Note that the extra returns (\n)
+    # are necessary for older (buggy) pandoc versions.
+    print('<div class="body">\n')
     print('\n'.join(lines))
-    print('</div> <!-- class="body" -->')
+    print('\n</div> <!-- class="body" -->')
 
 
 if __name__ == '__main__':
