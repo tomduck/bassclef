@@ -117,7 +117,7 @@ $endif$
 <div class="subscribe">
   <ul>
 $if(rssurl)$ 
-    <li><a href="$rssurl$"</a><span class="fa fa-rss badge"></span></a></li>
+    <li><a href="$rssurl$" title="Subscribe to RSS feed"><span class="fa fa-rss badge"></span></a></li>
 $endif$ 
   </ul>
 </div> <!-- class="subscribe" -->

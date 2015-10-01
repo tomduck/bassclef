@@ -91,13 +91,13 @@ def postprocess():
             if 'twitter' in old:
                 title = 'Tweet this'
             elif 'facebook' in old:
-                title = 'Share on facebook'
+                title = 'Share this on Facebook'
             elif 'google' in old:
-                title = 'Share on Google+'
+                title = 'Share this on Google+'
             elif 'linkedin' in old:
-                title = 'Share on LinkedIn'
+                title = 'Share this on LinkedIn'
             elif 'mailto' in old:
-                title = 'Share by email'
+                title = 'Share this by Email'
 
             new = '<a href="%s" title="%s" target="_blank">'\
               '<span class="fa %s">' \
