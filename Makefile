@@ -56,7 +56,7 @@ TARGET_MD = $(patsubst content/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
 TARGET_HTML = $(patsubst content/%.md,www$(WEBROOT)/%.html,$(SOURCE_MD)) \
               $(patsubst $(TMP)/%.md,www$(WEBROOT)/%.html,$(TARGET_MD))
 
-TARGET_XML = $(patsubst content/%.md.in,$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
+TARGET_XML = $(patsubst content/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
 
 
 TARGET_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
