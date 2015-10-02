@@ -115,7 +115,7 @@ p code, li code {
 
 .social li {  /* Put social links all on one line */
     display: table-cell;
-    padding: 0.5rem 0.3rem 0 0;
+    padding: 0 0.3rem 0 0;
 }
 
 .social li:last-child {
@@ -129,7 +129,7 @@ p code, li code {
 
 .subscribe li {
     display: table-cell;
-    padding: 0.5rem 0.3rem 0 0;
+    padding: 0rem 0rem 0 0;
 }
 
 .fa:hover { /* Simulate link hover */
