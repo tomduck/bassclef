@@ -124,7 +124,7 @@ p code, li code {
 
 .subscribe {
     float: right;
-    height: 3rem;
+    height: 0;
 }
 
 .subscribe li {
