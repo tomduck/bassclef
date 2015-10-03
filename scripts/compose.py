@@ -63,7 +63,7 @@ def titleblock(meta, url):
 def content(f, url, n):
     """Returns lines for the content of a .md file.
 
-    The content is truncated where <!-- break --> is found.
+    The content is truncated where <!-- cut --> is found.
     """
 
     # Reference and link patterns
@@ -74,7 +74,7 @@ def content(f, url, n):
     p3 = re.compile(r'(?!^)(\[\^(.*?)\])')
     #p4 = re.compile(r'^(\[\^(.*?)\]:)')
 
-    breakpoint = False  # Flags that a break point was found
+    cutpoint = False    # Flags that a cut point was found
     lines = []          # The list of processed lines
 
 
@@ -98,18 +98,18 @@ def content(f, url, n):
             a = p3.search(line).groups()[0]
             line = p3.sub('', line)
 
-        # Check for a break point
-        if line == '<!-- break -->':
-            breakpoint = True
+        # Check for a cut point
+        if line == '<!-- cut -->':
+            cutpoint = True
 
-        # Store the line.  Cut out all content after <!-- break --> except
+        # Store the line.  Ignore all content after <!-- cut --> except
         # for references.
-        if not breakpoint or p2.search(line):
+        if not cutpoint or p2.search(line):
             lines.append(line)
 
 
-    # Add a 'Read more...' link if <!-- break --> was found.
-    if breakpoint:
+    # Add a 'Read more...' link if <!-- cut --> was found.
+    if cutpoint:
         lines.append('\n[Read more...](%s)\n'%url)
 
     # Return the processed lines
