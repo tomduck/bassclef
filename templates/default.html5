@@ -111,7 +111,6 @@ $if(showtitle)$
 $if(date)$
   <h6 class="dateline">$date$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
   $endif$
-<div style="clear: both;">
 $if(title)$
   <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$</h1>
 $endif$
@@ -122,7 +121,7 @@ $if(rssurl)$
 $endif$ 
   </ul>
 </div> <!-- class="subscribe" -->
-</div> <!-- style="clear: both;" -->
+<div style="clear: both;"></div>
 $if(subtitle)$
   <h4 class="subtitle">$subtitle$</h4>
 $endif$
