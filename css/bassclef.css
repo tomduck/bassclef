@@ -110,7 +110,7 @@ p code {
     display: table-cell;
 }
 
-.social { }
+.social { display: inline; }
 
 .social ul { margin-left: 0; }
 
