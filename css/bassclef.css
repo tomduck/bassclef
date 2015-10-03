@@ -57,6 +57,7 @@ p code {
     border: none;
     padding: 0 0;
     margin: 0 0;
+    white-space: pre;
 }
 
 
