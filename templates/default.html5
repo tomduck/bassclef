@@ -95,7 +95,7 @@ $endfor$
 <div class="row">
 <div class="twelve columns centered-text header">
 <header>
-  <hr class="full-width" />
+  <hr class="u-full-width" />
 </header>
 </div> <!-- class="twelve columns centered-text header" -->
 </div> <!-- class="twelve columns centered-text header" -->
@@ -140,7 +140,7 @@ $body$
 <div class="twelve columns centered-text" id="footer">
   
 <footer>
-  <hr class="full-width" />
+  <hr class="u-full-width" />
   <p>
 $if(schemaname)$
   Copyright © 2015 by $schemaname$
