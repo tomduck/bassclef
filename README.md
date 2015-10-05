@@ -12,7 +12,7 @@ Although bassclef is being used in production, this is an alpha release. Once th
 Documentation
 -------------
 
-The documentation for bassclef can be [found here][bassclef documentation].
+The documentation for bassclef can be found [here][bassclef documentation].
 
 
 [CMS]: https://en.wikipedia.org/wiki/Content_management_system
