@@ -95,11 +95,11 @@ def adjust_image_urls(lines):
 
 def link_images(lines):
     """Link sized images to their full-size originals."""
-    p = re.compile('(<img src="/images/sized/(.*?)" (.*?) />)')
+    p = re.compile('(<img src="/images/sized/(.*?)" .*? />)')
     for i, line in enumerate(lines):
         if p.search(line):
-            old, img, attrs = p.search(line).groups()
-            new = '<a href="/images/%s" %s >%s</a>' % (img, attrs, old)
+            old, img = p.search(line).groups()
+            new = '<a href="/images/%s">%s</a>' % (img, old)
             lines[i] = line.replace(old, new)
     return lines
 

@@ -89,7 +89,7 @@ def preprocess(path):
 
     # Get the social widgets
     if showtitle and showsocial:
-            socialwidgets = '\n'.join(social(title, path2url(path)))
+        socialwidgets = '\n'.join(social(title, path2url(path)))
     else:
         socialwidgets = ''
 

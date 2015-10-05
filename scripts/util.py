@@ -45,7 +45,7 @@ def config(field=None):
         cfg['domainname'] = urlparse(cfg['siteurl'])[1]
 
         webroot = urlparse(cfg['siteurl'])[2]
-        cfg['webroot']  = webroot[:-1] if webroot.endswith('/') else webroot
+        cfg['webroot'] = webroot[:-1] if webroot.endswith('/') else webroot
 
 
     # Sanity checks
@@ -58,7 +58,7 @@ def config(field=None):
     else:
         return cfg
 
-
+# pylint: disable=too-many-branches
 def metadata(f, defaults=None, printmeta=False):
     """Returns the metadata from the top of a markdown file.
 
@@ -95,7 +95,7 @@ def metadata(f, defaults=None, printmeta=False):
                 # Must use a multi-line item here because the social widgets
                 # html includes colons and quotes
                 lines.insert(-1, '%s: >\n    %s'%\
-                             (k,v.rstrip().replace('\n','\n    ')))
+                             (k, v.rstrip().replace('\n', '\n    ')))
             elif k not in meta:
                 lines.insert(-1, '%s: %s' % (k, v))
 
@@ -107,7 +107,7 @@ def metadata(f, defaults=None, printmeta=False):
 
     # Print the metadata to stdout
     if printmeta:
-        
+
         p = re.compile(r'^title: (\d+)\. (.*)')
 
         for line in lines:
@@ -119,7 +119,7 @@ def metadata(f, defaults=None, printmeta=False):
                 pre, post = p.search(line).groups()
                 print('title: %s// %s' % (pre, post))
                 continue
-            
+
             print(line)
 
     # Return the metadata
