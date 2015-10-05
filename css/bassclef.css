@@ -60,7 +60,7 @@ footer hr { width: 100%; clear: both; }
 footer a:link { color: inherit; }
 footer a:hover { text-decoration: none; color: #1EAEDB; }
 
-p code {
+p code, li code {
     background: none;
     border: none;
     padding: 0 0;
