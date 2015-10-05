@@ -92,55 +92,62 @@ $endfor$
 
 <!-- Header - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+
 <div class="row">
-<div class="twelve columns centered-text header">
+<div class="one columns nocollapse"></div>
+<div class="ten columns centered-text header">
 <header>
   <hr class="u-full-width" />
 </header>
-</div> <!-- class="twelve columns centered-text header" -->
-</div> <!-- class="twelve columns centered-text header" -->
+</div> <!-- class="ten columns centered-text header" -->
+<div class="one columns nocollapse"></div>
+</div> <!-- class="row" -->
 
 
-<!-- Content - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- Content - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-<div class="row content">
-<div class="twelve columns">
+<div class="row">
+<div class="two columns nocollapse"></div>
+<div class="eight columns">
 
+<div class="titleblock">
 $if(showtitle)$
-<div class="titleblock">  
 $if(date)$
   <h6 class="dateline">$date$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
-  $endif$
+$endif$
 $if(title)$
   <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$</h1>
 $endif$
+$if(rssurl)$
 <div class="subscribe">
   <ul>
-$if(rssurl)$ 
     <li><a href="$rssurl$" title="Subscribe to RSS feed" target="_blank"><span class="fa fa-rss badge"></span></a></li>
-$endif$ 
   </ul>
 </div> <!-- class="subscribe" -->
-<div style="clear: both;"></div>
+$endif$
 $if(subtitle)$
   <h4 class="subtitle">$subtitle$</h4>
 $endif$
-</div> <!-- div class="titleblock" -->
 $endif$
-
+</div> <!-- class="titleblock" -->
+$socialwidgets$
+<div class="body"> 
 $body$
+</div> <!-- class="body" -->
 
-</div> <!-- class="twelve columns" -->
-</div> <!-- class="row content" -->
+</div> <!-- class="eight columns" -->
+<div class="two columns nocollapse"></div>
+</div> <!-- class="row" -->
 
 
 <!-- Footer - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <div class="row">
-<div class="twelve columns centered-text" id="footer">
-  
+<div class="one columns nocollapse"></div>
+<div class="ten columns centered-text">
+
 <footer>
-  <hr class="u-full-width" />
+  <hr />
   <p>
 $if(schemaname)$
   Copyright © 2015 by $schemaname$
@@ -160,7 +167,8 @@ $endif$$endif$
   </p>
 </footer>
 
-</div> <!-- class="twelve columns centered-text" id="footer" -->
+</div> <!-- class="ten columns centered-text" id="footer" -->
+<div class="one columns nocollapse"></div>
 </div> <!-- class="row" -->
 
 </div> <!-- class="container" -->

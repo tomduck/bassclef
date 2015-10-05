@@ -27,10 +27,11 @@ import yaml
 def config(field=None):
     """Returns the configuration as a dict.
 
-    field - if this is defined, return only this item
+    field - if this is defined, return only this item; useful for shell
+            programming.
     """
 
-    # Read the configuration into a dict
+    # Read the config.ini into a dict (ignoring the sections)
     parser = configparser.ConfigParser()
     parser.read('config.ini')
     cfg = {}
@@ -38,7 +39,7 @@ def config(field=None):
         cfg.update({k:v for k, v in parser.items(section)})
 
 
-    # Add some new entries to the dict
+    # Add some new configuration entries to the dict based on the config.ini
     if 'siteurl' in cfg:
 
         cfg['domainname'] = urlparse(cfg['siteurl'])[1]
@@ -61,42 +62,50 @@ def config(field=None):
 def metadata(f, defaults=None, printmeta=False):
     """Returns the metadata from the top of a markdown file.
 
-    defaults - attitional default metadata to include
+    defaults - default metadata for missing fields
     printmeta - flags that the lines should be printed to stdout
     """
 
     # Check for a YAML block at the top of the file
-    if f.readline().rstrip() != '---':
-        return {}
+    if f.readline().strip() != '---':
+        raise RuntimeError('YAML metadata block not found.')
 
     # Read in the metadata
     lines = ['---']
     for line in f:
-        line = line.rstrip()
+        line = line.rstrip()  # Must preserve leading spaces
         lines.append(line)
-        if line == '...':
+        if line == '...':  # Signifies end of the metadata block
             break
 
-    # Append config variables as metadata
+    # Check for the end of the metadata block
+    if lines[-1] != '...':
+        raise RuntimeError('End of YAML metadata block not found.')
+
+    # Insert config variables as metadata
     for k, v in config().items():
         lines.insert(-1, '%s: %s'%(k, v))
 
-    # Do an initial parse of the metadata
+    # Insert the defaults as metadata.  Check with the existing meta first so
+    # that we don't overwrite anything.
     meta = yaml.load('\n'.join(lines))
+    if defaults:
+        for k, v in defaults.items():
+            if k == 'socialwidgets':
+                # Must use a multi-line item here because the social widgets
+                # html includes colons and quotes
+                lines.insert(-1, '%s: >\n    %s'%\
+                             (k,v.rstrip().replace('\n','\n    ')))
+            elif k not in meta:
+                lines.insert(-1, '%s: %s' % (k, v))
 
-    # Error check the initial parse
+    # Parse the metadata and check it for errors
+    meta = yaml.load('\n'.join(lines))
     for k, v in meta.items():
         if k == 'image':
             assert v.startswith('/') or v.startswith('http://')
-    
-    # Append defaults to the lines.  Check with the existing meta first so
-    # that we don't overwrite anything.
-    if defaults:
-        for k, v in defaults.items():
-            if k not in meta:
-                lines.insert(-1, '%s: %s' % (k, v))
-                
-    # Print the metadata to stdout if requested
+
+    # Print the metadata to stdout
     if printmeta:
         
         p = re.compile(r'^title: (\d+)\. (.*)')
@@ -110,7 +119,7 @@ def metadata(f, defaults=None, printmeta=False):
                 pre, post = p.search(line).groups()
                 print('title: %s// %s' % (pre, post))
                 continue
-        
+            
             print(line)
 
     # Return the metadata
@@ -137,7 +146,7 @@ def path2url(path, relative=False):
 
 
 def social(msg, url):
-    """Returns lines for social widgets.
+    """Returns html for social widgets.
 
     msg - the message to share
     url - the url to share
@@ -152,8 +161,8 @@ def social(msg, url):
 
     # Create and return the widgets
 
-    template = \
-      '  * [<span class="fa fa-%(service)s badge"></span>](%(url)s)'
+    template = r'<li><a href="%(url)s"><span class="fa fa-%(service)s badge">'\
+               '</span></a></li>'
 
     twitterdata = {'url':url, 'text':msg}
     if 'twittername' in cfg:
@@ -185,6 +194,6 @@ def social(msg, url):
                urlencode({'subject': msg, 'body': url}).replace('+', '%20')
         }
 
-    return '<div class="social">',\
+    return '<div class="social">\n<ul>',\
       '\n'.join([twitter, facebook, google, linkedin, email]),\
-      '</div> <!-- class="social" -->\n'
+      '</ul>\n</div> <!-- class="social" -->\n'

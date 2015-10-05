@@ -28,22 +28,37 @@ import re
 
 from util import config
 
-def postprocess():
-    """Postprocesses output piped from pandoc."""
 
-    # Get the lines
-    lines = [line for line in sys.stdin]
+def fix_bugs_in_old_pandoc(lines):
+    """Fixes bugs found in old pandoc version used by Debian Jessie."""
 
-
-    ## Essential fixes ##
-
-    # Fix buggy output in old pandoc version used by Debian jessie
+    # Pandoc sometimes encodes html when it should not
     old = '&lt;span class=&quot;fa fa-envelope badge&quot;&gt;&lt;/span&gt;'
     new = '<span class="fa fa-envelope badge"></span>'
     for i, line in enumerate(lines):
         lines[i] = line.replace(old, new)
 
-    # Undo temporary changes made by util.metadata()
+    return lines
+
+
+def fix_bugs_in_new_pandoc(lines):
+    """Fixes bugs found in newer versions of pandoc."""
+
+    # Pandoc should not be html-encoding variable replacements in templates
+    # (which it does on a random basis).  This prevents us from injecting html
+    # into html templates!
+    old = '&lt;a href=“'
+    new = '<a href="'
+    for i, line in enumerate(lines):
+        lines[i] = line.replace(old, new)
+    old = '”&gt;'
+    new = '">'
+    for i, line in enumerate(lines):
+        lines[i] = line.replace(old, new)
+
+    # Pandoc should not be treating numbers in headers as list items.  This
+    # is a two-stage fix.  Here we undo the temporary obfuscation made by
+    # util.metadata().
     p = re.compile(r'<title>(\d+)// (.*?)</title>')
     for i, line in enumerate(lines):
         if p.search(line):
@@ -64,84 +79,125 @@ def postprocess():
     for i, line in enumerate(lines):
         lines[i] = line.replace('<p><br /></p>', '<br />\n')
 
+    return lines
 
-    ## Functionality fixes ##
 
-    # Put webroot into image urls
+def adjust_image_urls(lines):
+    """Put webroot/ into image urls."""
     p = re.compile('((src|href)="/images/(.*?)")')
     for i, line in enumerate(lines):
         if p.search(line):
             old, tag, path = p.search(line).groups()
             new = '%s="%s/images/%s"' % (tag, config('webroot'), path)
             lines[i] = line.replace(old, new)
+    return lines
 
-    # Link sized figure images to their larger versions
+
+def link_images(lines):
+    """Link sized images to their full-size originals."""
     p = re.compile('(<img src="/images/sized/(.*?)" (.*?) />)')
     for i, line in enumerate(lines):
         if p.search(line):
             old, img, attrs = p.search(line).groups()
             new = '<a href="/images/%s" %s >%s</a>' % (img, attrs, old)
             lines[i] = line.replace(old, new)
+    return lines
 
-    # Make social links open a new tab when clicked.  Also, generate a tooltip.
+
+def open_tabs_when_clicked(lines):
+    """Makes clicking links open tabs (for select cases)."""
+
+    # Make social badge links open a new tab when clicked
     p = re.compile(r'(<a href="([^"]*?)"><span class="fa (.*?)">)')
     for i, line in enumerate(lines):
         if p.search(line):
             old, url, classes = p.search(line).groups()
-            
-            if 'twitter' in old:
-                title = 'Tweet this'
-            elif 'facebook' in old:
-                title = 'Share this on Facebook'
-            elif 'google' in old:
-                title = 'Share this on Google+'
-            elif 'linkedin' in old:
-                title = 'Share this on LinkedIn'
-            elif 'mailto' in old:
-                title = 'Share this by Email'
-            else:
-                msg = 'Cannot generate tooltip for badge lined to: ' + url
-                raise RuntimeError(msg)
-
-            new = '<a href="%s" title="%s" target="_blank">'\
-                  '<span class="fa %s">' \
-                  % (url, title, classes)
-                        
+            new = '<a href="%s" target="_blank"><span class="fa %s">' \
+                  % (url, classes)
             lines[i] = line.replace(old, new)
 
+    return lines
 
-    ## Aesthetic fixes to html ##
+
+def generate_tooltips(lines):
+    """Generates tooltips (for select cases)."""
+
+    # Give social links a tooltip
+    p = re.compile(r'(<a href="([^"]*?)" (.*?)><span class="fa (.*?)">)')
+    for i, line in enumerate(lines):
+        if p.search(line):
+            old, url, attrs, classes = p.search(line).groups()
+
+            if 'twitter' in url:
+                title = 'Tweet this'
+            elif 'facebook' in url:
+                title = 'Share this on Facebook'
+            elif 'google' in url:
+                title = 'Share this on Google+'
+            elif 'linkedin' in url:
+                title = 'Share this on LinkedIn'
+            elif 'mailto' in url:
+                title = 'Share this by Email'
+            else:
+                continue
+            new = '<a href="%s" %s title="%s"><span class="fa %s">' \
+                  % (url, attrs, title, classes)
+
+            lines[i] = line.replace(old, new)
+
+    return lines
+
+
+def tidy_html(lines):
+    """Aesthetic improvements to pandoc's html output."""
 
     # Add some space around hr tags
     for i, line in enumerate(lines):
         lines[i] = line.replace('<hr />', '\n<hr />\n')
 
-    # Don't separate /divs from their descriptions
+    # Don't separate </div> tags from their descriptions
     for i, line in enumerate(lines[:-1]):
-        if line is None:
-            continue
-        if line.startswith('</div>') and lines[i+1].startswith('<!--'):
+        if line.startswith('</div>') and lines[i+1].startswith('<!--') \
+            and lines[i+1].rstrip().endswith('-->'):
             lines[i] = lines[i][:-1] + ' ' + lines[i+1] + '\n'
             lines[i+1] = None
             continue
-        if line.startswith('</div>') and lines[i+1].startswith('<p><!--'):
+        if line.startswith('</div>') and lines[i+1].startswith('<p><!--') \
+            and lines[i+1].rstrip().endswith('--></p>'):
             lines[i] = lines[i][:-1] + ' ' + lines[i+1][3:-5] + '\n'
             lines[i+1] = None
             continue
+    lines = [line for line in lines if line is not None]
 
     # Put some space before the div body tag
     for i, line in enumerate(lines):
-        if line is not None and line.startswith('<div class="body">'):
+        if line.startswith('<div class="body">'):
             lines[i] = '\n' + line
 
+    return lines
 
-    ## Output ##
+
+def postprocess():
+    """Postprocesses output piped from pandoc."""
+
+    # Get the lines
+    lines = [line for line in sys.stdin]
+
+    # Essential fixes
+    lines = fix_bugs_in_old_pandoc(lines)
+    lines = fix_bugs_in_new_pandoc(lines)
+
+    # Functionality enhancements
+    lines = link_images(lines)
+    lines = open_tabs_when_clicked(lines)
+    lines = generate_tooltips(lines)
+
+    # Aesthetic improvements to html
+    lines = tidy_html(lines)
 
     # Print to stdout
-    lines = [line for line in lines if line != None]
     print(''.join(lines))
 
 
 if __name__ == '__main__':
     postprocess()
-

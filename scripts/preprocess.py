@@ -74,16 +74,9 @@ def insert_figure(lines, image, caption):
 def preprocess(path):
     """Preprocesses path."""
 
+    # Preload the metadata
     with open(path) as f:
-
-        # Load the metadata
-        defaults = {'titleclass':'title',
-                    'showtitle': True,
-                    'permalink':path2url(path)}
-        meta = metadata(f, defaults, printmeta=True)
-
-        # Read in the lines
-        lines = [line.rstrip() for line in f]
+        meta = metadata(f)
 
     # Extract the metadata fields we need
     title = meta['title']
@@ -94,13 +87,23 @@ def preprocess(path):
     showtitle = meta['showtitle'] if 'showtitle' in meta else True
     showsocial = meta['showsocial'] if 'showsocial' in meta else True
 
-    # Print the social widgets
-    if showtitle:
-        if showsocial:
-            print('\n'.join(social(title, path2url(path))))
-        else:
-            print('<br />')
-        print()
+    # Get the social widgets
+    if showtitle and showsocial:
+            socialwidgets = '\n'.join(social(title, path2url(path)))
+    else:
+        socialwidgets = ''
+
+    with open(path) as f:
+
+        # Load the metadata
+        defaults = {'titleclass':'title',
+                    'showtitle': True,
+                    'permalink':path2url(path),
+                    'socialwidgets':socialwidgets}
+        meta = metadata(f, defaults, printmeta=True)
+
+        # Read in the lines
+        lines = [line.rstrip() for line in f]
 
     # Insert the image into the lines
     if image and showimage:
@@ -111,11 +114,8 @@ def preprocess(path):
         lines.append('')
         lines.append('*(Updated %s.)*' % updated)
 
-    # Print out the new lines in a div.  Note that the extra returns (\n)
-    # are necessary for older (buggy) pandoc versions.
-    print('<div class="body">\n')
+    # Print out the new lines
     print('\n'.join(lines))
-    print('\n</div> <!-- class="body" -->')
 
 
 if __name__ == '__main__':
