@@ -92,14 +92,13 @@ $endfor$
 
 <!-- Header - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-
 <div class="row">
 <div class="one columns nocollapse"></div>
-<div class="ten columns centered-text header">
+<div class="ten columns centered-text">
 <header>
   <hr class="u-full-width" />
 </header>
-</div> <!-- class="ten columns centered-text header" -->
+</div> <!-- class="ten columns centered-text" -->
 <div class="one columns nocollapse"></div>
 </div> <!-- class="row" -->
 
