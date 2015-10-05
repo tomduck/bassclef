@@ -64,8 +64,9 @@ p code, li code {
     background: none;
     border: none;
     padding: 0 0;
-    margin: 0 0;
     white-space: pre;
+    position: relative;
+    top: -0.05rem;
 }
 
 
