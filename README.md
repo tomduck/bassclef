@@ -6,7 +6,8 @@ Bassclef is a static Web page generator that processes plain old text files usin
 
 Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".  It can be used to generate [GitHub Pages]; the [bassclef documentation] is one such example.  An example standalone site is <http://tomduck.ca/>.
 
-Although bassclef is being used in production, this should be considered an alpha release.  Issues can be reported on the [bassclef repository page] at [GitHub].
+Although bassclef is being used in production, this is an alpha release. Once the codebase stabilizes there will be a beta release. The most recent sources can always be found at the [bassclef repository page]. Please feel welcome to report any [issues] that you encounter.
+
 
 Documentation
 -------------
@@ -19,4 +20,4 @@ The documentation for bassclef can be [found here][bassclef documentation].
 [GitHub Pages]: https://pages.github.com/
 [bassclef documentation]: https://tomduck.github.io/bassclef/
 [bassclef repository page]: https://github.com/tomduck/bassclef/
-[GitHub]: http://github.com/
+[issues]: https://github.com/tomduck/bassclef/issues
