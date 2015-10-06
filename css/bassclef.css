@@ -45,6 +45,8 @@ img { max-width: 100%; }
 
 ul, ol { list-style-position: outside; margin-left: 2rem; }
 ul ul, ol ul, ul ol, ol ol { margin-left: 4rem; } /* Indent nested lists */
+ol ul li:last-child {margin-bottom: 2.5rem; }
+li p { margin-bottom: 0; }
 
 hr { width: 50%; clear: both; }
 
