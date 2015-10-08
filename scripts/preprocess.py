@@ -24,6 +24,8 @@
 
 import sys
 
+from urllib.parse import urljoin
+
 from util import metadata, path2url, social
 
 
@@ -99,6 +101,7 @@ def preprocess(path):
         defaults = {'titleclass':'title',
                     'showtitle': True,
                     'permalink':path2url(path),
+                    'imageurl':
                     'socialwidgets':socialwidgets}
         meta = metadata(f, defaults, printmeta=True)
 
