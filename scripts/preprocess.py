@@ -101,7 +101,6 @@ def preprocess(path):
         defaults = {'titleclass':'title',
                     'showtitle': True,
                     'permalink':path2url(path),
-                    'imageurl':
                     'socialwidgets':socialwidgets}
         meta = metadata(f, defaults, printmeta=True)
 
