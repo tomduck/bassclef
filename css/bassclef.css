@@ -20,6 +20,8 @@ h4, h5, h6 { color: #808080; }  /* Grey */
 h4 { font-style: italic; }
 h5, h6 { text-transform: uppercase; }
 
+h6 { font-size:80%; }
+
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -79,7 +81,6 @@ p code, li code {
 
 .centered-text { text-align: center; }
 
-.dateline{ clear: both; font-size:80%; }
 .dateline a { color: inherit; text-decoration: none; }
 .dateline a:hover { color: #1EAEDB; }
 

@@ -38,6 +38,8 @@ def titleblock(meta, url):
     # Get the dateline
     if 'date' in meta:
         html = '###### %(date)s'
+        if 'authors' in meta:
+            html += ', by ' + meta['authors']
         if 'publisher' in meta:
             if 'url' in meta:
                 html += '['
