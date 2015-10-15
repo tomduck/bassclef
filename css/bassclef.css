@@ -96,8 +96,6 @@ p code, li code {
 
 .subtitle, .authors { clear: both; }
 
-.authors { color: black; }
-
 .badge {
     border-radius: 50%;
     width: 2.2rem;
