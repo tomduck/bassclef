@@ -130,6 +130,7 @@ $endif$
 $if(authors)$
   <h5 class="authors">By $authors$.</h5>
 $endif$
+$endif$
 </div> <!-- class="titleblock" -->
 $socialwidgets$
 <div class="body"> 
