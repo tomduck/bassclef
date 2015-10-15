@@ -81,7 +81,7 @@ def preprocess(path):
         meta = metadata(f)
 
     # Extract the metadata fields we need
-    title = meta['title'] it 'title' in meta else None
+    title = meta['title'] if 'title' in meta else None
     authors = meta['author'] if 'author' in meta else \
       meta['authors'] if 'authors' in meta else None
     updated = meta['updated'] if 'updated' in meta else None
