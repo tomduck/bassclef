@@ -24,8 +24,6 @@
 
 import sys
 
-from urllib.parse import urljoin
-
 from util import metadata, path2url, social
 
 
@@ -101,10 +99,11 @@ def preprocess(path):
 
         # Load the metadata
         defaults = {'titleclass':'title',
-                    'authors':authors,
                     'showtitle': True,
                     'permalink':path2url(path),
                     'socialwidgets':socialwidgets}
+        if authors != None:
+            defaults.update({'authors':authors})
         meta = metadata(f, defaults, printmeta=True)
 
         # Read in the lines
