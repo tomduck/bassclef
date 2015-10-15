@@ -39,13 +39,13 @@ def titleblock(meta, url):
     if 'date' in meta:
         html = '###### %(date)s'
         if 'authors' in meta:
-            html += ', by ' + meta['authors']
+            html += ', by %(authors)s'
         if 'publisher' in meta:
             if 'url' in meta:
                 html += '['
             html += ', published in %(publisher)s'
-        if 'url' in meta:
-            html += '](%(url)s)'
+            if 'url' in meta:
+                html += '](%(url)s)'
         html += '###### {.dateline}'
         lines.append(html % meta)
 

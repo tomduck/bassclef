@@ -99,6 +99,10 @@ def metadata(f, defaults=None, printmeta=False):
             elif k not in meta:
                 lines.insert(-1, '%s: %s' % (k, v))
 
+    # Combine author and authors fields into one
+    if 'author' in meta and 'authors' not in meta:
+        lines.insert(-1, 'authors: %s' % meta['author'])
+        
     # Parse the metadata and check it for errors
     meta = yaml.load('\n'.join(lines))
     for k, v in meta.items():
