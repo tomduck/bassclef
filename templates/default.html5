@@ -112,7 +112,8 @@ $endfor$
 <div class="titleblock">
 $if(showtitle)$
 $if(date)$
-  <h6 class="dateline">$date$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
+  <h6 class="dateline">$date$$if(publisher)$,$if(authors)$ by $authors$,$endif$
+$if(source)$<a href="$source$">$endif $published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
 $endif$
 $if(title)$
   <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$</h1>
@@ -126,9 +127,6 @@ $if(rssurl)$
 $endif$
 $if(subtitle)$
   <h4 class="subtitle">$subtitle$</h4>
-$endif$
-$if(authors)$
-  <h5 class="authors">By $authors$.</h5>
 $endif$
 $endif$
 </div> <!-- class="titleblock" -->
