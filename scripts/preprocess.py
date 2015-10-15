@@ -81,7 +81,9 @@ def preprocess(path):
         meta = metadata(f)
 
     # Extract the metadata fields we need
-    title = meta['title']
+    title = meta['title'] it 'title' in meta else None
+    authors = meta['author'] if 'author' in meta else \
+      meta['authors'] if 'authors' in meta else None
     updated = meta['updated'] if 'updated' in meta else None
     image = meta['image'] if 'image' in meta else None
     showimage = meta['showimage'] if 'showimage' in meta else True
@@ -99,6 +101,7 @@ def preprocess(path):
 
         # Load the metadata
         defaults = {'titleclass':'title',
+                    'authors':authors,
                     'showtitle': True,
                     'permalink':path2url(path),
                     'socialwidgets':socialwidgets}

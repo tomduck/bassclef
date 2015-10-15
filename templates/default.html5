@@ -127,6 +127,8 @@ $endif$
 $if(subtitle)$
   <h4 class="subtitle">$subtitle$</h4>
 $endif$
+$if(authors)$
+  <h5 class="authors">$authors$</h5>
 $endif$
 </div> <!-- class="titleblock" -->
 $socialwidgets$
