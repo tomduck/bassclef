@@ -15,7 +15,7 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 h1, h4, h5, h6 { margin-bottom: 0.5rem; }
 
 h1, h2, h3 { color: #660; }     /* Green */
-h4, h6 { color: #808080; }  /* Grey */
+h4, h5, h6 { color: #808080; }  /* Grey */
 
 h4 { font-style: italic; }
 h5, h6 { text-transform: uppercase; }
