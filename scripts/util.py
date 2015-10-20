@@ -20,6 +20,7 @@ import configparser
 import re
 import string
 from urllib.parse import urlencode, urljoin, urlparse
+from html.entities import codepoint2name
 
 import yaml
 
@@ -102,7 +103,7 @@ def metadata(f, defaults=None, printmeta=False):
     # Combine author and authors fields into one
     if 'author' in meta and 'authors' not in meta:
         lines.insert(-1, 'authors: %s' % meta['author'])
-        
+
     # Parse the metadata and check it for errors
     meta = yaml.load('\n'.join(lines))
     for k, v in meta.items():
@@ -128,6 +129,34 @@ def metadata(f, defaults=None, printmeta=False):
 
     # Return the metadata
     return yaml.load('\n'.join(lines))
+
+
+def encode(txt):
+    """Encodes UTF-8 characters with html entities."""
+    skip = ['<', '>', '"', '&']
+    ret = ''
+    for c in txt:
+        if c not in skip and ord(c) in codepoint2name:
+            ret += "&" + codepoint2name.get(ord(c)) + ";"
+        else:
+            ret += c
+    return ret
+
+
+def content(htmlpath):
+    """Returns lines for the content (body) of an html file."""
+
+    with open(htmlpath) as f:
+        # Read and process each line
+        lines = []
+        flag = False
+        for line in f:
+            if line.startswith('<div class="body">'):
+                flag = True
+            if flag:
+                lines.append(line)
+            if line.startswith('</div> <!-- class="body" -->'):
+                return '\n'.join(lines)
 
 
 def path2url(path, relative=False):
