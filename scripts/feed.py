@@ -5,24 +5,39 @@
 import sys, os
 import datetime
 
+from html.entities import codepoint2name
+
 import PyRSS2Gen as rss2
 
 from util import metadata, path2url
 
 
-def content(f):
+def encode(txt):
+    """Encodes UTF-8 characters with html entities."""
+    skip = ['<', '>', '"', '&']
+    ret = ''
+    for c in txt:
+        if c not in skip and ord(c) in codepoint2name:
+            ret += "&" + codepoint2name.get(ord(c)) + ";"
+        else:
+            ret += c
+    return ret
+
+
+def content(htmlpath):
     """Returns lines for the content (body) of an html file."""
 
-    # Read and process each line
-    lines = []
-    flag = False
-    for line in f:
-        if line.startswith('<div class="body">'):
-            flag = True
-        if flag:
-            lines.append(line)
-        if line.startswith('</div> <!-- class="body" -->'):
-            return '\n'.join(lines)
+    with open(htmlpath) as f:
+        # Read and process each line
+        lines = []
+        flag = False
+        for line in f:
+            if line.startswith('<div class="body">'):
+                flag = True
+            if flag:
+                lines.append(line)
+            if line.startswith('</div> <!-- class="body" -->'):
+                return '\n'.join(lines)
 
 
 def make_item(path):
@@ -48,20 +63,7 @@ def make_item(path):
     # Get the html body
     path = path.replace('.md', '.html')
     path = path.replace('content', 'www')
-    with open(path) as f:
-        description = content(f)
-
-    # Replace entities.  There is surely a better way.
-    description = description.replace("’", '&apos;')
-    description = description.replace('“', '&quot;')
-    description = description.replace('”', '&quot;')
-    description = description.replace('–', '&ndash;')   # The are all different
-    description = description.replace('—', '&ndash;')   # dashes that show up.
-    description = description.replace('−', '&ndash;')
-    description = description.replace('…', '&hellip;')
-    description = description.replace(' ', '&nbsp;')
-    description = description.replace(' ', '')          # This is a thin space
-    description = description.replace('°', '&deg;')
+    description = encode(content(path))
     
     # Style the figure caption
     description = description.replace('<figcaption>',
