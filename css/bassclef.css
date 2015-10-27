@@ -127,9 +127,8 @@ p code, li code {
 .social li:last-child { margin: 0 0 0 0; }
 
 .subscribe { float: right; }
-
 .subscribe ul { margin-bottom: 0; }
-.subscribe li { display: table-cell; padding: 0rem 0rem 0 0; }
+.subscribe li { display: table-cell; padding: 0rem 0.3rem 0 0; }
 
 .fa:hover { /* Simulate link hover */
     background-color: #1EAEDB;
