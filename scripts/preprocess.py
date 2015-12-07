@@ -110,7 +110,7 @@ def preprocess(path):
         lines = insert_figure(lines, image, caption)
 
     # Replace macros
-    for i len(lines):
+    for i in len(lines):
 
         # Clearing line break
         lines[i] = lines[i].replace(
