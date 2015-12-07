@@ -115,12 +115,12 @@ def preprocess(path):
         # Clearing line break
         lines[i] = lines[i].replace(
             '<!-- break -->',
-            '<div style="clear: both; height: 0;"><!-- break —></div>')
+            '<div style="clear: both; height: 0;"></div>')
 
         # Vertical space
         lines[i] = lines[i].replace(
             '<!-- vspace -->',
-            '<div style="clear: both; height: 3rem;"><!-- vspace --></div>')
+            '<div style="clear: both; height: 3rem;"></div>')
 
     # Append a line indicating updates
     if updated:
