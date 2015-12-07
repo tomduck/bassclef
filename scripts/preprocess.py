@@ -110,15 +110,15 @@ def preprocess(path):
         lines = insert_figure(lines, image, caption)
 
     # Replace macros
-    for i, line in enumerate(lines):
+    for i len(lines):
 
         # Clearing line break
-        lines[i] = line.replace(
+        lines[i] = lines[i].replace(
             '<!-- break -->',
             '<div style="clear: both; height: 0;"><!-- break —></div>')
 
         # Vertical space
-        lines[i] = line.replace(
+        lines[i] = lines[i].replace(
             '<!-- vspace -->',
             '<div style="clear: both; height: 3rem;"><!-- vspace --></div>')
 
