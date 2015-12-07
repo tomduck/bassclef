@@ -109,6 +109,19 @@ def preprocess(path):
     if image and showimage:
         lines = insert_figure(lines, image, caption)
 
+    # Replace macros
+    for i, line in enumerate(lines):
+
+        # Clearing line break
+        lines[i] = line.replace(
+            '<!-- break -->',
+            '<div style="clear: both; height: 0;"><!-- break —></div>')
+
+        # Vertical space
+        lines[i] = line.replace(
+            '<!-- vspace -->',
+            '<div style="clear: both; height: 3rem;"><!-- vspace --></div>')
+
     # Append a line indicating updates
     if updated:
         lines.append('')
