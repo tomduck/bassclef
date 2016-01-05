@@ -41,17 +41,6 @@ def insert_figure(lines, image, caption):
             n = i
             continue
 
-    # Look for the break line
-    if n is None:
-        flag = False  # Flag when we have found it
-        for i, line in enumerate(lines):
-            if flag:
-                n = i
-                break
-            if line == '<!-- break -->':
-                n = i
-                continue
-
     # Find the end of the first paragraph
     if n is None:
         flag = False  # Flag when we have found it
