@@ -36,8 +36,8 @@ endif
 
 # Source files ---------------------------------------------------------------
 
-SOURCE_MD_IN = $(wildcard content/*.md.in) $(wildcard content/*/*.md.in)
-SOURCE_MD = $(wildcard content/*.md) $(wildcard content/*/*.md)
+SOURCE_MD_IN = $(wildcard markdown/*.md.in) $(wildcard markdown/*/*.md.in)
+SOURCE_MD = $(wildcard markdown/*.md) $(wildcard markdown/*/*.md)
 
 SOURCE_OPENSANS_FONTS =  $(wildcard submodules/open-sans/fonts/*/*)
 SOURCE_FONTAWESOME_FONTS =  $(wildcard submodules/font-awesome/fonts/*)
@@ -51,12 +51,12 @@ SOURCE_IMG = $(wildcard images/*.*)
 
 # Target files ---------------------------------------------------------------
 
-TARGET_MD = $(patsubst content/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
+TARGET_MD = $(patsubst markdown/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
 
-TARGET_HTML = $(patsubst content/%.md,www$(WEBROOT)/%.html,$(SOURCE_MD)) \
+TARGET_HTML = $(patsubst markdown/%.md,www$(WEBROOT)/%.html,$(SOURCE_MD)) \
               $(patsubst $(TMP)/%.md,www$(WEBROOT)/%.html,$(TARGET_MD))
 
-TARGET_XML = $(patsubst content/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
+TARGET_XML = $(patsubst markdown/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
 
 
 TARGET_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
@@ -120,7 +120,7 @@ all: markdown html rss css fonts images
 
 markdown: $(TARGET_MD)
 
-$(TMP)/%.md: content/%.md.in $(SOURCE_MD) \
+$(TMP)/%.md: markdown/%.md.in $(SOURCE_MD) \
           scripts/compose.py scripts/preprocess.py
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	scripts/compose.py $< > $@
@@ -130,10 +130,10 @@ html: $(TARGET_HTML)
 
 www$(WEBROOT)/%.html: $(TMP)/%.md scripts/preprocess.py \
                          scripts/postprocess.py \
-                        scripts/util.py templates/default.html5 config.ini
+                         scripts/util.py templates/default.html5 config.ini
 	$(md2html)
 
-www$(WEBROOT)/%.html: content/%.md scripts/preprocess.py \
+www$(WEBROOT)/%.html: markdown/%.md scripts/preprocess.py \
                          scripts/postprocess.py \
                          scripts/util.py templates/default.html5 config.ini
 	$(md2html)
@@ -141,7 +141,7 @@ www$(WEBROOT)/%.html: content/%.md scripts/preprocess.py \
 
 rss: $(TARGET_XML)
 
-www$(WEBROOT)/%.xml: content/%.md.in $(TARGET_HTML) scripts/feed.py
+www$(WEBROOT)/%.xml: markdown/%.md.in $(TARGET_HTML) scripts/feed.py
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	scripts/feed.py $< > $@
 
