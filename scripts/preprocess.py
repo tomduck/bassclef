@@ -16,7 +16,7 @@
 
 """preprocess.py - a pandoc markdown preprocessor.
 
-  Usage: preprocess.py content/.../filename.md
+  Usage: preprocess.py markdown/.../filename.md
 
   This script reads in a pandoc markdown file, preprocesses it, and writes
   the result to stdout.

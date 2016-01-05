@@ -7,7 +7,7 @@ import datetime
 
 import PyRSS2Gen as rss2
 
-from util import metadata, path2url, encode, content
+from util import metadata, path2url, encode, html
 
 
 def make_item(path):
@@ -32,8 +32,8 @@ def make_item(path):
 
     # Get the html body
     path = path.replace('.md', '.html')
-    path = path.replace('content', 'www')
-    description = encode(content(path))
+    path = path.replace('markdown', 'www')
+    description = encode(html(path))
 
     # Style the figure caption
     description = description.replace('<figcaption>',
@@ -47,7 +47,7 @@ def make_item(path):
 def process_mdin_file(path):
     """Processes the .md.in file at path."""
 
-    assert path.startswith('content/')
+    assert path.startswith('markdown/')
 
     # Read in the metadata and lines
     with open(path) as f:

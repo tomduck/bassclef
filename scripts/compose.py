@@ -16,7 +16,7 @@
 
 """compose.py - assembles pandoc markdown from a .md.in file.
 
-  Usage: compose.py content/.../filename.md.in
+  Usage: compose.py markdown/.../filename.md.in
 
   This script reads a .md.in file and writes a .md file to stdout.  Filenames
   listed alone on a line are read, processed, and inserted.  Other elements
@@ -62,10 +62,10 @@ def titleblock(meta, url):
     return lines
 
 
-def content(f, url, n):
-    """Returns lines for the content of a .md file.
+def markdown(f, url, n):
+    """Returns lines for the markdown file.
 
-    The content is truncated where <!-- cut --> is found.
+    The mardown is truncated where <!-- cut --> is found.
     """
 
     # Reference and link patterns
@@ -104,7 +104,7 @@ def content(f, url, n):
         if line == '<!-- cut -->':
             cutpoint = True
 
-        # Store the line.  Ignore all content after <!-- cut --> except
+        # Store the line.  Ignore all markdown after <!-- cut --> except
         # for references.
         if not cutpoint or p2.search(line):
             lines.append(line)
@@ -146,14 +146,14 @@ def process_md_file(path, n):
         if showsocial and 'title' in meta:
             print('\n'.join(social(meta['title'], path2url(path))))
 
-        # Content
-        print('\n'.join(content(f, url, n)))
+        # Markdown
+        print('\n'.join(markdown(f, url, n)))
 
 
 def process_mdin_file(path):
     """Processes the .md.in file at path."""
 
-    assert path.startswith('content/')
+    assert path.startswith('markdown/')
 
     # Construct the rss url
     rssurl = path2url(path, relative=True)

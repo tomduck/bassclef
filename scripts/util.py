@@ -143,8 +143,8 @@ def encode(txt):
     return ret
 
 
-def content(htmlpath):
-    """Returns lines for the content (body) of an html file."""
+def html(htmlpath):
+    """Returns lines for the body of an html file."""
 
     with open(htmlpath) as f:
         # Read and process each line
@@ -160,7 +160,7 @@ def content(htmlpath):
 
 
 def path2url(path, relative=False):
-    """Converts a markdown content path to a www html url.
+    """Converts a markdown path to a www html url.
 
     path - the path to convert
     relative - flags that the returned url should be relative; otherwise
