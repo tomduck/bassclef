@@ -49,6 +49,8 @@ ul, ol { list-style-position: outside; margin-left: 2rem; }
 ul ul, ol ul, ul ol, ol ol { margin-left: 4rem; } /* Indent nested lists */
 ol ul li:last-child {margin-bottom: 2.5rem; }
 
+td, th { padding: 0px 5px; border-bottom: 0px; }
+
 hr { width: 50%; clear: both; }
 
 header hr { width: 100%; clear: both; }
