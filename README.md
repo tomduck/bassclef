@@ -8,7 +8,7 @@ This project was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc an
 
 Bassclef is used to power the author's blog at <http://tomduck.ca/>.  It may also be used to generate [GitHub Pages]; this documentation is one such example.
 
-Sources can be found at the [bassclef repository page].  Please report [issues] that you encounter so they may be fixed.
+Sources and an issue tracker can be found at the [bassclef repository page].
 
 
 Documentation
@@ -26,5 +26,4 @@ The documentation for bassclef can be found [here][bassclef documentation].
 [inspired]: https://tylercipriani.com/2014/05/13/replace-jekyll-with-pandoc-makefile.html
 [GitHub Pages]: https://pages.github.com/
 [bassclef repository page]: https://github.com/tomduck/bassclef/
-[issues]: https://github.com/tomduck/bassclef/issues
 [bassclef documentation]: https://tomduck.github.io/bassclef/
