@@ -117,11 +117,15 @@ footer a:hover { text-decoration: none; color: #1EAEDB; }
     font-weight: bold;
     text-transform: uppercase;
     float: left;
+    margin-bottom: 0rem;
 }
 
 .title {}
 
-.subtitle, .authors { clear: both; }
+.subtitle {
+    clear: both;
+    margin-top: -1rem;
+}
 
 .badge {
     border-radius: 50%;
