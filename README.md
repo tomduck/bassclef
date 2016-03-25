@@ -2,7 +2,7 @@
 Bassclef
 ========
 
-Bassclef is a featherweight [CMS] for the impatient.  Plain old text files (written in [markdown]) are processed using standard command-line tools (Makefiles, [pandoc], [python], and [ImageMagick] convert) to generate static Web sites.  Responsive CSS (via [Skeleton]) is used so that the resulting pages look good on devices big and small.
+Bassclef is a featherweight [CMS] for the impatient.  Plain old text files (written in [markdown]) are processed using standard command-line tools (Makefiles, [pandoc], [python], and [ImageMagick] convert) to generate static Web pages.  Responsive CSS (via [Skeleton]) is used so that the resulting pages look good on devices big and small.
 
 This project was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".  It was written as a way to escape the long-term maintenance challenges presented to small-scale projects by databasing CMSes and programming frameworks.  Standard tools don't change, and your content files are never hidden.
 
