@@ -2,11 +2,13 @@
 Bassclef
 ========
 
-Bassclef is a static Web page generator that processes plain old text files using command-line tools.  It's a featherweight [CMS] for the impatient.  There are no dababases or programming frameworks.  Content is king.
+Bassclef is a featherweight [CMS] for the impatient.  Plain old text files (written in [markdown]) are processed using standard command-line tools (Makefiles, [pandoc], [python], and [ImageMagick] convert) to generate static Web sites.  Responsive CSS (via [Skeleton]) is used so that the resulting pages look good on devices big and small.
 
-Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".  It can be used to generate [GitHub Pages]; the [bassclef documentation] is one such example.  An example standalone site is <http://tomduck.ca/>.
+This project was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".  It was written as a way to escape the long-term maintenance challenges presented to small-scale projects by databasing CMSes and programming frameworks.  Standard tools don't change, and your content files are never hidden.
 
-Although bassclef is being used in production, this is an alpha release. Once the codebase stabilizes there will be a beta release. The most recent sources can always be found at the [bassclef repository page]. Please feel welcome to report any [issues] that you encounter.
+Bassclef is used to power the author's blog at <http://tomduck.ca/>.  It may also be used to generate [GitHub Pages]; this documentation is one such example.
+
+Sources can be found at the [bassclef repository page].  Please report [issues] that you encounter so they may be fixed.
 
 
 Documentation
@@ -15,9 +17,14 @@ Documentation
 The documentation for bassclef can be found [here][bassclef documentation].
 
 
+[markdown]: https://daringfireball.net/projects/markdown/syntax 
+[pandoc]: http://pandoc.org/README.html
+[python]: http://python.org/
+[ImageMagick]: http://imagemagick.org/script/index.php
+[Skeleton]: http://getskeleton.com/
 [CMS]: https://en.wikipedia.org/wiki/Content_management_system
 [inspired]: https://tylercipriani.com/2014/05/13/replace-jekyll-with-pandoc-makefile.html
 [GitHub Pages]: https://pages.github.com/
-[bassclef documentation]: https://tomduck.github.io/bassclef/
 [bassclef repository page]: https://github.com/tomduck/bassclef/
 [issues]: https://github.com/tomduck/bassclef/issues
+[bassclef documentation]: https://tomduck.github.io/bassclef/
