@@ -12,7 +12,7 @@ h4 { font-size: 1.8rem; line-height: 1.5;  letter-spacing: -.05rem; }
 h5 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 
-h1, h4, h5, h6 { margin-bottom: 0.5rem; }
+h4, h5, h6 { margin-bottom: 0.5rem; }
 
 h1 { color: #660; }             /* Green */
 h2, h3 { color: #000; }         /* Black */
@@ -49,9 +49,22 @@ figcaption {
 
 img { max-width: 100%; }
 
-ul, ol { list-style-position: outside; margin-left: 2rem; }
-ul ul, ol ul, ul ol, ol ol { margin-left: 4rem; } /* Indent nested lists */
-ol ul li:last-child {margin-bottom: 2.5rem; }
+ul, ol { list-style-position: outside; margin-left: 4rem; }
+ul ul, ol ul, ul ol, ol ol {
+    /* Pack nested lists more tightly */
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+ul ul p, ol ul p, ul ol p, ol ol p {
+    margin-bottom: 0rem; /* Pack nested lists more tightly */
+}
+ul ul li, ol ul li, ul ol li, ol ol li {
+    margin-bottom:0; /* Pack nested lists more tightly */
+}
+ul li:last-child p, ol li:last-child p  {
+    margin-bottom:2.5rem; /* Extra space at bottom for loose lists */
+}
+dl dd { margin-bottom:2.5rem; }
 
 table {
     float: left;
@@ -62,9 +75,18 @@ table caption { font-size: 85%; padding-bottom: 1rem; }
 thead { border-top: 1px solid black; border-bottom: 1px solid black; }
 td, th { padding: 0px 5px; border-bottom: 0px; }
 
-hr { width: 50%; clear: both; }
+hr { clear: both; margin-bottom: 2.5rem; }
 
-header hr { width: 100%; clear: both; }
+p > code, li > code, dt > code {
+    background: none;
+    border: none;
+    padding: 0 0;
+    white-space: pre;
+    position: relative;
+    top: -0.05rem;
+}
+
+pre { margin-top:0; }
 
 nav { text-align: center; }
 nav ul { margin-left: 0; }
@@ -75,15 +97,6 @@ footer { margin-bottom: 2rem; }
 footer hr { width: 100%; clear: both; }
 footer a:link { color: inherit; }
 footer a:hover { text-decoration: none; color: #1EAEDB; }
-
-p code, li code {
-    background: none;
-    border: none;
-    padding: 0 0;
-    white-space: pre;
-    position: relative;
-    top: -0.05rem;
-}
 
 
 /*****************************************************************************/

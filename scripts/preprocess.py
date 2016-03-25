@@ -99,17 +99,15 @@ def preprocess(path):
         lines = insert_figure(lines, image, caption)
 
     # Replace macros
-    for i in range(len(lines)):
+    for i, line in enumerate(lines):
 
         # Clearing line break
-        lines[i] = lines[i].replace(
-            '<!-- break -->',
-            '<div style="clear: both; height: 0;"></div>')
+        if line == '<!-- break -->':
+            lines[i] = '<div style="clear: both; height: 0;"></div>'
 
         # Vertical space
-        lines[i] = lines[i].replace(
-            '<!-- vspace -->',
-            '<div style="clear: both; height: 3rem;"></div>')
+        if line == '<!-- vspace -->':
+            lines[i] = '<div style="clear: both; height: 3rem;"></div>'
 
     # Append a line indicating updates
     if updated:
