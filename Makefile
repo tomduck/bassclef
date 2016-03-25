@@ -85,7 +85,7 @@ TARGET_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/%,\
 
 TARGET_IMG = $(patsubst %,www$(WEBROOT)/%,$(SOURCE_IMG))
 
-TARGET_SIZED = $(patsubst images/%,www$(WEBROOT)/images/sized/%,$(SOURCE_IMG))
+TARGET_TILE = $(patsubst images/%,www$(WEBROOT)/images/tiles/%,$(SOURCE_IMG))
 
 
 # Functions ------------------------------------------------------------------
@@ -171,9 +171,9 @@ www$(WEBROOT)/fonts/font-awesome/%: submodules/font-awesome/fonts/%
 	$(copyfiles)
 
 
-images: $(TARGET_IMG) $(TARGET_SIZED)
+images: $(TARGET_IMG) $(TARGET_TILE)
 
-www$(WEBROOT)/images/sized/%: images/%
+www$(WEBROOT)/images/tiles/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	convert $< -resize 250x $@
 

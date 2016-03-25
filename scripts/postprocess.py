@@ -94,8 +94,8 @@ def adjust_image_urls(lines):
 
 
 def link_images(lines):
-    """Link sized images to their full-size originals."""
-    p = re.compile('(<img src="/images/sized/(.*?)" .*? />)')
+    """Link image tiles to their full-size originals."""
+    p = re.compile('(<img src="/images/tiles/(.*?)" .*? />)')
     for i, line in enumerate(lines):
         if p.search(line):
             old, img = p.search(line).groups()
