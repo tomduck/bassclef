@@ -56,9 +56,9 @@ def fix_bugs_in_new_pandoc(lines):
     for i, line in enumerate(lines):
         lines[i] = line.replace(old, new)
 
-    # Pandoc should not be treating numbers in headers as list items.  This
-    # is a two-stage fix.  Here we undo the temporary obfuscation made by
-    # util.metadata().
+    # Pandoc should not be treating numbers in headers as list items.  Here
+    # we undo the temporary obfuscation made by preprocess.py's call to
+    # util.getmeta().
     p = re.compile(r'<title>(\d+)// (.*?)</title>')
     for i, line in enumerate(lines):
         if p.search(line):

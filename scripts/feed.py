@@ -7,7 +7,21 @@ import datetime
 
 import PyRSS2Gen as rss2
 
-from util import metadata, path2url, encode, html
+from util import metadata, path2url, html
+
+from html.entities import codepoint2name
+
+
+def encode(txt):
+    """Encodes UTF-8 characters with html entities."""
+    skip = ['<', '>', '"', '&']
+    ret = ''
+    for c in txt:
+        if c not in skip and ord(c) in codepoint2name:
+            ret += "&" + codepoint2name.get(ord(c)) + ";"
+        else:
+            ret += c
+    return ret
 
 
 def make_item(path):

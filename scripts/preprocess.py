@@ -24,7 +24,7 @@
 
 import sys
 
-from util import metadata, path2url, social
+from util import getmeta, printmeta, skipmeta
 
 
 def insert_figure(lines, image, caption):
@@ -63,42 +63,20 @@ def insert_figure(lines, image, caption):
 def preprocess(path):
     """Preprocesses path."""
 
-    # Preload the metadata
+    # Load and print the metadata.  Obfuscate the title field as a workaround
+    # to a pandoc bug.  This gets undone py postprocess.py.
+    meta = getmeta(path)
+    printmeta(meta, obfuscate=True)
+
+    # Read in the lines
     with open(path) as f:
-        meta = metadata(f)
-
-    # Extract the metadata fields we need
-    title = meta['title'] if 'title' in meta else None
-    updated = meta['updated'] if 'updated' in meta else None
-    image = meta['image'] if 'image' in meta else None
-    showimage = meta['showimage'] if 'showimage' in meta else True
-    caption = meta['caption'] if 'caption' in meta else ''
-    showtitle = meta['showtitle'] if 'showtitle' in meta else True
-    showsocial = meta['showsocial'] if 'showsocial' in meta else True
-
-    # Get the social widgets
-    if showtitle and showsocial:
-        socialwidgets = '\n'.join(social(title, path2url(path)))
-    else:
-        socialwidgets = ''
-
-    with open(path) as f:
-
-        # Load the metadata
-        defaults = {'titleclass':'title',
-                    'showtitle': True,
-                    'permalink':path2url(path),
-                    'socialwidgets':socialwidgets}
-        meta = metadata(f, defaults, printmeta=True)
-
-        # Read in the lines
-        lines = [line.rstrip() for line in f]
+        lines = [line.rstrip() for line in skipmeta(f)]
 
     # Insert the image into the lines
-    if image and showimage:
-        lines = insert_figure(lines, image, caption)
+    if meta['image'] and meta['showimage']:
+        lines = insert_figure(lines, meta['image'], meta['caption'])
 
-    # Replace macros
+    # Replace the macros
     for i, line in enumerate(lines):
 
         # Clearing line break
@@ -110,9 +88,9 @@ def preprocess(path):
             lines[i] = '<div style="clear: both; height: 3rem;"></div>'
 
     # Append a line indicating updates
-    if updated:
+    if meta['updated']:
         lines.append('')
-        lines.append('*(Updated %s.)*' % updated)
+        lines.append('*(Updated %s.)*' % meta['updated'])
 
     # Print out the new lines
     print('\n'.join(lines))

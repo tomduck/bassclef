@@ -130,9 +130,9 @@ $endif$
 $endif$
 </div> <!-- class="titleblock" -->
 $socialwidgets$
-<div class="body"> 
-$body$
-</div> <!-- class="body" -->
+<div class="content-body"> 
+$content-body$
+</div> <!-- class="content-body" -->
 
 </div> <!-- class="eight columns" -->
 <div class="two columns nocollapse"></div>
