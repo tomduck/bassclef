@@ -26,62 +26,33 @@
 import sys
 import os.path
 import re
+import tempfile
+import subprocess
 
-from util import metadata, path2url, social
-
-
-def titleblock(meta, url):
-    """Returns lines for a title block."""
-
-    lines = ['\n<div class="titleblock">']
-
-    # Get the dateline
-    if 'date' in meta:
-        html = '###### %(date)s'
-        if 'authors' in meta:
-            html += ', by %(authors)s'
-        if 'publisher' in meta:
-            if 'url' in meta:
-                html += '['
-            html += ', published in %(publisher)s'
-            if 'url' in meta:
-                html += '](%(url)s)'
-        html += '###### {.dateline}'
-        lines.append(html % meta)
-
-    # Get the title
-    if 'title' in meta:
-        lines.append('# [%s](%s) # {.title}' % (meta['title'], url))
-
-    # Get the subtitle
-    if 'subtitle' in meta:
-        lines.append('#### %(subtitle)s #### {.subtitle}' % meta)
-
-    lines.append('</div> <!-- class="titleblock" -->')
-
-    return lines
+from util import getmeta, printmeta, getcontent, printcontent, path2url
 
 
-def markdown(f, url, n):
-    """Returns lines for the markdown file.
+def process(lines, meta, n):
+    """Processes the content lines of a markdown file.
 
-    The mardown is truncated where <!-- cut --> is found.
+    Footnotes are eliminated and links are namespaced in order to avoid
+    collisions.  The markdown is truncated where <!-- cut --> is found, and
+    a "Read more..." line is added.
     """
 
-    # Reference and link patterns
-    p1 = re.compile(r'(\[(.*?)\]\[(?!%d:)(.*?)\])'%n)
-    p2 = re.compile(r'^\[(?!\^)(.*?)\]:')
+    # Link reference and definition patterns
+    p1 = re.compile(r'(\[(.*?)\]\[(?!%d:)(.*?)\])'%n)  # Reference
+    p2 = re.compile(r'^\[(?!\^)(.*?)\]:')              # Definition
 
-    # Reference and footnote patterns
-    p3 = re.compile(r'(?!^)(\[\^(.*?)\])')
-    #p4 = re.compile(r'^(\[\^(.*?)\]:)')
+    # Footnote reference and definition patterns
+    p3 = re.compile(r'(?!^)(\[\^(.*?)\])')             # Reference
+    p4 = re.compile(r'^(\[\^(.*?)\]:)')                # Definition
 
     cutpoint = False    # Flags that a cut point was found
-    lines = []          # The list of processed lines
-
+    out = []            # The list of processed lines
 
     # Read, process, and store each line
-    for line in f:
+    for line in lines:
 
         # Strip whitespace at the right end
         line = line.rstrip()
@@ -104,91 +75,92 @@ def markdown(f, url, n):
         if line == '<!-- cut -->':
             cutpoint = True
 
-        # Store the line.  Ignore all markdown after <!-- cut --> except
-        # for references.
-        if not cutpoint or p2.search(line):
-            lines.append(line)
-
+        # Store the line.  Ignore all footnotes, and ignore markdown after
+        # <!-- cut --> except for link references.
+        if (not p4.search(line) and not cutpoint) or p2.search(line):
+            out.append(line)
 
     # Add a 'Read more...' link if <!-- cut --> was found.
     if cutpoint:
-        lines.append('\n[Read more...](%s)\n'%url)
+        out.append('\n[Read more...](%s)\n'%meta['permalink'])
 
     # Return the processed lines
-    return lines
+    return out
 
 
-def process_md_file(path, n):
-    """Processes a .md file.
+def content_printer():
+    """Prints the processed content of a .md file to stdout.
 
-    n - a unique file number used for namespacing; it must be 0 for the
-        first file.
+    Use it this way:
+
+      printer = md_content_printer()
+      printer.send('/path/to/file.md')
+
+    Send as many paths as you want.
+
+    The content is processed internally and by pandoc (via a system call).
+    The output is html.  For any subsequent processing with pandoc, don't
+    forget to turn off its markdown_in_html_blocks extension.
     """
 
-    # Print a horizontal rule between files
-    if n != 0:
-        print('\n<hr />\n')
+    # Keep track of the number of files processed
+    n = 0
 
-    # Get the url
-    url = path2url(path, relative=True)
+    while True:
 
-    # Read, process and print the file
-    with open(path) as f:
+        # Print a horizontal rule between files
+        if n != 0:
+            print('\n<hr />\n')
 
-        # Retrieve the metadata
-        meta = metadata(f)
+        # Get the next path
+        path = yield
 
-        # Title block
-        print('\n'.join(titleblock(meta, url)))
+        # Read and process the file
+        meta = getmeta(path)
+        lines = process(getcontent(path), meta, n)
 
-        # Social widgets
-        showsocial = meta['showsocial'] if 'showsocial' in meta else True
-        if showsocial and 'title' in meta:
-            print('\n'.join(social(meta['title'], path2url(path))))
+        # Write the markdown to a temporary file and process it with pandoc.
+        # The temporary file is automatically deleted at the end.
+        with tempfile.NamedTemporaryFile() as f:
 
-        # Markdown
-        print('\n'.join(markdown(f, url, n)))
+            # Write the markdown
+            printmeta(meta, f=f)
+            printcontent(lines, f=f)
+
+            # Process it the markdown with pandoc, printing the output to stdout
+            subprocess.call(['pandoc', f.name, '-s', '-S', '-t html5',
+                             '--template ../templates/entry.html5'])
 
 
-def process_mdin_file(path):
-    """Processes the .md.in file at path."""
+def compose(path):
+    """Composes the .md.in file at path."""
 
     assert path.startswith('markdown/')
 
-    # Construct the rss url
-    rssurl = path2url(path, relative=True)
-    if not path.endswith('.html'):
-        rssurl = os.path.join(rssurl, 'index.html')
-    rssurl = rssurl.replace('.html', '.xml')
+    meta = getmeta(path)
 
-    # Read in the metadata and lines
-    with open(path) as f:
+    # Add the rss url to the metadata
+    if meta['showrss']:
+        url = path2url(path, relative=True)
+        if not path.endswith('.html'):
+            url = os.path.join(url, 'index.html')
+        meta['rssurl'] = url.replace('.html', '.xml')
 
-        # Load the metadata
-        update = {'titleclass':'section',
-                  'permalink':path2url(path),
-                  'rssurl':rssurl}
-        metadata(f, update, printmeta=True)
+    # Print the metadata to stdout
+    printmeta(meta)
 
-        # Get the remaining lines
-        lines = [line.rstrip() for line in f if len(line.rstrip())]
-
+    # Read the lines of the .md.in file
+    lines = getcontent(path)
 
     # Process the lines
-    n = 0  # Used to provide a unique namespace for each file
+    printer = content_printer()
     for line in lines:
-
-        # Strip away whitespace at the right end
-        line = line.rstrip()
-
-        # If a filename is given then read, process, and print the file;
-        # otherwise, print the line as-is.
+        # If a filename is given then print the file (subject to some
+        # processing); otherwise, print the line as-is.
         if line.endswith('.md') and os.path.isfile(line):
-            process_md_file(line, n)
-            n += 1
+            printer.send(line)
         else:
             print(line)
 
-
 if __name__ == '__main__':
-    process_mdin_file(sys.argv[1])
+    compose(sys.argv[1])

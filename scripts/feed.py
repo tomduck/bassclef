@@ -7,7 +7,7 @@ import datetime
 
 import PyRSS2Gen as rss2
 
-from util import metadata, path2url, html
+from util import getmeta, getcontent, path2url
 
 from html.entities import codepoint2name
 
@@ -22,6 +22,35 @@ def encode(txt):
         else:
             ret += c
     return ret
+
+
+def get_content_body(htmlpath):
+    """Returns lines for the content-body of an html file.
+
+    This function searches for the following markers and returns everything
+    in between except for the social widgets:
+
+      <div class="content-body">
+      </div> <!-- class="content-body" -->
+    """
+
+    # Read and process each line
+    with open(htmlpath) as f:
+        lines = []
+        inbody = False    # Flags when we are in the content-body
+        insocial = False  # Flags when we are in the social widget html
+        for line in f:
+            if line.startswith('<div class="content-body">'):
+                inbody = True
+            if inbody:
+                if line.startswith('<div class="social">'):
+                    insocial = True
+                if not insocial:
+                    lines.append(line)
+                if line.startswith('</div> <!-- class="social" -->'):
+                    insocial = False
+            if line.startswith('</div> <!-- class="content-body" -->'):
+                return '\n'.join(lines)
 
 
 def make_item(path):
@@ -47,7 +76,7 @@ def make_item(path):
     # Get the html body
     path = path.replace('.md', '.html')
     path = path.replace('markdown', 'www')
-    description = encode(html(path))
+    description = encode(get_content_body(path))
 
     # Style the figure caption
     description = description.replace('<figcaption>',
@@ -63,12 +92,8 @@ def process_mdin_file(path):
 
     assert path.startswith('markdown/')
 
-    # Read in the metadata and lines
-    with open(path) as f:
-
-        # Load the metadata and lines
-        meta = metadata(f)
-        lines = [line.strip() for line in f]
+    meta = getmeta(path)
+    lines = getcontent(path)
 
     # Get the last ten items
     items = [make_item(line) for line in lines \

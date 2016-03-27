@@ -16,13 +16,11 @@
 
 """postprocess.py - a pandoc html postprocessor.
 
-  Usage: preprocess.py src/.../filename.md
-
   This script reads pandoc html from stdin, postprocesses it, and
   writes the result to stdout.
 """
 
-import sys
+from sys import stdin
 import re
 
 
@@ -178,10 +176,10 @@ def tidy_html(lines):
 
 
 def postprocess():
-    """Postprocesses output piped from pandoc."""
+    """Postprocesses html output piped from pandoc."""
 
     # Get the lines
-    lines = [line for line in sys.stdin]
+    lines = [line for line in stdin]
 
     # Essential fixes
     lines = fix_bugs_in_old_pandoc(lines)

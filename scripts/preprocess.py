@@ -24,7 +24,7 @@
 
 import sys
 
-from util import getmeta, printmeta, skipmeta
+from util import getmeta, printmeta, getcontent, printcontent
 
 
 def insert_figure(lines, image, caption):
@@ -69,8 +69,7 @@ def preprocess(path):
     printmeta(meta, obfuscate=True)
 
     # Read in the lines
-    with open(path) as f:
-        lines = [line.rstrip() for line in skipmeta(f)]
+    lines = getcontent(path)
 
     # Insert the image into the lines
     if meta['image'] and meta['showimage']:
@@ -93,7 +92,7 @@ def preprocess(path):
         lines.append('*(Updated %s.)*' % meta['updated'])
 
     # Print out the new lines
-    print('\n'.join(lines))
+    printcontent(lines)
 
 
 if __name__ == '__main__':

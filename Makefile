@@ -100,7 +100,7 @@ define md2html
 @if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi;
 scripts/preprocess.py $< | \
     pandoc -s -S \
-           -f markdown\
+           -f markdown-markdown_in_html_blocks\
            -t html5 \
            --email-obfuscation=none \
            --template templates/default.html5 \

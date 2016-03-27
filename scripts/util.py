@@ -20,6 +20,7 @@ import configparser
 import re
 import string
 from urllib.parse import urlencode, urljoin, urlparse
+from sys import stdout
 
 import yaml
 
@@ -36,6 +37,11 @@ def config(key=None):
     cfg = {}
     for section in parser.sections():
         cfg.update({k:v for k, v in parser.items(section)})
+
+    # Re-read boolean fields
+    cfg['showtitle'] = parser.getboolean('defaults', 'showtitle')
+    cfg['showimage'] = parser.getboolean('defaults', 'showimage')
+    cfg['showsocial'] = parser.getboolean('defaults', 'showsocial')
 
     # Add the domain name and webroot for this site so that they may be used
     # by the template
@@ -106,9 +112,11 @@ def getmeta(path):
         meta['authors'] = meta['author']
 
     # Inject the social widgets
-    meta['socialwidgets'] = '>\n    %s' % \
-      _socialhtml(meta['title'], path2url(path)).replace('\n', '\n    ') \
-      if meta['showtitle'] and meta['showsocial'] else ''
+    if meta['showsocial']:
+        meta['socialwidgets'] = '>\n    %s' % \
+          _socialhtml(meta['title'], path2url(path)).replace('\n', '\n    ')
+    else:
+        meta['socialwidgets'] = ''
 
     # Add the permalink
     meta['permalink'] = path2url(path)
@@ -120,14 +128,14 @@ def getmeta(path):
     return meta
 
 
-def printmeta(meta, obfuscate=False):
-    """Prints the metadata dict as YAML to stdout.
+def printmeta(meta, f=stdout, obfuscate=False):
+    """Prints the metadata dict as YAML to f.
 
     obfuscate - indicates that numbered titles should be obfuscated as
                 a workaround to a bug in pandoc.
     """
 
-    print('---')
+    f.write('---\n')
 
     for k, v in meta.items():
 
@@ -139,42 +147,30 @@ def printmeta(meta, obfuscate=False):
             if p.search(v):
                 v = '%s// %s' % p.search(v).groups()
 
-        print('%s: %s' % (k, v))
+        f.write('%s: %s\n' % (k, v))
 
-    print('...')
-
-
-def skipmeta(f):
-    """Skips the metadata at the beginning of the file f."""
-    if f.readline().strip() == '---':
-        while f.readline().strip() != '...':
-            continue
-    else:
-        f.seek(0)
-    return f
+    f.write('...\n')
 
 
-def get_content_body(htmlpath):
-    """Returns lines for the content-body of an html file.
+def getcontent(path):
+    """Returns the content of a .md file as a list of lines."""
 
-    This function searches for the following markers and returns everything
-    in between:
+    with open(path) as f:
 
-      <div class="body">
-      </div> <!-- class="body" -->
-    """
+        # Skip the metadata
+        if f.readline().strip() == '---':
+            while f.readline().strip() != '...':
+                continue
+        else:
+            f.seek(0)
 
-    # Read and process each line
-    with open(htmlpath) as f:
-        lines = []
-        flag = False
-        for line in f:
-            if line.startswith('<div class="body">'):
-                flag = True
-            if flag:
-                lines.append(line)
-            if line.startswith('</div> <!-- class="body" -->'):
-                return '\n'.join(lines)
+        # Return the content
+        return [line.rstrip() for line in f]
+
+
+def printcontent(lines, f=stdout):
+    """Prints the content to f."""
+    f.write('\n'.join(lines))
 
 
 def path2url(path, relative=False):

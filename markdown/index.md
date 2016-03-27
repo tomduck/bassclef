@@ -1,8 +1,5 @@
 ---
-title: Bassclef CMS
+title: Success
 ...
-
-Success
-=======
 
 Your bassclef installation appears to be working.

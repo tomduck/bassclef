@@ -97,6 +97,7 @@ $endfor$
 <div class="ten columns centered-text">
 <header>
   <hr class="u-full-width" />
+  <h1 id="title"><a href="https://tomduck.github.io/bassclef/">Bassclef CMS</a></h1>
   <hr class="u-full-width" />
 </header>
 </div> <!-- class="ten columns centered-text" -->
