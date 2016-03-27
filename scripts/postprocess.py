@@ -169,9 +169,9 @@ def tidy_html(lines):
             continue
     lines = [line for line in lines if line is not None]
 
-    # Put some space before the div body tag
+    # Put some space before the div content-body tag
     for i, line in enumerate(lines):
-        if line.startswith('<div class="body">'):
+        if line.startswith('<div class="content-body">'):
             lines[i] = '\n' + line
 
     return lines

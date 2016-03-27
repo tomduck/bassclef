@@ -106,14 +106,10 @@ def getmeta(path):
         meta['authors'] = meta['author']
 
     # Inject the social widgets
-    meta['socialwidgets'] = ' >\n    %s' % \
+    meta['socialwidgets'] = '>\n    %s' % \
       _socialhtml(meta['title'], path2url(path)).replace('\n', '\n    ') \
       if meta['showtitle'] and meta['showsocial'] else ''
 
-      
-
-
-      
     # Add the permalink
     meta['permalink'] = path2url(path)
 
@@ -251,4 +247,4 @@ def _socialhtml(msg, url):
 
     return '\n'.join(['<div class="social">', '<ul>',
                       twitter, facebook, google, linkedin, email,
-                      '</ul>', '</div> <!-- class="social" -->\n'])
+                      '</ul>', '</div> <!-- class="social" -->'])

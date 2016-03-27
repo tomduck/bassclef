@@ -97,6 +97,7 @@ $endfor$
 <div class="ten columns centered-text">
 <header>
   <hr class="u-full-width" />
+  <hr class="u-full-width" />
 </header>
 </div> <!-- class="ten columns centered-text" -->
 <div class="one columns nocollapse"></div>
@@ -131,7 +132,7 @@ $endif$
 </div> <!-- class="titleblock" -->
 $socialwidgets$
 <div class="content-body"> 
-$content-body$
+$body$
 </div> <!-- class="content-body" -->
 
 </div> <!-- class="eight columns" -->
