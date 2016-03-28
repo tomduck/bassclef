@@ -57,8 +57,7 @@ def make_item(path):
     """Makes an item from .md file at path and its associated .html file."""
 
     # Read and process the .md file
-    with open(path) as f:
-        meta = metadata(f)
+    meta = getmeta(path)
 
     # Get the link and guid
     link = path2url(path)

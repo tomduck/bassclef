@@ -24,7 +24,8 @@
 """
 
 import sys
-import os.path
+from sys import stdout
+import os, os.path
 import re
 import tempfile
 import subprocess
@@ -93,7 +94,8 @@ def content_printer():
 
     Use it this way:
 
-      printer = md_content_printer()
+      printer = content_printer()
+      next(printer)
       printer.send('/path/to/file.md')
 
     Send as many paths as you want.
@@ -108,28 +110,36 @@ def content_printer():
 
     while True:
 
+        # Get the next path
+        path = yield
+
         # Print a horizontal rule between files
         if n != 0:
             print('\n<hr />\n')
-
-        # Get the next path
-        path = yield
+            stdout.flush()  # Must clear buffer before pandoc call
 
         # Read and process the file
         meta = getmeta(path)
         lines = process(getcontent(path), meta, n)
 
-        # Write the markdown to a temporary file and process it with pandoc.
-        # The temporary file is automatically deleted at the end.
-        with tempfile.NamedTemporaryFile() as f:
-
-            # Write the markdown
+        # Write the markdown to a temporary file
+        with tempfile.NamedTemporaryFile(mode='w+', delete=False) as f:
+            path = f.name
             printmeta(meta, f=f)
             printcontent(lines, f=f)
 
-            # Process it the markdown with pandoc, printing the output to stdout
-            subprocess.call(['pandoc', f.name, '-s', '-S', '-t html5',
-                             '--template ../templates/entry.html5'])
+        # Process it the markdown with pandoc, printing the output to stdout
+        subprocess.call(['pandoc', path, '-s', '-S', '-thtml5',
+                         '--template=templates/entry.html5'])
+
+        # Print a newline at the end of pandoc's output
+        print('')
+        
+        # Remove the temporary file
+        os.remove(path)
+
+        # Increment the counter
+        n += 1
 
 
 def compose(path):
@@ -154,6 +164,7 @@ def compose(path):
 
     # Process the lines
     printer = content_printer()
+    next(printer)
     for line in lines:
         # If a filename is given then print the file (subject to some
         # processing); otherwise, print the line as-is.
