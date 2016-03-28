@@ -16,13 +16,11 @@
 
 """postprocess.py - a pandoc html postprocessor.
 
-  Usage: preprocess.py src/.../filename.md
-
   This script reads pandoc html from stdin, postprocesses it, and
   writes the result to stdout.
 """
 
-import sys
+from sys import stdin
 import re
 
 
@@ -56,9 +54,9 @@ def fix_bugs_in_new_pandoc(lines):
     for i, line in enumerate(lines):
         lines[i] = line.replace(old, new)
 
-    # Pandoc should not be treating numbers in headers as list items.  This
-    # is a two-stage fix.  Here we undo the temporary obfuscation made by
-    # util.metadata().
+    # Pandoc should not be treating numbers in headers as list items.  Here
+    # we undo the temporary obfuscation made by preprocess.py's call to
+    # util.getmeta().
     p = re.compile(r'<title>(\d+)// (.*?)</title>')
     for i, line in enumerate(lines):
         if p.search(line):
@@ -169,19 +167,19 @@ def tidy_html(lines):
             continue
     lines = [line for line in lines if line is not None]
 
-    # Put some space before the div body tag
+    # Put some space before the div content-body tag
     for i, line in enumerate(lines):
-        if line.startswith('<div class="body">'):
+        if line.startswith('<div class="content-body">'):
             lines[i] = '\n' + line
 
     return lines
 
 
 def postprocess():
-    """Postprocesses output piped from pandoc."""
+    """Postprocesses html output piped from pandoc."""
 
     # Get the lines
-    lines = [line for line in sys.stdin]
+    lines = [line for line in stdin]
 
     # Essential fixes
     lines = fix_bugs_in_old_pandoc(lines)

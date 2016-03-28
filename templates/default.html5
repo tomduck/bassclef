@@ -97,6 +97,8 @@ $endfor$
 <div class="ten columns centered-text">
 <header>
   <hr class="u-full-width" />
+  <h1 id="title"><a href="https://tomduck.github.io/bassclef/">Bassclef CMS</a></h1>
+  <hr class="u-full-width" />
 </header>
 </div> <!-- class="ten columns centered-text" -->
 <div class="one columns nocollapse"></div>
@@ -130,9 +132,9 @@ $endif$
 $endif$
 </div> <!-- class="titleblock" -->
 $socialwidgets$
-<div class="body"> 
+<div class="content-body"> 
 $body$
-</div> <!-- class="body" -->
+</div> <!-- class="content-body" -->
 
 </div> <!-- class="eight columns" -->
 <div class="two columns nocollapse"></div>

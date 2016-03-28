@@ -14,153 +14,167 @@
 #  You should have received a copy of the GNU General Public License
 #  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
 
-"""util.py - functions for use by bassclef scripts."""
+"""util.py - utility functions for use by bassclef's scripts."""
 
 import configparser
 import re
 import string
 from urllib.parse import urlencode, urljoin, urlparse
-from html.entities import codepoint2name
+from sys import stdout
 
 import yaml
 
 
-def config(field=None):
+def config(key=None):
     """Returns the configuration as a dict.
 
-    field - if this is defined, return only this item; useful for shell
-            programming.
+    key - a single config item to return
     """
 
-    # Read the config.ini into a dict (ignoring the sections)
+    # Read the config.ini into a dict, discarding the section info
     parser = configparser.ConfigParser()
     parser.read('config.ini')
     cfg = {}
     for section in parser.sections():
         cfg.update({k:v for k, v in parser.items(section)})
 
+    # Re-read boolean fields
+    cfg['showtitle'] = parser.getboolean('defaults', 'showtitle')
+    cfg['showimage'] = parser.getboolean('defaults', 'showimage')
+    cfg['showsocial'] = parser.getboolean('defaults', 'showsocial')
 
-    # Add some new configuration entries to the dict based on the config.ini
+    # Add the domain name and webroot for this site so that they may be used
+    # by the template
     if 'siteurl' in cfg:
 
+        # e.g., suppose siteurl is https://tomduck.github.io/bassclef/
+
+        # The domain name of the site; e.g., tomduck.github.io
         cfg['domainname'] = urlparse(cfg['siteurl'])[1]
 
-        webroot = urlparse(cfg['siteurl'])[2]
-        cfg['webroot'] = webroot[:-1] if webroot.endswith('/') else webroot
-
+        # The web root for this site; e.g., /bassclef
+        cfg['webroot'] = urlparse(cfg['siteurl'])[2]
+        if cfg['webroot'].endswith('/'):
+            cfg['webroot'] = cfg['webroot'][:-1]
 
     # Sanity checks
     if 'twittername' in cfg:
         if cfg['twittername'].startswith('@'):
             cfg['twittername'] = cfg['twittername'][1:]
 
-    if field in cfg:
-        return cfg[field]
+    # Return the config dict or a value if the key is given
+    if key and key in cfg:
+        return cfg[key]
     else:
         return cfg
 
-# pylint: disable=too-many-branches
-def metadata(f, defaults=None, printmeta=False):
-    """Returns the metadata from the top of a markdown file.
 
-    defaults - default metadata for missing fields
-    printmeta - flags that the lines should be printed to stdout
+def getmeta(path):
+    """Returns the metadata dict for the file at path.
+
+    This reads the metadata from the file and combines it with the
+    defaults in config.ini.
     """
 
-    # Check for a YAML block at the top of the file
-    if f.readline().strip() != '---':
-        raise RuntimeError('YAML metadata block not found.')
+    # Start with the config
+    meta = config()
 
-    # Read in the metadata
-    lines = ['---']
-    for line in f:
-        line = line.rstrip()  # Must preserve leading spaces
-        lines.append(line)
-        if line == '...':  # Signifies end of the metadata block
-            break
+    with open(path) as f:
+
+        # Check for a YAML block at the top of the file
+        if f.readline().strip() != '---':
+            return meta
+
+        # Read in the metadata block
+        lines = ['---']
+        for line in f:
+            line = line.rstrip()  # Must preserve leading spaces
+            lines.append(line)
+            if line.strip() == '...':  # Signifies end of the metadata block
+                lines[-1] = '...'
+                break
 
     # Check for the end of the metadata block
     if lines[-1] != '...':
         raise RuntimeError('End of YAML metadata block not found.')
 
-    # Insert config variables as metadata
-    for k, v in config().items():
-        lines.insert(-1, '%s: %s'%(k, v))
+    # Parse the metadata
+    meta.update(yaml.load('\n'.join(lines)))
 
-    # Insert the defaults as metadata.  Check with the existing meta first so
-    # that we don't overwrite anything.
-    meta = yaml.load('\n'.join(lines))
-    if defaults:
-        for k, v in defaults.items():
-            if k == 'socialwidgets':
-                # Must use a multi-line item here because the social widgets
-                # html includes colons and quotes
-                lines.insert(-1, '%s: >\n    %s'%\
-                             (k, v.rstrip().replace('\n', '\n    ')))
-            elif k not in meta:
-                lines.insert(-1, '%s: %s' % (k, v))
+    # Check that the image url conforms
+    if meta['image']:
+        assert meta['image'].startswith('/') \
+               or meta['image'].startswith('http://') \
+               or meta['image'].startswith('https://')
 
-    # Combine author and authors fields into one
-    if 'author' in meta and 'authors' not in meta:
-        lines.insert(-1, 'authors: %s' % meta['author'])
+    # Define both author and authors fields
+    if 'authors' not in meta:
+        meta['authors'] = meta['author']
 
-    # Parse the metadata and check it for errors
-    meta = yaml.load('\n'.join(lines))
+    # Inject the social widgets
+    if meta['showsocial']:
+        meta['socialwidgets'] = '>\n    %s' % \
+          _socialhtml(meta['title'], path2url(path)).replace('\n', '\n    ')
+    else:
+        meta['socialwidgets'] = ''
+
+    # Add the permalink
+    meta['permalink'] = path2url(path)
+
+    # Ensure valid caption
+    if meta['caption'] is None:
+        meta['caption'] = ''
+
+    return meta
+
+
+def printmeta(meta, f=stdout, obfuscate=False):
+    """Prints the metadata dict as YAML to f.
+
+    obfuscate - indicates that numbered titles should be obfuscated as
+                a workaround to a bug in pandoc.
+    """
+
+    f.write('---\n')
+
     for k, v in meta.items():
-        if k == 'image':
-            assert v.startswith('/') or v.startswith('http://')
 
-    # Print the metadata to stdout
-    if printmeta:
-
-        p = re.compile(r'^title: (\d+)\. (.*)')
-
-        for line in lines:
-
+        if obfuscate and k == 'title':
             # Numbered titles get treated like lists by pandoc.  This messes
             # up the html meta fields.  Make a temporary and unobtrosive
             # change that we can undo in the postprocessing.
-            if p.search(line):
-                pre, post = p.search(line).groups()
-                print('title: %s// %s' % (pre, post))
+            p = re.compile(r'^(\d+)\. (.*)')
+            if p.search(v):
+                v = '%s// %s' % p.search(v).groups()
+
+        f.write('%s: %s\n' % (k, v))
+
+    f.write('...\n')
+
+
+def getcontent(path):
+    """Returns the content of a .md file as a list of lines."""
+
+    with open(path) as f:
+
+        # Skip the metadata
+        if f.readline().strip() == '---':
+            while f.readline().strip() != '...':
                 continue
-
-            print(line)
-
-    # Return the metadata
-    return yaml.load('\n'.join(lines))
-
-
-def encode(txt):
-    """Encodes UTF-8 characters with html entities."""
-    skip = ['<', '>', '"', '&']
-    ret = ''
-    for c in txt:
-        if c not in skip and ord(c) in codepoint2name:
-            ret += "&" + codepoint2name.get(ord(c)) + ";"
         else:
-            ret += c
-    return ret
+            f.seek(0)
+
+        # Return the content
+        return [line.rstrip() for line in f]
 
 
-def html(htmlpath):
-    """Returns lines for the body of an html file."""
-
-    with open(htmlpath) as f:
-        # Read and process each line
-        lines = []
-        flag = False
-        for line in f:
-            if line.startswith('<div class="body">'):
-                flag = True
-            if flag:
-                lines.append(line)
-            if line.startswith('</div> <!-- class="body" -->'):
-                return '\n'.join(lines)
+def printcontent(lines, f=stdout):
+    """Prints the content to f."""
+    f.write('\n'.join(lines))
 
 
 def path2url(path, relative=False):
-    """Converts a markdown path to a www html url.
+    """Converts a markdown path to the url generated from it.
 
     path - the path to convert
     relative - flags that the returned url should be relative; otherwise
@@ -175,10 +189,10 @@ def path2url(path, relative=False):
     if relative:
         return '/%s'%path
     else:
-        return urljoin(config()['siteurl'], path)
+        return urljoin(config('siteurl'), path)
 
 
-def social(msg, url):
+def _socialhtml(msg, url):
     """Returns html for social widgets.
 
     msg - the message to share
@@ -227,6 +241,6 @@ def social(msg, url):
                urlencode({'subject': msg, 'body': url}).replace('+', '%20')
         }
 
-    return '<div class="social">\n<ul>',\
-      '\n'.join([twitter, facebook, google, linkedin, email]),\
-      '</ul>\n</div> <!-- class="social" -->\n'
+    return '\n'.join(['<div class="social">', '<ul>',
+                      twitter, facebook, google, linkedin, email,
+                      '</ul>', '</div> <!-- class="social" -->'])
