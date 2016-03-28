@@ -116,21 +116,25 @@ def content_printer():
         # Print a horizontal rule between files
         if n != 0:
             print('\n<hr />\n')
-            stdout.flush()  # Must clear buffer before pandoc call
 
         # Read and process the file
         meta = getmeta(path)
         lines = process(getcontent(path), meta, n)
 
+        # Flag the first entry in the metadata
+        meta['first-entry'] = True if n==0 else False
+                
         # Write the markdown to a temporary file
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as f:
             path = f.name
             printmeta(meta, f=f)
             printcontent(lines, f=f)
 
-        # Process it the markdown with pandoc, printing the output to stdout
+        # Process the markdown with pandoc, printing the output to stdout
+        stdout.flush()
         subprocess.call(['pandoc', path, '-s', '-S', '-thtml5',
                          '--template=templates/entry.html5'])
+        stdout.flush()
 
         # Print a newline at the end of pandoc's output
         print('')
@@ -150,14 +154,12 @@ def compose(path):
     meta = getmeta(path)
 
     # Add to the metadata
-    if meta['showrss']:
-        meta['titleclass'] = 'section'
-        
+    meta['titleclass'] = 'section'
+    if meta['showrss']:        
         url = path2url(path, relative=True)
         if not path.endswith('.html'):
             url = os.path.join(url, 'index.html')
         meta['rssurl'] = url.replace('.html', '.xml')
-        
 
     # Print the metadata to stdout
     printmeta(meta)

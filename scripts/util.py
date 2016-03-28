@@ -38,10 +38,11 @@ def config(key=None):
     for section in parser.sections():
         cfg.update({k:v for k, v in parser.items(section)})
 
-    # Re-read boolean fields
+    # Make boolean fields
     cfg['showtitle'] = parser.getboolean('defaults', 'showtitle')
     cfg['showimage'] = parser.getboolean('defaults', 'showimage')
     cfg['showsocial'] = parser.getboolean('defaults', 'showsocial')
+    cfg['showrss'] = parser.getboolean('defaults', 'showrss')
 
     # Add the domain name and webroot for this site so that they may be used
     # by the template
@@ -113,15 +114,14 @@ def getmeta(path):
 
     # Inject the social widgets
     if meta['showsocial']:
-        meta['socialwidgets'] = '>\n    %s' % \
-          _socialhtml(meta['title'], path2url(path)).replace('\n', '\n    ')
+        meta['socialwidgets'] = _socialhtml(meta['title'], path2url(path))
     else:
         meta['socialwidgets'] = ''
 
     # Add the permalink
-    meta['permalink'] = path2url(path)
+    meta['permalink'] = path2url(path, relative=True)
 
-    # Ensure valid caption
+    # Ensure a valid caption
     if meta['caption'] is None:
         meta['caption'] = ''
 
@@ -139,6 +139,9 @@ def printmeta(meta, f=stdout, obfuscate=False):
 
     for k, v in meta.items():
 
+        if v is None:
+            continue
+
         if obfuscate and k == 'title':
             # Numbered titles get treated like lists by pandoc.  This messes
             # up the html meta fields.  Make a temporary and unobtrosive
@@ -147,6 +150,13 @@ def printmeta(meta, f=stdout, obfuscate=False):
             if p.search(v):
                 v = '%s// %s' % p.search(v).groups()
 
+        # Special characters in strings need to be treated carefully
+        if type(v) == str:
+            v = v.strip()
+            if ':' in v or '"' in v or '[' in v or '\n' in v:
+                v = '>\n    ' + v.strip().replace('\n','')
+
+        # Write the key, value pair
         f.write('%s: %s\n' % (k, v))
 
     f.write('...\n')
