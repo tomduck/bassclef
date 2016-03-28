@@ -149,12 +149,15 @@ def compose(path):
 
     meta = getmeta(path)
 
-    # Add the rss url to the metadata
+    # Add to the metadata
     if meta['showrss']:
+        meta['titleclass'] = 'section'
+        
         url = path2url(path, relative=True)
         if not path.endswith('.html'):
             url = os.path.join(url, 'index.html')
         meta['rssurl'] = url.replace('.html', '.xml')
+        
 
     # Print the metadata to stdout
     printmeta(meta)
