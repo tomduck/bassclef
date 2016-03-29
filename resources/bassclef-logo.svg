@@ -7,18 +7,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="575.57867"
-   width="431.62299"
+   height="514.8399"
+   width="434.22003"
    version="1.1"
-   viewBox="0 0 431.62511 575.5791"
+   viewBox="0 0 434.21864 514.83811"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="bassclef2.svg"
-   inkscape:export-filename="/Users/tomduck/git/website/images/bassclef-logo.png"
-   inkscape:export-xdpi="24.317295"
-   inkscape:export-ydpi="24.317295">
+   sodipodi:docname="bassclef.svg">
   <metadata
-     id="metadata37">
+     id="metadata19">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -38,21 +35,21 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1100"
-     inkscape:window-height="652"
-     id="namedview35"
+     inkscape:window-width="847"
+     inkscape:window-height="480"
+     id="namedview17"
      showgrid="false"
-     inkscape:zoom="0.57617373"
-     inkscape:cx="403.88004"
-     inkscape:cy="286.50103"
-     inkscape:window-x="-2"
-     inkscape:window-y="67"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="svg2"
      fit-margin-top="10"
-     fit-margin-left="3"
-     fit-margin-right="3"
-     fit-margin-bottom="10" />
+     fit-margin-left="5"
+     fit-margin-right="5"
+     fit-margin-bottom="10"
+     inkscape:zoom="0.47692184"
+     inkscape:cx="217.11266"
+     inkscape:cy="257.41565"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
   <title
      id="title4">Bass Clef</title>
   <defs
@@ -75,7 +72,7 @@
     </linearGradient>
   </defs>
   <g
-     transform="matrix(0.83031146,0,0,0.83164594,-93.341638,-152.89487)"
+     transform="translate(-154.87736,-268.75579)"
      id="g13">
     <path
        d="m 190.85,451.25 c 11.661,14.719 32.323,24.491 55.844,24.491 36.401,0 65.889,-23.372 65.889,-52.214 0,-28.842 -29.488,-52.214 -65.889,-52.214 -20.314,4.1522 -28.593,9.0007 -33.143,-2.9091 17.976,-54.327 46.918,-66.709 96.546,-66.709 65.914,0 96.969,59.897 96.969,142.97 -18.225,190.63 -205.95,286.75 -246.57,316.19 5.6938,13.103 5.3954,12.631 5.3954,12.009 189.78,-86.203 330.69,-204.43 330.69,-320.74 0,-92.419 -58.579,-175.59 -187.72,-172.8 -77.575,0 -170.32,86.203 -118,171.93 z m 328.1,-89.88 c 0,17.852 14.471,32.323 32.323,32.323 17.852,0 32.323,-14.471 32.323,-32.323 0,-17.852 -14.471,-32.323 -32.323,-32.323 -17.852,0 -32.323,14.471 -32.323,32.323 z m 0,136.75 c 0,17.852 14.471,32.323 32.323,32.323 17.852,0 32.323,-14.471 32.323,-32.323 0,-17.852 -14.471,-32.323 -32.323,-32.323 -17.852,0 -32.323,14.471 -32.323,32.323 z"
@@ -83,27 +80,4 @@
        inkscape:connector-curvature="0"
        style="fill:url(#linearGradient3770);fill-rule:evenodd;stroke:#000000" />
   </g>
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:78.7503891px;line-height:125%;font-family:Copperplate;-inkscape-font-specification:'Copperplate, Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     x="-2.5323684"
-     y="563.76898"
-     id="text4188"
-     sodipodi:linespacing="125%"><tspan
-       sodipodi:role="line"
-       id="tspan4190"
-       x="-2.5323684"
-       y="563.76898">BASSCLEF</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:63.75031662px;line-height:125%;font-family:Copperplate;-inkscape-font-specification:'Copperplate, Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     x="-2.8415973"
-     y="48.040089"
-     id="text4188-4"
-     sodipodi:linespacing="125%"><tspan
-       sodipodi:role="line"
-       id="tspan4190-8"
-       x="-2.8415973"
-       y="48.040089"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:63.75031662px;line-height:125%;font-family:Copperplate;-inkscape-font-specification:'Copperplate, Bold';text-align:start;writing-mode:lr-tb;text-anchor:start">POWERED BY</tspan></text>
 </svg>
