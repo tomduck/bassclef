@@ -134,6 +134,7 @@ $endif$
 $socialwidgets$
 <div class="content-body"> 
 $body$
+$if(updated)$<p><i>(Updated $updated$)</i></p>$endif$
 </div> <!-- class="content-body" -->
 
 </div> <!-- class="eight columns" -->

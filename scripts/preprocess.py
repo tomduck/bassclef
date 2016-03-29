@@ -88,11 +88,6 @@ def preprocess(path):
         if line == '<!-- vspace -->':
             lines[i] = '<div style="clear: both; height: 3rem;"></div>'
 
-    # Append a line indicating updates
-    if meta['updated']:
-        lines.append('')
-        lines.append('*(Updated %s.)*' % meta['updated'])
-
     # Print out the new lines
     printcontent(lines)
 
