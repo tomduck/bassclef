@@ -35,6 +35,7 @@ import subprocess
 from util import getmeta, printmeta, getcontent, printcontent, path2url
 
 
+
 def process(lines, meta, n):
     """Processes the content lines of a markdown file.
 
@@ -156,7 +157,6 @@ def compose(path):
     meta = getmeta(path)
 
     # Add to the metadata
-    meta['titleclass'] = 'section'
     if meta['showrss']:        
         url = path2url(path, relative=True)
         if not path.endswith('.html'):
