@@ -65,6 +65,7 @@ ul li:last-child p, ol li:last-child p  {
     margin-bottom:2.5rem; /* Extra space at bottom for loose lists */
 }
 dl dd { margin-bottom:2.5rem; }
+dt { font-weight: bold; }
 
 table {
     float: left;
