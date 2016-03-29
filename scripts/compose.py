@@ -125,8 +125,8 @@ def content_printer():
         lines = process(getcontent(path), meta, n)
 
         # Flag the first entry in the metadata
-        meta['first-entry'] = True if n==0 else False
-                
+        meta['first-entry'] = True if n == 0 else False
+
         # Write the markdown to a temporary file
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as f:
             path = f.name
@@ -141,7 +141,7 @@ def content_printer():
 
         # Print a newline at the end of pandoc's output
         print('')
-        
+
         # Remove the temporary file
         os.remove(path)
 
@@ -157,10 +157,11 @@ def compose(path):
     meta = getmeta(path)
 
     # Add to the metadata
-    if meta['showrss']:        
+    if meta['showrss']:
         url = path2url(path, relative=True)
         if not path.endswith('.html'):
             url = os.path.join(url, 'index.html')
+        # pylint: disable=no-member
         meta['rssurl'] = url.replace('.html', '.xml')
 
     # Print the metadata to stdout

@@ -156,7 +156,7 @@ def printmeta(meta, f=stdout, obfuscate=False):
         if type(v) == str:
             v = v.strip()
             if ':' in v or '"' in v or '[' in v or '\n' in v or '*' in v:
-                v = '>\n    ' + v.strip().replace('\n','')
+                v = '>\n    ' + v.strip().replace('\n', '')
 
         # Write the key, value pair
         f.write('%s: %s\n' % (k, v))
