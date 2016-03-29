@@ -103,7 +103,7 @@ def link_images(lines):
     for i, line in enumerate(lines):
         if p.search(line):
             old, webroot, img = p.search(line).groups()
-            new = '<a href="%simages/%s">%s</a>' % (webroot, img, old)
+            new = '<a href="/%simages/%s">%s</a>' % (webroot, img, old)
             lines[i] = line.replace(old, new)
     return lines
 
