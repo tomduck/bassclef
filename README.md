@@ -6,9 +6,9 @@ Bassclef is a static Web site generator that processes plain old text files usin
 
 This project was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".  It was written as a way to escape the long-term maintenance challenges associated with databasing CMSes and Web programming frameworks.
 
-Bassclef powers the author's blog at <http://tomduck.ca/>.  It may also be used to generate [GitHub Pages]; bassclef's documentation is one such example.
+Bassclef powers the author's [blog].  It may also be used to generate [GitHub Pages]; bassclef's documentation is one such example.
 
-Sources and an issue tracker can be found at the [bassclef repository page] on github.
+Sources and an issue tracker can be found at the [bassclef repository page] on GitHub.
 
 [markdown]: https://daringfireball.net/projects/markdown/syntax 
 [GNU make]: https://www.gnu.org/software/make/
@@ -17,6 +17,7 @@ Sources and an issue tracker can be found at the [bassclef repository page] on g
 [ImageMagick]: http://imagemagick.org/script/index.php
 [CMS]: https://en.wikipedia.org/wiki/Content_management_system
 [inspired]: https://tylercipriani.com/2014/05/13/replace-jekyll-with-pandoc-makefile.html
+[blog]: http://tomduck.ca/
 [GitHub Pages]: https://pages.github.com/
 [bassclef repository page]: https://github.com/tomduck/bassclef/
 
@@ -70,6 +71,6 @@ Licenses
 
 Bassclef is free software, released under the [GPL]. © 2015-2016 Thomas J. Duck.
 
-There are GPL-compatible and GPL-friendly components aggregated with Bassclef.  These are found in the submodules directory, and are the copyright of their respective authors.
+There are GPL-compatible and GPL-friendly components aggregated with Bassclef.  These are loaded into the submodules directory, and are the copyright of their respective authors.
 
 [GPL]: https://www.gnu.org/copyleft/gpl.html
