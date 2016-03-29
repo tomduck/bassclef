@@ -86,10 +86,14 @@ def adjust_urls(lines):
     """Put webroot/ into relative urls."""
     p = re.compile('((src|href)="/(.*?)")')
     for i, line in enumerate(lines):
-        if p.search(line):
-            old, tag, path = p.search(line).groups()
+        replace = False
+        for group in p.findall(line):
+            replace = True
+            old, tag, path = group
             new = '%s="%s/%s"' % (tag, config('webroot'), path)
-            lines[i] = line.replace(old, new)
+            line = line.replace(old, new)
+        if replace:
+            lines[i] = line
     return lines
 
 
