@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
 
+# Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
+
 # This file is part of bassclef.
 #
 #  bassclef is free software: you can redistribute it and/or modify

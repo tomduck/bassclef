@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
 
+# Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
+
 # This file is part of bassclef.
 #
 #  bassclef is free software: you can redistribute it and/or modify
@@ -153,7 +155,7 @@ def printmeta(meta, f=stdout, obfuscate=False):
         # Special characters in strings need to be treated carefully
         if type(v) == str:
             v = v.strip()
-            if ':' in v or '"' in v or '[' in v or '\n' in v:
+            if ':' in v or '"' in v or '[' in v or '\n' in v or '*' in v:
                 v = '>\n    ' + v.strip().replace('\n','')
 
         # Write the key, value pair

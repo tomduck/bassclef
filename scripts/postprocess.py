@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
 
+# Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
+
 # This file is part of bassclef.
 #
 #  bassclef is free software: you can redistribute it and/or modify
@@ -80,13 +82,13 @@ def fix_bugs_in_new_pandoc(lines):
     return lines
 
 
-def adjust_image_urls(lines):
-    """Put webroot/ into image urls."""
-    p = re.compile('((src|href)="/images/(.*?)")')
+def adjust_urls(lines):
+    """Put webroot/ into relative urls."""
+    p = re.compile('((src|href)="/(.*?)")')
     for i, line in enumerate(lines):
         if p.search(line):
             old, tag, path = p.search(line).groups()
-            new = '%s="%s/images/%s"' % (tag, config('webroot'), path)
+            new = '%s="%s/%s"' % (tag, config('webroot'), path)
             lines[i] = line.replace(old, new)
     return lines
 
@@ -184,6 +186,7 @@ def postprocess():
     # Essential fixes
     lines = fix_bugs_in_old_pandoc(lines)
     lines = fix_bugs_in_new_pandoc(lines)
+    lines = adjust_urls(lines)
 
     # Functionality enhancements
     lines = link_images(lines)

@@ -1,5 +1,5 @@
 
-# Copyright 2015 Thomas J. Duck
+# Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
 
 # This file is part of bassclef.
 #
@@ -104,11 +104,11 @@ scripts/preprocess.py $< | \
            -t html5 \
            --email-obfuscation=none \
            --template templates/default.html5 \
-           --css $(WEBROOT)/css/normalize.css \
-           --css $(WEBROOT)/css/skeleton.css \
-           --css $(WEBROOT)/css/open-sans.css \
-           --css $(WEBROOT)/css/font-awesome.min.css \
-           --css $(WEBROOT)/css/bassclef.css | \
+           --css /css/normalize.css \
+           --css /css/skeleton.css \
+           --css /css/open-sans.css \
+           --css /css/font-awesome.min.css \
+           --css /css/bassclef.css | \
     scripts/postprocess.py > $@;
 endef
 
