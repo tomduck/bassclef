@@ -125,7 +125,7 @@ def install_submodules():
 
     # Install the submodules
     if repo:   # Use git
-        repo.submodule_update(recursive=False)
+        repo.git.submodule('update', '--init')
 
     else:  # Do it manually
 
