@@ -153,7 +153,7 @@ def install_submodules():
                 os.rmdir(submodule)
 
                 print('Downloading', end='')
-                urllib.request.urlretrieve(url, 'download.zip', prog().next)
+                urllib.request.urlretrieve(url, 'download.zip', prog().send)
                 print('Done. \n')
 
                 z = zipfile.ZipFile('download.zip', 'r')
