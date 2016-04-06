@@ -27,7 +27,7 @@ URLS = ['https://github.com/' + path for path in
 def check_for_binaries():
     """Checks that binary dependencies are installed."""
 
-    print('\n\n')
+    print()
     
     # Check for python3's availability on the command line
     print("Testing python3's availability... ", end='')
@@ -141,7 +141,7 @@ def install_submodules():
         def prog(n=0):
             """Progress meter."""
             while True:
-                if n%10 == 0:
+                if n%20 == 0:
                     print('.', end='')
                     sys.stdout.flush()
                 yield
@@ -152,7 +152,7 @@ def install_submodules():
 
         for submodule, url in zip(SUBMODULES, URLS):
             if not os.listdir(submodule):
-                print('\nDownloading %s'%submodule, end='')
+                print('\nDownloading %s...'%submodule, end='')
                 urllib.request.urlretrieve(url, 'download.zip',
                                            lambda x, y, z: report() )
                 print(' Done.')
