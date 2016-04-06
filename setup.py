@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-"""setup.py - install script for bassclef."""
+"""setup.py - setup script for bassclef."""
 
 import sys
 import os, os.path
@@ -10,8 +10,6 @@ import subprocess
 import textwrap
 import urllib
 import zipfile
-
-VERSION = '0.1'
 
 SUBMODULES = ['font-awesome', 'html5shiv', 'open-sans', 'skeleton']
 
