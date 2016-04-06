@@ -104,9 +104,8 @@ def check_for_binaries():
 
 def install_pyyaml():
     """Installs pyyaml."""    
-    print('Installing pyyaml...')
+    print('Installing pyyaml:')
     pip.main('install pyyaml --user'.split())
-    print('Done.\n')
 
 #----------------------------------------------------------------------------
 
