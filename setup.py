@@ -149,8 +149,8 @@ def install_submodules():
 
         for submodule, url in zip(SUBMODULES, URLS):
             if not os.listdir(submodule):
-
-                print('Downloading', end='')
+                print('***' + url)
+                print('Downloading%s'%submodule, end='')
                 urllib.request.urlretrieve(url, 'download.zip',
                                            lambda x, y, z: report() )
                 print('Done. \n')
@@ -162,6 +162,7 @@ def install_submodules():
 
                 os.rmdir(submodule)
                 os.rename(dirname, submodule)
+                os.remove('download.zip')
 
         os.chdir('..')
 
