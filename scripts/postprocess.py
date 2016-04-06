@@ -81,7 +81,7 @@ def fix_bugs_in_new_pandoc(lines):
 
     # Remove paragraph markers from <title> </title>
     for i, line in enumerate(lines):
-        if line.starswith('<title>'):
+        if line.startswith('<title>'):
             lines[i] = line.replace('<p>', '').replace('</p>', '')
             break
         if line.startswith('</head>'):
