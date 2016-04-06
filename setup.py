@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 
 """setup.py - setup script for bassclef."""
 
