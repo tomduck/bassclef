@@ -180,7 +180,7 @@ def test():
     try:
         subprocess.check_output('make')
         print('Done.')
-    except subprocess.CalledProcessError, e:
+    except subprocess.CalledProcessError as e:
 
         msg = """
 
