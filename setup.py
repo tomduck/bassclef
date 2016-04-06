@@ -134,7 +134,7 @@ def install_submodules():
             print(textwrap.dedent(msg))
             sys.exit(6)
 
-        print('\n')
+        print('')
         
 
     else:  # Do it manually
