@@ -115,19 +115,23 @@ def check_for_binaries():
 def install_submodules():
     """Installs bassclef's submodules."""
 
-    import git # Cannot import until it is installed
-
     # Is this a git repository?
-    try:
-        repo = git.Repo('.')
-    except git.exc.InvalidGitRepositoryError:
-        repo = None
+    is_repo = os.path.exists('.git')
 
     # Install the submodules
-    if repo:   # Use git
-        for submodule in repo.submodules:
-            submodule.update(init=True)
-        #repo.git.submodule('update', '--init')
+    if is_repo:   # Assume user has git installed
+        if subprocess.call('git submodule update --init'.split()) != 0:
+            msg = """
+
+            Error installing submodules with git.  Please submit an Issue to
+            the bassclef developers:
+
+            https://github.com/tomduck/bassclef
+
+            """
+            print(textwrap.dedent(msg))
+            sys.exit(6)
+        
 
     else:  # Do it manually
 
@@ -198,7 +202,6 @@ def main():
 
     check_for_binaries()
     pip.main('install pyyaml --user'.split())
-    pip.main('install gitpython --user'.split())
     install_submodules()
     test()
     finish()
