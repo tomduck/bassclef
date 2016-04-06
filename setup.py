@@ -21,14 +21,13 @@ URLS = ['https://github.com/' + path for path in
          'tomduck/bassclef-open-sans/archive/gh-pages.zip',
          'dhg/Skeleton/archive/master.zip']]
 
-
 #----------------------------------------------------------------------------
 
 def check_for_binaries():
     """Checks that binary dependencies are installed."""
 
     print()
-    
+
     # Check for python3's availability on the command line
     print("Testing python3's availability... ", end='')
     if shutil.which('python3') is None:
@@ -103,7 +102,7 @@ def check_for_binaries():
 #----------------------------------------------------------------------------
 
 def install_pyyaml():
-    """Installs pyyaml."""    
+    """Installs pyyaml."""
     print('Installing pyyaml:')
     pip.main('install pyyaml --user'.split())
 
@@ -113,7 +112,7 @@ def install_submodules():
     """Installs bassclef's submodules."""
 
     print('\nInstalling submodules:', end='')
-    
+
     # Is this a git repository?
     is_repo = os.path.exists('.git')
 
@@ -127,7 +126,7 @@ def install_submodules():
 
             Error installing submodules with git.  Please submit an Issue to
             the bassclef developers:
-
+ 
             https://github.com/tomduck/bassclef
 
             """
@@ -135,12 +134,12 @@ def install_submodules():
             sys.exit(6)
 
         print('')
-        
+
 
     else:  # Do it manually
 
         print()
-        
+
         def prog(n=0):
             """Progress meter."""
             while True:
@@ -150,14 +149,14 @@ def install_submodules():
                 yield
                 n += 1
         report = prog().__next__
-            
+
         os.chdir('submodules')
 
         for submodule, url in zip(SUBMODULES, URLS):
             if not os.listdir(submodule):
                 print('\nDownloading %s...'%submodule, end='')
                 urllib.request.urlretrieve(url, 'download.zip',
-                                           lambda x, y, z: report() )
+                                           lambda x, y, z: report())
                 print(' Done.')
 
                 print('Installing %s...'%submodule, end='')
