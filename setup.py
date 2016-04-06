@@ -18,7 +18,7 @@ SUBMODULES = ['font-awesome', 'html5shiv', 'open-sans', 'skeleton']
 URLS = ['https://github.com/' + path for path in
         ['tomduck/bassclef-font-awesome/archive/master.zip',
          'aFarkas/html5shiv/archive/master.zip',
-         'tomduck/bassclef-open-sans/archive/gh-pages.zip'
+         'tomduck/bassclef-open-sans/archive/gh-pages.zip',
          'dhg/Skeleton/archive/master.zip']]
 
 
@@ -149,8 +149,7 @@ def install_submodules():
 
         for submodule, url in zip(SUBMODULES, URLS):
             if not os.listdir(submodule):
-                print('***' + url)
-                print('Downloading%s'%submodule, end='')
+                print('Downloading %s'%submodule, end='')
                 urllib.request.urlretrieve(url, 'download.zip',
                                            lambda x, y, z: report() )
                 print('Done. \n')
