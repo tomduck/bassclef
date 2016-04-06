@@ -119,6 +119,9 @@ def install_submodules():
 
     # Install the submodules
     if is_repo:   # Assume user has git installed
+
+        print()
+
         if subprocess.call('git submodule update --init'.split()) != 0:
             msg = """
 
@@ -131,7 +134,7 @@ def install_submodules():
             print(textwrap.dedent(msg))
             sys.exit(6)
 
-        print('Done.')
+        print('\n')
         
 
     else:  # Do it manually
