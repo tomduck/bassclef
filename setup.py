@@ -135,7 +135,7 @@ def install_submodules():
 
     else:  # Do it manually
 
-        def prog(n=0)
+        def prog(n=0):
             """Progress meter."""
             while True:
                 if n%10 == 0:
@@ -143,14 +143,12 @@ def install_submodules():
                     sys.stdout.flush()
                 yield
                 n += 1
-        report = prog().send
+        report = prog().__next__
             
         os.chdir('submodules')
 
         for submodule, url in zip(SUBMODULES, URLS):
             if not os.listdir(submodule):
-
-                os.rmdir(submodule)
 
                 print('Downloading', end='')
                 urllib.request.urlretrieve(url, 'download.zip',
@@ -162,6 +160,7 @@ def install_submodules():
                 z.extractall()
                 z.close()
 
+                os.rmdir(submodule)
                 os.rename(dirname, submodule)
 
         os.chdir('..')
