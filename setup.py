@@ -180,7 +180,7 @@ def test():
     try:
         subprocess.check_output('make')
         print('Done.')
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError, e:
 
         msg = """
 
@@ -189,7 +189,7 @@ def test():
 
             https://github.com/tomduck/bassclef
 
-        """
+        """ % e.returncode
         print(textwrap.dedent(msg))
         sys.exit(7)
 
