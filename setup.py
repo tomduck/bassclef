@@ -27,27 +27,8 @@ URLS = ['https://github.com/' + path for path in
 def check_for_binaries():
     """Checks that binary dependencies are installed."""
 
-    # Check that python >= 3 is being used by this script
-    if sys.version.split()[0] < '3':
-        msg = """
-
-        Python %s detected.  This script must be run using python 3:
-
-        $ python3 setup.py --user install
-
-        Please ensure that 'python3' is installed and available from the
-        command line.
-
-        To download python3, see:
-
-            https://www.python.org/downloads/
-
-        """ % (sys.version.split()[0],)
-        print(textwrap.dedent(msg))
-        sys.exit(1)
-
-
     # Check for python3's availability on the command line
+    print("\nTesting python3's availability... ", end='')
     if shutil.which('python3') is None:
         msg = """
 
@@ -61,9 +42,11 @@ def check_for_binaries():
         """
         print(textwrap.dedent(msg))
         sys.exit(2)
+    print('OK.')
 
 
     # Check for make
+    print("\nTesting make's availability... ", end='')
     if shutil.which('make') is None:
         msg = """
 
@@ -77,9 +60,11 @@ def check_for_binaries():
         """
         print(textwrap.dedent(msg))
         sys.exit(3)
+    print('OK.')
 
 
     # Check for pandoc
+    print("\nTesting pandoc's availability... ", end='')
     if shutil.which('pandoc') is None:
         msg = """
 
@@ -93,9 +78,11 @@ def check_for_binaries():
         """
         print(textwrap.dedent(msg))
         sys.exit(4)
+    print('OK.')
 
 
     # Check for ImageMagick convert
+    print("\nTesting convert's availability... ", end='')
     if shutil.which('convert') is None:
         msg = """
 
@@ -109,12 +96,15 @@ def check_for_binaries():
         """
         print(textwrap.dedent(msg))
         sys.exit(5)
+    print('OK.')
 
 #----------------------------------------------------------------------------
 
 def install_submodules():
     """Installs bassclef's submodules."""
 
+    print('\nInstalling submodules:\n')
+    
     # Is this a git repository?
     is_repo = os.path.exists('.git')
 
@@ -173,7 +163,11 @@ def install_submodules():
 def test():
     """Tests the install."""
 
-    if subprocess.call('make') != 0:
+    print('\nTesting build... ')
+    try:
+        subprocess.check_output('make')
+        print('Done.')
+    except subprocess.CalledProcessError:
 
         msg = """
 
