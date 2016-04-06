@@ -98,6 +98,16 @@ def check_for_binaries():
         sys.exit(5)
     print('OK.')
 
+    print()
+
+#----------------------------------------------------------------------------
+
+def install_pyyaml():
+    """Installs pyyaml."""    
+    print('Installing pyyaml...')
+    pip.main('install pyyaml --user'.split())
+    print('Done.\n')
+
 #----------------------------------------------------------------------------
 
 def install_submodules():
@@ -198,7 +208,7 @@ def main():
     """Main program."""
 
     check_for_binaries()
-    pip.main('install pyyaml --user'.split())
+    install_pyyaml()
     install_submodules()
     test()
     finish()
