@@ -27,8 +27,10 @@ URLS = ['https://github.com/' + path for path in
 def check_for_binaries():
     """Checks that binary dependencies are installed."""
 
+    print('\n\n')
+    
     # Check for python3's availability on the command line
-    print("\nTesting python3's availability... ", end='')
+    print("Testing python3's availability... ", end='')
     if shutil.which('python3') is None:
         msg = """
 
@@ -46,7 +48,7 @@ def check_for_binaries():
 
 
     # Check for make
-    print("\nTesting make's availability... ", end='')
+    print("Testing make's availability... ", end='')
     if shutil.which('make') is None:
         msg = """
 
@@ -64,7 +66,7 @@ def check_for_binaries():
 
 
     # Check for pandoc
-    print("\nTesting pandoc's availability... ", end='')
+    print("Testing pandoc's availability... ", end='')
     if shutil.which('pandoc') is None:
         msg = """
 
@@ -82,7 +84,7 @@ def check_for_binaries():
 
 
     # Check for ImageMagick convert
-    print("\nTesting convert's availability... ", end='')
+    print("Testing convert's availability... ", end='')
     if shutil.which('convert') is None:
         msg = """
 
@@ -96,9 +98,7 @@ def check_for_binaries():
         """
         print(textwrap.dedent(msg))
         sys.exit(5)
-    print('OK.')
-
-    print()
+    print('OK.\n')
 
 #----------------------------------------------------------------------------
 
@@ -112,7 +112,7 @@ def install_pyyaml():
 def install_submodules():
     """Installs bassclef's submodules."""
 
-    print('\nInstalling submodules:\n')
+    print('\nInstalling submodules:', end='')
     
     # Is this a git repository?
     is_repo = os.path.exists('.git')
@@ -130,10 +130,14 @@ def install_submodules():
             """
             print(textwrap.dedent(msg))
             sys.exit(6)
+
+        print('Done.')
         
 
     else:  # Do it manually
 
+        print()
+        
         def prog(n=0):
             """Progress meter."""
             while True:
@@ -172,7 +176,7 @@ def install_submodules():
 def test():
     """Tests the install."""
 
-    print('\nTesting build... ')
+    print('Testing install... ', end='')
     try:
         subprocess.check_output('make')
         print('Done.')
@@ -196,7 +200,7 @@ def finish():
 
     msg = """
 
-    Bassclef installed successfully and all test have succeeded.
+    Bassclef has installed successfully and all tests succeeded.
 
     """
     print(textwrap.dedent(msg))
