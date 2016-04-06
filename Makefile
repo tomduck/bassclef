@@ -98,7 +98,7 @@ endef
 
 define md2html
 @if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi;
-scripts/preprocess.py $< | \
+$(PYTHON3) scripts/preprocess.py $< | \
     pandoc -s -S \
            -f markdown-markdown_in_html_blocks\
            -t html5 \
@@ -109,7 +109,7 @@ scripts/preprocess.py $< | \
            --css /css/open-sans.css \
            --css /css/font-awesome.min.css \
            --css /css/bassclef.css | \
-    scripts/postprocess.py > $@;
+    $(PYTHON3) scripts/postprocess.py > $@;
 endef
 
 
@@ -123,7 +123,7 @@ markdown: $(TARGET_MD)
 $(TMP)/%.md: markdown/%.md.in $(SOURCE_MD) \
           scripts/compose.py scripts/preprocess.py
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	scripts/compose.py $< > $@
+	$(PYTHON3) scripts/compose.py $< > $@
 
 
 html: $(TARGET_HTML)
@@ -143,7 +143,7 @@ rss: $(TARGET_XML)
 
 www$(WEBROOT)/%.xml: markdown/%.md.in $(TARGET_HTML) scripts/feed.py
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	scripts/feed.py $< > $@
+	$(PYTHON3) scripts/feed.py $< > $@
 
 
 css: $(TARGET_BASSCLEF_CSS) $(TARGET_SKELETON_CSS) $(TARGET_OPENSANS_CSS) \

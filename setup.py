@@ -25,25 +25,7 @@ def check_for_binaries():
     """Checks that binary dependencies are installed."""
 
     print()
-
-    # Check for python3's availability on the command line
-    print("Testing python3's availability... ", end='')
-    if shutil.which('python3') is None:
-        msg = """
-
-        Cannot find 'python3'.  Please ensure that 'python3' is available from
-        the command line.
-
-        To download python3, see:
-
-            https://www.python.org/downloads/
-
-        """
-        print(textwrap.dedent(msg))
-        sys.exit(2)
-    print('OK.')
-
-
+    
     # Check for make
     print("Testing make's availability... ", end='')
     if shutil.which('make') is None:
