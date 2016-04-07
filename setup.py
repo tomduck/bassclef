@@ -23,7 +23,6 @@ URLS = ['https://github.com/' + path for path in
 PYTHON3 = sys.executable
 if os.name == 'nt': # Cygwin specialization
     PYTHON3 = os.path.splitext(PYTHON3)[0]  # Remove extension
-    PYTHON3 = PYTHON3.replace('\\', '/').replace(' ', '\\ ')
 
 PANDOC = None
 
