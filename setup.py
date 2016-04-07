@@ -160,7 +160,7 @@ def check_convert():
 
     printflush("Checking convert... ")
 
-    CONVERT = which(convert)
+    CONVERT = which('convert')
 
     if CONVERT:
         try:
