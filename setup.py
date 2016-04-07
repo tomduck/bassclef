@@ -191,12 +191,12 @@ def install_submodules():
                 n += 1
         report = prog().__next__
 
-        os.chdir('submodules')
-
         for submodule, url in zip(SUBMODULES, URLS):
             if not has_submodule(submodule):
 
+                # Set up
                 stdout.write('\nDownloading/installing %s...'%submodule)
+                os.chdir('submodules')
 
                 # Download zip
                 urllib.request.urlretrieve(url, 'download.zip',
@@ -215,10 +215,9 @@ def install_submodules():
 
                 # Clean up
                 os.remove('download.zip')
-
+                os.chdir('..')
                 stdout.write(' Done.\n')
 
-        os.chdir('..')
         stdout.write('\n')
 
 #----------------------------------------------------------------------------
