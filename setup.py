@@ -179,6 +179,8 @@ def install_submodules():
             """
             error(msg, 5)
 
+        stdout.write('\n')
+
     else:  # Download zips and unpack them into submodules/
 
         def prog(n=0):
@@ -216,8 +218,6 @@ def install_submodules():
                 os.remove('download.zip')
                 os.chdir('..')
                 stdout.write(' Done.\n')
-
-        stdout.write('\n')
 
 #----------------------------------------------------------------------------
 
