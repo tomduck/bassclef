@@ -33,17 +33,18 @@ CONVERT = None
 parser = argparse.ArgumentParser(description='Sets up bassclef.')
 parser.add_argument('--test', help='Tests installation by running make.',
                     action='store_true')
+parser.add_argument('--cygwinroot', help="Cygwin's root.")
 args = parser.parse_args(sys.argv[1:])
-
 TEST = args.test
+CYGWINROOT = args.cygwinroot
 
 #----------------------------------------------------------------------------
 # Utility functions
 
-def to_windows(path):
+def to_windows(path, cygwinroot = CYGWINROOT):
     """Changes cygwin paths to windows paths."""
     if path.startswith('/usr'):
-        return 'd:/cygwin64' + path.replace('/usr', '')
+        return os.path.join(cygwinroot, path.replace('/usr', ''))
     elif path.startswith('/cygdrive/'):
         return path[10] + ':' + path[11:]
     else:
