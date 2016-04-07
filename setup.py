@@ -190,8 +190,20 @@ def install_pyyaml():
         import yaml  # pylint: disable=unused-variable
         print('PyYAML found.\n')
     except ImportError:
-        print('Installing pyyaml:\n')
-        pip.main('install pyyaml --user'.split())
+        print('Installing pyyaml... ')
+        ret = pip.main('install --quiet pyyaml --user'.split())
+
+        if ret != 0:
+
+            msg = """
+
+            Could not install PyYAML. Please submit an Issue to
+            https://github.com/tomduck/bassclef.
+
+            """
+            error(msg, 6)
+        
+        print('Done.\n\n')
 
 #----------------------------------------------------------------------------
 
@@ -222,11 +234,11 @@ def install_submodules():
         if subprocess.call('git submodule update --init'.split()) != 0:
             msg = """
 
-            Error installing submodules with git.  Please submit an Issue
-            to https://github.com/tomduck/bassclef.
+            Error installing submodules with git.  Please submit an Issue to
+            https://github.com/tomduck/bassclef.
 
             """
-            error(msg, 6)
+            error(msg, 7)
 
     else:  # Download zips and unpack them into submodules/
 
@@ -309,7 +321,7 @@ def test():
          https://github.com/tomduck/bassclef.
 
         """ % e.returncode
-        error(msg, 7)
+        error(msg, 8)
 
 #----------------------------------------------------------------------------
 
