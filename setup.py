@@ -35,16 +35,22 @@ parser.add_argument('--test', help='Tests installation by running make.',
                     action='store_true')
 parser.add_argument('--cygwinroot', help="Cygwin's root.")
 args = parser.parse_args(sys.argv[1:])
+
 TEST = args.test
+
 CYGWINROOT = args.cygwinroot
+if not CYGWINROOT is None:
+    CYGWINROOT = CYGWINROOT.replace('\\', '/')
+    if CYGWINROOT.endswith('/'):
+        CYGWINROOT = CYGWINROOT[:-1]
 
 #----------------------------------------------------------------------------
 # Utility functions
 
-def to_windows(path, cygwinroot = CYGWINROOT):
+def to_windows(path):
     """Changes cygwin paths to windows paths."""
     if path.startswith('/usr'):
-        return os.path.join(cygwinroot, path.replace('/usr', ''))
+        return CYGWINROOT + path.replace('/usr', '')
     elif path.startswith('/cygdrive/'):
         return path[10] + ':' + path[11:]
     else:
@@ -72,6 +78,29 @@ def error(msg, errno):
 
 #----------------------------------------------------------------------------
 
+def check_cygwin():
+    """Begins the setup."""
+
+    if os.name == 'nt':
+        if not CYGWINROOT:
+            msg = """
+
+            --cygwinroot must be set for Windows/cygwin.
+
+            """
+            error(msg, 1)
+
+        if not os.path.exists(CYGWINROOT):
+            msg = """
+
+            %s does not exist.
+
+            """ % CYGWINROOT
+            error(msg, 1)
+
+
+#----------------------------------------------------------------------------
+
 def check_python():
     """Checks python."""
 
@@ -85,7 +114,7 @@ def check_python():
         using Python 3.
         
         """
-        error(msg, 1)
+        error(msg, 2)
 
     # Test python from the shell
     try:
@@ -97,7 +126,7 @@ def check_python():
         https://github.com/tomduck/bassclef.
 
         """ % e.returncode
-        error(msg, 2)
+        error(msg, 3)
 
     printflush('OK.\n')
 
@@ -114,7 +143,7 @@ def check_make():
         the command line.
 
         """
-        error(msg, 3)
+        error(msg, 4)
 
     printflush('OK.\n')
 
@@ -148,7 +177,7 @@ def check_pandoc():
             https://github.com/jgm/pandoc/releases/latest
 
         """
-        error(msg, 4)
+        error(msg, 5)
 
     printflush('OK.\n')
 
@@ -185,7 +214,7 @@ def check_convert():
             https://www.imagemagick.org/script/binary-releases.php
 
         """
-        error(msg, 5)
+        error(msg, 6)
 
     printflush('OK.\n\n')
 
@@ -208,7 +237,7 @@ def install_pyyaml():
             https://github.com/tomduck/bassclef.
 
             """
-            error(msg, 6)
+            error(msg, 7)
 
         printflush('Done.\n\n')
 
@@ -245,7 +274,7 @@ def install_submodules():
             https://github.com/tomduck/bassclef.
 
             """
-            error(msg, 7)
+            error(msg, 8)
 
     else:  # Download zips and unpack them into submodules/
 
@@ -335,18 +364,7 @@ def test():
          https://github.com/tomduck/bassclef.
 
         """ % e.returncode
-        error(msg, 8)
-
-#----------------------------------------------------------------------------
-
-def finish():
-    """Finishes up."""
-    msg = """
-    Bassclef setup complete.  You may run this script again if your system
-    configuration changes.
-
-    """
-    printflush(textwrap.dedent(msg))
+        error(msg, 9)
 
 #----------------------------------------------------------------------------
 
@@ -354,6 +372,8 @@ def main():
     """Main program."""
 
     printflush('\n')
+
+    check_cygwin()
 
     check_python()
     check_make()
@@ -368,7 +388,13 @@ def main():
     if TEST:
         test()
 
-    finish()
+    msg = """
+    Bassclef setup complete.  You may run this script again if your system
+    configuration changes.
+
+    """
+    printflush(textwrap.dedent(msg))
+
 
 if __name__ == '__main__':
     main()
