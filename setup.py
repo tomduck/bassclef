@@ -227,12 +227,26 @@ def install_submodules():
 
 def generate_makefile():
     """Generates Makefile from Makefile.in"""
-    pass
+
+    stdout.write('\nGenerating Makefile...')
+
+    # Read Makefile.in
+    with open('Makefile.in') as f:
+        lines = f.readlines()
+
+    # Write Makefile.  Perform replacements as necessary.
+    with open('Makefile', 'w') as f:
+        for line in lines:
+            if line.startswith('PYTHON3 ='):
+                line = 'PYTHON3 = ' + PYTHON + '\n'
+            f.write(line)
+
+    stdout.write('Done.\n')
 
 #----------------------------------------------------------------------------
 
 def test():
-    """Tests the install.  If anything has gone wrong, this will reveal it."""
+    """Tests the install."""
 
     stdout.write('\nTesting install... ')
     stdout.flush()
