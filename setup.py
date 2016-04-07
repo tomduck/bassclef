@@ -39,6 +39,11 @@ TEST = args.test
 #----------------------------------------------------------------------------
 # Utility functions
 
+def to_windows(path):
+    """Changes cygwin paths to windows paths."""
+    assert path.startswith('/')
+    return 'C:\\cygwin' + path.replace('/', '\\')
+    
 def which(name):
     """Locates a program name on the user's path."""
     # Don't use shutil.which() here.  Shell out so that we see the same
@@ -120,12 +125,13 @@ def check_pandoc():
 
     if PANDOC:
         try:
-            subprocess.check_output([PANDOC, '--version'])
+            exe = PANDOC if os.name != 'nt' else to_windows(PANDOC)
+            subprocess.check_output([exe, '--version'])
         except (FileNotFoundError, subprocess.CalledProcessError,
                 AssertionError):
-            pass
+            PANDOC = None
 
-    if not PANDOC:
+    if PANDOC is None:
         msg = """
 
         Cannot find 'pandoc'.  Please ensure that 'pandoc' is available from
@@ -149,22 +155,19 @@ def check_convert():
 
     printflush("Checking convert... ")
 
-    # Find a working version of ImageMagick convert.  Note that Windows has
-    # a separate convert utility that we have to watch out for.
-    paths = [which('convert'), '/usr/bin/convert', '/usr/local/bin/convert']
-    for path in paths:
-        if path:
-            try:
-                output = subprocess.check_output([path, '--version'])
-                output = output.decode(encoding='UTF-8')
-                assert 'ImageMagick' in output
-            except (FileNotFoundError, subprocess.CalledProcessError,
-                    AssertionError):
-                pass
-            else:
-                CONVERT = path
+    CONVERT = which(convert)
 
-    if not CONVERT:
+    if CONVERT:
+        try:
+            exe = CONVERT if os.name != 'nt' else to_windows(CONVERT)
+            output = subprocess.check_output([exe, '--version'])
+            output = output.decode(encoding='UTF-8')
+            assert 'ImageMagick' in output
+        except (FileNotFoundError, subprocess.CalledProcessError,
+                AssertionError):
+            CONVERT = None
+
+    if CONVERT is None:
 
         msg = """
 
