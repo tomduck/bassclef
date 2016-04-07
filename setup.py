@@ -123,7 +123,8 @@ def check_binaries():
 
     # Check for pandoc
     print_message("Is pandoc available? ")
-    if shutil.which('pandoc') is None:
+    if shutil.which('pandoc') is None or \
+      subprocess.call('pandoc --version'.split()) != 0:
         msg = """
 
         Cannot find 'pandoc'.  Please ensure that 'pandoc' is available from
@@ -141,7 +142,8 @@ def check_binaries():
 
     # Check for ImageMagick convert
     print_message("Is convert available? ")
-    if shutil.which('convert') is None:
+    if shutil.which('convert') is None or \
+      subprocess.call('convert --version'.split()) != 0:
         msg = """
 
         Cannot find ImageMagick 'convert'.  Please ensure that 'convert' is
