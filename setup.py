@@ -122,7 +122,8 @@ def check_pandoc():
     if PANDOC:
         try:
             subprocess.check_output([PANDOC, '--version'])
-        except (subprocess.CalledProcessError, AssertionError):
+        except (FileNotFoundError, subprocess.CalledProcessError,
+                AssertionError):
             pass
 
     if not PANDOC:
