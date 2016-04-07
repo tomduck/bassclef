@@ -195,7 +195,7 @@ def install_submodules():
             if not has_submodule(submodule):
 
                 # Set up
-                stdout.write('\nDownloading/installing %s...'%submodule)
+                stdout.write('Downloading/installing %s...'%submodule)
                 os.chdir('submodules')
 
                 # Download zip
