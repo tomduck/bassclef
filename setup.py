@@ -21,7 +21,9 @@ URLS = ['https://github.com/' + path for path in
          'tomduck/bassclef-open-sans/archive/gh-pages.zip',
          'dhg/Skeleton/archive/master.zip']]
 
-PYTHON = sys.executable
+PYTHON3 = sys.executable
+if os.name == 'nt': # Cygwin specialization
+    PYTHON3 = os.path.splitext(PYTHON3)[0]
 
 # pylint: disable=invalid-name
 parser = argparse.ArgumentParser(description='Sets up bassclef.')
@@ -37,7 +39,7 @@ def print_message(msg):
     """Prints a message to stdout and flushes the buffer."""
     stdout.write(msg)
     stdout.flush()
-    
+
 def error(msg, errno):
     """Writes an error message to stdout and exits."""
     print_message(textwrap.dedent(msg) + '\n')
@@ -48,7 +50,7 @@ def error(msg, errno):
 def check_python():
     """Checks the python installation"""
 
-    global PYTHON  # pylint: disable=global-statement
+    global PYTHON3  # pylint: disable=global-statement
 
     print_message('Checking python installation... ')
 
@@ -69,10 +71,34 @@ def check_python():
         shutil.which = whichcraft.which
 
     # Get a simpler call for python, if possible
-    if shutil.which('python3') == PYTHON:
-        PYTHON = 'python3'
-    elif shutil.which('python') == PYTHON:
-        PYTHON = 'python'
+    def target(name):
+        """Returns the path to the named executable"""
+        return shutil.which(name) if os.name != 'nt' else \
+          os.path.splitext(shutil.which(name))[0]
+    if  target('python3') == PYTHON3:
+        PYTHON3 = 'python3'
+    elif target('python') == PYTHON3:
+        PYTHON3 = 'python'
+
+    # Cygwin specialization
+    if os.name == 'nt':
+        PYTHON3 = PYTHON3.replace('\\', '/').replace(' ', '\\ ')
+
+    # Test that we can call python
+    try:
+        subprocess.check_output('python -c "print()"')
+        print_message('OK.\n')
+
+    except subprocess.CalledProcessError as e:
+
+        msg = """
+
+        Call to python executable failed.  Please submit an Issue:
+
+            https://github.com/tomduck/bassclef
+
+        """ % e.returncode
+        error(msg, 2)
 
     print_message('OK.\n\n')
 
@@ -89,12 +115,8 @@ def check_binaries():
         Cannot find 'make'.  Please ensure that 'make' is available from
         the command line.
 
-        Please submit an Issue to the bassclef developers:
-
-            https://github.com/tomduck/bassclef
-
         """
-        error(msg, 2)
+        error(msg, 3)
 
     print_message('Yes.\n')
 
@@ -112,7 +134,7 @@ def check_binaries():
             https://github.com/jgm/pandoc/releases/latest
 
         """
-        error(msg, 3)
+        error(msg, 4)
 
     print_message('Yes.\n')
 
@@ -130,7 +152,7 @@ def check_binaries():
             https://www.imagemagick.org/script/binary-releases.php
 
         """
-        error(msg, 4)
+        error(msg, 5)
 
     print_message('Yes.\n\n')
 
@@ -174,13 +196,12 @@ def install_submodules():
         if subprocess.call('git submodule update --init'.split()) != 0:
             msg = """
 
-            Error installing submodules with git.  Please submit an Issue to
-            the bassclef developers:
+            Error installing submodules with git.  Please submit an Issue:
  
             https://github.com/tomduck/bassclef
 
             """
-            error(msg, 5)
+            error(msg, 6)
 
     else:  # Download zips and unpack them into submodules/
 
@@ -234,7 +255,7 @@ def generate_makefile():
     with open('Makefile', 'w') as f:
         for line in lines:
             if line.startswith('PYTHON3 ='):
-                line = 'PYTHON3 = ' + PYTHON + '\n'
+                line = 'PYTHON3 = ' + PYTHON3 + '\n'
             f.write(line)
 
     print_message('Done.\n')
@@ -254,13 +275,12 @@ def test():
 
         msg = """
 
-        'make' failed (error code %d).  Please submit an Issue to the bassclef
-        developers:
+        'make' failed (error code %d).  Please submit an Issue:
 
             https://github.com/tomduck/bassclef
 
         """ % e.returncode
-        error(msg, 6)
+        error(msg, 7)
 
 #----------------------------------------------------------------------------
 
