@@ -90,10 +90,7 @@ def check_python():
     # Test that we can call python
     try:
         subprocess.check_output([PYTHON3, '--version'])
-        print_message('OK.\n')
-
     except subprocess.CalledProcessError as e:
-
         msg = """
 
         Call to python executable failed.  Please submit an Issue:
