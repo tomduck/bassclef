@@ -73,8 +73,11 @@ def check_python():
     # Get a simpler call for python, if possible
     def target(name):
         """Returns the path to the named executable"""
-        return shutil.which(name) if os.name != 'nt' else \
-          os.path.splitext(shutil.which(name))[0]
+        try:
+            return shutil.which(name) if os.name != 'nt' else \
+              os.path.splitext(shutil.which(name))[0]
+        except AttributeError:
+            return None
     if  target('python3') == PYTHON3:
         PYTHON3 = 'python3'
     elif target('python') == PYTHON3:
