@@ -190,7 +190,7 @@ www$(WEBROOT)/%: %
 # Deploy rules ---------------------------------------------------------------
 
 serve:
-	cd www && $(PYTHON3) -m SimpleHTTPServer
+	cd www && $(PYTHON3) -m http.server
 
 
 # Housekeeping rules ---------------------------------------------------------
