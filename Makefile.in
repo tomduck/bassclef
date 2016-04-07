@@ -24,8 +24,10 @@ SHELL = /bin/bash -o pipefail
 # Clean up on error (https://www.gnu.org/software/make/manual/make.html#Errors)
 .DELETE_ON_ERROR:
 
-# Variables determined by setup.py
+# Executables
 PYTHON3 = python3
+PANDOC = pandoc
+CONVERT = convert
 
 # Paths
 WEBROOT = $(shell $(PYTHON3) -c \
@@ -103,7 +105,7 @@ endef
 define md2html
 @if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi;
 $(PYTHON3) scripts/preprocess.py $< | \
-    pandoc -s -S \
+    $(PANDOC) -s -S \
            -f markdown-markdown_in_html_blocks\
            -t html5 \
            --email-obfuscation=none \
@@ -179,7 +181,7 @@ images: $(TARGET_IMG) $(TARGET_TILE)
 
 www$(WEBROOT)/images/tiles/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	convert $< -resize 250x $@
+	$(CONVERT) $< -resize 250x $@
 
 www$(WEBROOT)/%: %
 	$(copyfiles)

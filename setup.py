@@ -48,11 +48,11 @@ def error(msg, errno):
 #----------------------------------------------------------------------------
 
 def check_python():
-    """Checks the python installation"""
+    """Checks python."""
 
     global PYTHON3  # pylint: disable=global-statement
 
-    print_message('Checking python installation... ')
+    print_message('Checking python... ')
 
     # Check the python version
     if sys.version_info < (3, ):
@@ -100,15 +100,14 @@ def check_python():
         """ % e.returncode
         error(msg, 2)
 
-    print_message('OK.\n\n')
+    print_message('OK.\n')
 
 #----------------------------------------------------------------------------
 
-def check_binaries():
-    """Checks that binary dependencies are installed."""
+def check_make():
+    """Checks make."""
 
-    # Check for make
-    print_message("Is make available? ")
+    print_message("Checking make... ")
     if shutil.which('make') is None:
         msg = """
 
@@ -118,11 +117,14 @@ def check_binaries():
         """
         error(msg, 3)
 
-    print_message('Yes.\n')
+    print_message('OK.\n')
 
+#----------------------------------------------------------------------------
 
-    # Check for pandoc
-    print_message("Is pandoc available? ")
+def check_pandoc():
+    """Checks pandoc."""
+
+    print_message("Checking pandoc... ")
     if shutil.which('pandoc') is None or \
       subprocess.call('pandoc --version'.split()) != 0:
         msg = """
@@ -137,11 +139,14 @@ def check_binaries():
         """
         error(msg, 4)
 
-    print_message('Yes.\n')
+    print_message('OK.\n')
 
+#----------------------------------------------------------------------------
 
-    # Check for ImageMagick convert
-    print_message("Is convert available? ")
+def check_convert():
+    """Checks ImageMagick convert."""
+
+    print_message("Checking convert... ")
     if shutil.which('convert') is None or \
       subprocess.call('convert --version'.split()) != 0:
         msg = """
@@ -156,7 +161,7 @@ def check_binaries():
         """
         error(msg, 5)
 
-    print_message('Yes.\n\n')
+    print_message('OK.\n\n')
 
 #----------------------------------------------------------------------------
 
@@ -298,12 +303,18 @@ def main():
     print_message('\n')
 
     check_python()
-    check_binaries()
+    check_pandoc()
+    check_make()
+    check_convert()
+
     install_pyyaml()
     install_submodules()
+
     generate_makefile()
+
     if TEST:
         test()
+
     finish()
 
 if __name__ == '__main__':
