@@ -33,9 +33,14 @@ TEST = args.test
 
 #----------------------------------------------------------------------------
 
+def print_message(msg):
+    """Prints a message to stdout and flushes the buffer."""
+    stdout.write(msg)
+    stdout.flush()
+    
 def error(msg, errno):
     """Writes an error message to stdout and exits."""
-    stdout.write(textwrap.dedent(msg) + '\n')
+    print_message(textwrap.dedent(msg) + '\n')
     sys.exit(errno)
 
 #----------------------------------------------------------------------------
@@ -45,7 +50,7 @@ def check_python():
 
     global PYTHON  # pylint: disable=global-statement
 
-    stdout.write('Checking python installation... ')
+    print_message('Checking python installation... ')
 
     # Check the python version
     if sys.version_info < (3, ):
@@ -69,7 +74,7 @@ def check_python():
     elif shutil.which('python') == PYTHON:
         PYTHON = 'python'
 
-    stdout.write('OK.\n\n')
+    print_message('OK.\n\n')
 
 #----------------------------------------------------------------------------
 
@@ -77,7 +82,7 @@ def check_binaries():
     """Checks that binary dependencies are installed."""
 
     # Check for make
-    stdout.write("Is make available? ")
+    print_message("Is make available? ")
     if shutil.which('make') is None:
         msg = """
 
@@ -91,11 +96,11 @@ def check_binaries():
         """
         error(msg, 2)
 
-    stdout.write('Yes.\n')
+    print_message('Yes.\n')
 
 
     # Check for pandoc
-    stdout.write("Is pandoc available? ")
+    print_message("Is pandoc available? ")
     if shutil.which('pandoc') is None:
         msg = """
 
@@ -109,11 +114,11 @@ def check_binaries():
         """
         error(msg, 3)
 
-    stdout.write('Yes.\n')
+    print_message('Yes.\n')
 
 
     # Check for ImageMagick convert
-    stdout.write("Is convert available? ")
+    print_message("Is convert available? ")
     if shutil.which('convert') is None:
         msg = """
 
@@ -127,7 +132,7 @@ def check_binaries():
         """
         error(msg, 4)
 
-    stdout.write('Yes.\n\n')
+    print_message('Yes.\n\n')
 
 #----------------------------------------------------------------------------
 
@@ -135,11 +140,11 @@ def install_pyyaml():
     """Installs pyyaml."""
     try:
         import yaml  # pylint: disable=unused-variable
-        stdout.write('PyYAML found.\n')
+        print_message('PyYAML found.\n')
     except ImportError:
-        stdout.write('Installing pyyaml:\n')
+        print_message('Installing pyyaml:\n')
         pip.main('install pyyaml --user'.split())
-        stdout.write('\n')
+        print_message('\n')
 
 #----------------------------------------------------------------------------
 
@@ -155,11 +160,11 @@ def install_submodules():
     flag = True
     for submodule in SUBMODULES:
         if not has_submodule(submodule):
-            stdout.write('\nInstalling submodules:\n')
+            print_message('\nInstalling submodules:\n')
             flag = False
             break
     if flag:
-        stdout.write('Submodules found.\n')
+        print_message('Submodules found.\n')
         return
 
     # Is this a git repository?
@@ -185,8 +190,7 @@ def install_submodules():
             """Progress meter."""
             while True:
                 if n%20 == 0:
-                    stdout.write('.')
-                    stdout.flush()
+                    print_message('.')
                 yield
                 n += 1
         report = prog().__next__
@@ -195,7 +199,7 @@ def install_submodules():
             if not has_submodule(submodule):
 
                 # Set up
-                stdout.write('Downloading/installing %s...'%submodule)
+                print_message('Downloading/installing %s...'%submodule)
                 os.chdir('submodules')
 
                 # Download zip
@@ -215,14 +219,14 @@ def install_submodules():
                 # Clean up
                 os.remove('download.zip')
                 os.chdir('..')
-                stdout.write(' Done.\n')
+                print_message(' Done.\n')
 
 #----------------------------------------------------------------------------
 
 def generate_makefile():
     """Generates Makefile from Makefile.in"""
 
-    stdout.write('\nGenerating Makefile...')
+    print_message('\nGenerating Makefile...')
 
     # Read Makefile.in
     with open('Makefile.in') as f:
@@ -235,19 +239,18 @@ def generate_makefile():
                 line = 'PYTHON3 = ' + PYTHON + '\n'
             f.write(line)
 
-    stdout.write('Done.\n')
+    print_message('Done.\n')
 
 #----------------------------------------------------------------------------
 
 def test():
     """Tests the install."""
 
-    stdout.write('\nTesting install... ')
-    stdout.flush()
+    print_message('\nTesting install... ')
 
     try:
         subprocess.check_output('make')
-        stdout.write('OK.\n')
+        print_message('OK.\n')
 
     except subprocess.CalledProcessError as e:
 
@@ -265,14 +268,14 @@ def test():
 
 def finish():
     """Finishes up."""
-    stdout.write('\nBassclef setup complete.\n\n')
+    print_message('\nBassclef setup complete.\n\n')
 
 #----------------------------------------------------------------------------
 
 def main():
     """Main program."""
 
-    stdout.write('\n')
+    print_message('\n')
 
     check_python()
     check_binaries()
