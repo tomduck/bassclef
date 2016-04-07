@@ -50,14 +50,14 @@ def which(name):
     except subprocess.CalledProcessError:
         return None
 
-def print(msg):  # pylint: disable=redefined-builtin
+def printflush(msg):
     """Prints a message to stdout and flushes the buffer."""
     stdout.write(msg)
     stdout.flush()
 
 def error(msg, errno):
     """Writes an error message to stdout and exits."""
-    print(textwrap.dedent(msg) + '\n')
+    printflush(textwrap.dedent(msg) + '\n')
     sys.exit(errno)
 
 #----------------------------------------------------------------------------
@@ -65,7 +65,7 @@ def error(msg, errno):
 def check_python():
     """Checks python."""
 
-    print('Checking python... ')
+    printflush('Checking python... ')
 
     # Check the python version
     if sys.version_info < (3, ):
@@ -89,14 +89,14 @@ def check_python():
         """ % e.returncode
         error(msg, 2)
 
-    print('OK.\n')
+    printflush('OK.\n')
 
 #----------------------------------------------------------------------------
 
 def check_make():
     """Checks make."""
 
-    print("Checking make... ")
+    printflush("Checking make... ")
     if which('make') is None:
         msg = """
 
@@ -106,7 +106,7 @@ def check_make():
         """
         error(msg, 3)
 
-    print('OK.\n')
+    printflush('OK.\n')
 
 #----------------------------------------------------------------------------
 
@@ -115,7 +115,7 @@ def check_pandoc():
 
     global PANDOC  # pylint: disable=global-statement
 
-    print("Checking pandoc... ")
+    printflush("Checking pandoc... ")
 
     PANDOC = which('pandoc')
 
@@ -138,7 +138,7 @@ def check_pandoc():
         """
         error(msg, 4)
 
-    print('OK.\n')
+    printflush('OK.\n')
 
 #----------------------------------------------------------------------------
 
@@ -147,7 +147,7 @@ def check_convert():
 
     global CONVERT  # pylint: disable=global-statement
 
-    print("Checking convert... ")
+    printflush("Checking convert... ")
 
     # Find a working version of ImageMagick convert.  Note that Windows has
     # a separate convert utility that we have to watch out for.
@@ -178,7 +178,7 @@ def check_convert():
         """
         error(msg, 5)
 
-    print('OK.\n\n')
+    printflush('OK.\n\n')
 
 #----------------------------------------------------------------------------
 
@@ -186,9 +186,9 @@ def install_pyyaml():
     """Installs pyyaml."""
     try:
         import yaml  # pylint: disable=unused-variable
-        print('PyYAML found.\n')
+        printflush('PyYAML found.\n')
     except ImportError:
-        print('Installing pyyaml... ')
+        printflush('Installing pyyaml... ')
         ret = pip.main('install --quiet pyyaml --user'.split())
 
         if ret != 0:
@@ -201,7 +201,7 @@ def install_pyyaml():
             """
             error(msg, 6)
 
-        print('Done.\n\n')
+        printflush('Done.\n\n')
 
 #----------------------------------------------------------------------------
 
@@ -216,11 +216,11 @@ def install_submodules():
     flag = True
     for submodule in SUBMODULES:
         if not has_submodule(submodule):
-            print('\nInstalling submodules:\n')
+            printflush('\nInstalling submodules:\n')
             flag = False
             break
     if flag:
-        print('Submodules found.\n')
+        printflush('Submodules found.\n')
         return
 
     # Is this a git repository?
@@ -244,7 +244,7 @@ def install_submodules():
             """Progress meter."""
             while True:
                 if n%20 == 0:
-                    print('.')
+                    printflush('.')
                 yield
                 n += 1
         report = prog().__next__
@@ -253,7 +253,7 @@ def install_submodules():
             if not has_submodule(submodule):
 
                 # Set up
-                print('Downloading/installing %s...'%submodule)
+                printflush('Downloading/installing %s...'%submodule)
                 os.chdir('submodules')
 
                 # Download zip
@@ -273,14 +273,14 @@ def install_submodules():
                 # Clean up
                 os.remove('download.zip')
                 os.chdir('..')
-                print(' Done.\n')
+                printflush(' Done.\n')
 
 #----------------------------------------------------------------------------
 
 def generate_makefile():
     """Generates Makefile from Makefile.in"""
 
-    print('\nGenerating Makefile... ')
+    printflush('\nGenerating Makefile... ')
 
     # Read Makefile.in
     with open('Makefile.in') as f:
@@ -300,18 +300,18 @@ def generate_makefile():
 
             f.write(line)
 
-    print('Done.\n')
+    printflush('Done.\n')
 
 #----------------------------------------------------------------------------
 
 def test():
     """Tests the install."""
 
-    print('\nTesting install... ')
+    printflush('\nTesting install... ')
 
     try:
         subprocess.check_output('make')
-        print('OK.\n')
+        printflush('OK.\n')
 
     except subprocess.CalledProcessError as e:
 
@@ -332,14 +332,14 @@ def finish():
     configuration changes.
 
     """
-    print(textwrap.dedent(msg))
+    printflush(textwrap.dedent(msg))
 
 #----------------------------------------------------------------------------
 
 def main():
     """Main program."""
 
-    print('\n')
+    printflush('\n')
 
     check_python()
     check_make()
