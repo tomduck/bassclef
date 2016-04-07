@@ -144,14 +144,12 @@ def install_pyyaml():
     except ImportError:
         print_message('Installing pyyaml:\n')
         pip.main('install pyyaml --user'.split())
-        print_message('\n')
 
 #----------------------------------------------------------------------------
 
 def has_submodule(name):
     """Returns True if the submodule appeaers to be installed."""
     return os.listdir(os.path.join('submodules', name))
-
 
 def install_submodules():
     """Installs submodules aggregated with bassclef."""
