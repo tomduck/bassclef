@@ -86,7 +86,7 @@ def check_python():
 
     # Test that we can call python
     try:
-        subprocess.check_output('python -c "print()"')
+        subprocess.check_output([PYTHON3, '--version'])
         print_message('OK.\n')
 
     except subprocess.CalledProcessError as e:
