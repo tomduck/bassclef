@@ -155,7 +155,7 @@ def install_submodules():
     flag = True
     for submodule in SUBMODULES:
         if not has_submodule(submodule):
-            stdout.write('Installing submodules:\n')
+            stdout.write('\nInstalling submodules:\n')
             flag = False
             break
     if flag:
@@ -178,8 +178,6 @@ def install_submodules():
 
             """
             error(msg, 5)
-
-        stdout.write('\n')
 
     else:  # Download zips and unpack them into submodules/
 
