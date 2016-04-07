@@ -203,7 +203,6 @@ def install_submodules():
                                            lambda x, y, z: report())
 
                 # Unpack
-                stdout.write('Installing %s...'%submodule)
                 z = zipfile.ZipFile('download.zip', 'r')
                 dirname = os.path.commonprefix(z.namelist())
                 z.extractall()
