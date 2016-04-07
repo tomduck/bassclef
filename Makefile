@@ -24,8 +24,12 @@ SHELL = /bin/bash -o pipefail
 # Clean up on error (https://www.gnu.org/software/make/manual/make.html#Errors)
 .DELETE_ON_ERROR:
 
+# Variables determined by setup.py
+PYTHON3 = python3
+
 # Paths
-WEBROOT = $(shell python3 -c "from scripts import util; print(util.config('webroot'));")
+WEBROOT = $(shell $(PYTHON3) -c \
+            "from scripts import util; print(util.config('webroot'));")
 TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
 
 # Error checking

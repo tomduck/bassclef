@@ -1,7 +1,9 @@
+#! /usr/bin/env python3
 
 """setup.py - setup script for bassclef."""
 
 import sys
+from sys import stdout
 import os, os.path
 import shutil
 import pip
@@ -9,6 +11,7 @@ import subprocess
 import textwrap
 import urllib
 import zipfile
+import argparse
 
 SUBMODULES = ['font-awesome', 'html5shiv', 'open-sans', 'skeleton']
 
@@ -18,15 +21,63 @@ URLS = ['https://github.com/' + path for path in
          'tomduck/bassclef-open-sans/archive/gh-pages.zip',
          'dhg/Skeleton/archive/master.zip']]
 
+PYTHON = sys.executable
+
+# pylint: disable=invalid-name
+parser = argparse.ArgumentParser(description='Sets up bassclef.')
+parser.add_argument('--test', help='Tests installation by running make.',
+                    action='store_true')
+args = parser.parse_args(sys.argv[1:])
+
+TEST = args.test
+
 #----------------------------------------------------------------------------
 
-def check_for_binaries():
+def error(msg, errno):
+    """Writes an error message to stdout and exits."""
+    stdout.write(textwrap.dedent(msg) + '\n')
+    sys.exit(errno)
+
+#----------------------------------------------------------------------------
+
+def check_python():
+    """Checks the python installation"""
+
+    global PYTHON  # pylint: disable=global-statement
+
+    stdout.write('Checking python installation... ')
+
+    # Check the python version
+    if sys.version_info < (3, ):
+        msg = """
+
+        Python < 3 detected.  Please upgrade and/or call this script
+        using Python 3.
+        
+        """
+        error(msg, 1)
+
+    # Backport which() if it is missing (python < 3.3)
+    if not hasattr(shutil, 'which'):
+        pip.main('install whichcraft --user'.split())
+        import whichcraft  # pylint: disable=import-error
+        shutil.which = whichcraft.which
+
+    # Get a simpler call for python, if possible
+    if shutil.which('python3') == PYTHON:
+        PYTHON = 'python3'
+    elif shutil.which('python') == PYTHON:
+        PYTHON = 'python'
+
+    stdout.write('OK.\n\n')
+
+#----------------------------------------------------------------------------
+
+def check_binaries():
     """Checks that binary dependencies are installed."""
 
-    print()
-    
     # Check for make
-    print("Testing make's availability... ", end='')
+    stdout.write("Is make available? ")
     if shutil.which('make') is None:
         msg = """
 
@@ -38,13 +89,13 @@ def check_for_binaries():
             https://github.com/tomduck/bassclef
 
         """
-        print(textwrap.dedent(msg))
-        sys.exit(3)
-    print('OK.')
+        error(msg, 2)
+
+    stdout.write('Yes.\n')
 
 
     # Check for pandoc
-    print("Testing pandoc's availability... ", end='')
+    stdout.write("Is pandoc available? ")
     if shutil.which('pandoc') is None:
         msg = """
 
@@ -56,13 +107,13 @@ def check_for_binaries():
             https://github.com/jgm/pandoc/releases/latest
 
         """
-        print(textwrap.dedent(msg))
-        sys.exit(4)
-    print('OK.')
+        error(msg, 3)
+
+    stdout.write('Yes.\n')
 
 
     # Check for ImageMagick convert
-    print("Testing convert's availability... ", end='')
+    stdout.write("Is convert available? ")
     if shutil.which('convert') is None:
         msg = """
 
@@ -74,31 +125,48 @@ def check_for_binaries():
             https://www.imagemagick.org/script/binary-releases.php
 
         """
-        print(textwrap.dedent(msg))
-        sys.exit(5)
-    print('OK.\n')
+        error(msg, 4)
+
+    stdout.write('Yes.\n\n')
 
 #----------------------------------------------------------------------------
 
 def install_pyyaml():
     """Installs pyyaml."""
-    print('Installing pyyaml:')
-    pip.main('install pyyaml --user'.split())
+    try:
+        import yaml  # pylint: disable=unused-variable
+        stdout.write('PyYAML found.\n')
+    except ImportError:
+        stdout.write('Installing pyyaml:\n')
+        pip.main('install pyyaml --user'.split())
+        stdout.write('\n')
 
 #----------------------------------------------------------------------------
 
-def install_submodules():
-    """Installs bassclef's submodules."""
+def has_submodule(name):
+    """Returns True if the submodule appeaers to be installed."""
+    return os.listdir(os.path.join('submodules', name))
 
-    print('\nInstalling submodules:', end='')
+
+def install_submodules():
+    """Installs submodules aggregated with bassclef."""
+
+    # Print out a message
+    flag = True
+    for submodule in SUBMODULES:
+        if not has_submodule(submodule):
+            stdout.write('Installing submodules:\n')
+            flag = False
+            break
+    if flag:
+        stdout.write('Submodules found.\n')
+        return
 
     # Is this a git repository?
     is_repo = os.path.exists('.git')
 
     # Install the submodules
     if is_repo:   # Assume user has git installed
-
-        print()
 
         if subprocess.call('git submodule update --init'.split()) != 0:
             msg = """
@@ -109,22 +177,18 @@ def install_submodules():
             https://github.com/tomduck/bassclef
 
             """
-            print(textwrap.dedent(msg))
-            sys.exit(6)
+            error(msg, 5)
 
-        print()
+        stdout.write('\n')
 
-
-    else:  # Do it manually
-
-        print()
+    else:  # Download zips and unpack them into submodules/
 
         def prog(n=0):
             """Progress meter."""
             while True:
                 if n%20 == 0:
-                    print('.', end='')
-                    sys.stdout.flush()
+                    stdout.write('.')
+                    stdout.flush()
                 yield
                 n += 1
         report = prog().__next__
@@ -132,35 +196,51 @@ def install_submodules():
         os.chdir('submodules')
 
         for submodule, url in zip(SUBMODULES, URLS):
-            if not os.listdir(submodule):
-                print('\nDownloading %s...'%submodule, end='')
+            if not has_submodule(submodule):
+
+                stdout.write('\nDownloading/installing %s...'%submodule)
+
+                # Download zip
                 urllib.request.urlretrieve(url, 'download.zip',
                                            lambda x, y, z: report())
-                print(' Done.')
 
-                print('Installing %s...'%submodule, end='')
+                # Unpack
+                stdout.write('Installing %s...'%submodule)
                 z = zipfile.ZipFile('download.zip', 'r')
                 dirname = os.path.commonprefix(z.namelist())
                 z.extractall()
                 z.close()
 
+                # Install
                 os.rmdir(submodule)
                 os.rename(dirname, submodule)
+
+                # Clean up
                 os.remove('download.zip')
-                print(' Done.')
+
+                stdout.write(' Done.\n')
 
         os.chdir('..')
-        print()
+        stdout.write('\n')
+
+#----------------------------------------------------------------------------
+
+def generate_makefile():
+    """Generates Makefile from Makefile.in"""
+    pass
 
 #----------------------------------------------------------------------------
 
 def test():
-    """Tests the install."""
+    """Tests the install.  If anything has gone wrong, this will reveal it."""
 
-    print('Testing install... ', end='')
+    stdout.write('\nTesting install... ')
+    stdout.flush()
+
     try:
         subprocess.check_output('make')
-        print('Done.')
+        stdout.write('OK.\n')
+
     except subprocess.CalledProcessError as e:
 
         msg = """
@@ -171,30 +251,28 @@ def test():
             https://github.com/tomduck/bassclef
 
         """ % e.returncode
-        print(textwrap.dedent(msg))
-        sys.exit(7)
+        error(msg, 6)
 
 #----------------------------------------------------------------------------
 
 def finish():
     """Finishes up."""
-
-    msg = """
-
-    Bassclef has installed successfully and all tests succeeded.
-
-    """
-    print(textwrap.dedent(msg))
+    stdout.write('\nBassclef setup complete.\n\n')
 
 #----------------------------------------------------------------------------
 
 def main():
     """Main program."""
 
-    check_for_binaries()
+    stdout.write('\n')
+
+    check_python()
+    check_binaries()
     install_pyyaml()
     install_submodules()
-    test()
+    generate_makefile()
+    if TEST:
+        test()
     finish()
 
 if __name__ == '__main__':
