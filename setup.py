@@ -41,8 +41,13 @@ TEST = args.test
 
 def to_windows(path):
     """Changes cygwin paths to windows paths."""
-    assert path.startswith('/')
-    return 'C:\\cygwin' + path.replace('/', '\\')
+    if path.startswith('/usr'):
+        return 'd:/cygwin64' + path.replace('/usr', '')
+    elif path.startswith('/cygdrive/'):
+        drive = path[10]
+        return path[10] + ':' + path[11:]
+    else:
+        raise RuntimeError('Could not convert path.')
     
 def which(name):
     """Locates a program name on the user's path."""
