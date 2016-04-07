@@ -289,6 +289,8 @@ def generate_makefile():
     # Write Makefile.  Perform replacements as necessary.
     with open('Makefile', 'w') as f:
         for line in lines:
+
+            # Write fully-resolved paths so that there is no doubt
             if line.startswith('PYTHON3 ='):
                 line = 'PYTHON3 = ' + PYTHON3 + '\n'
             if line.startswith('PANDOC ='):
