@@ -23,6 +23,7 @@ URLS = ['https://github.com/' + path for path in
 PYTHON3 = sys.executable
 if os.name == 'nt': # Cygwin specialization
     PYTHON3 = os.path.splitext(PYTHON3)[0]  # Remove extension
+    PYTHON3 = PYTHON3.replace('\\', '/')  # Replace sep
 
 PANDOC = None
 
@@ -44,11 +45,10 @@ def to_windows(path):
     if path.startswith('/usr'):
         return 'd:/cygwin64' + path.replace('/usr', '')
     elif path.startswith('/cygdrive/'):
-        drive = path[10]
         return path[10] + ':' + path[11:]
     else:
         raise RuntimeError('Could not convert path.')
-    
+
 def which(name):
     """Locates a program name on the user's path."""
     # Don't use shutil.which() here.  Shell out so that we see the same
@@ -294,17 +294,22 @@ def generate_makefile():
     with open('Makefile.in') as f:
         lines = f.readlines()
 
+    # Escape spaces
+    python3 = PYTHON3.replace(' ', '\\ ') if os.name == 'nt' else PYTHON3
+    pandoc = PANDOC.replace(' ', '\\ ') if os.name == 'nt' else PANDOC
+    convert = CONVERT.replace(' ', '\\ ') if os.name == 'nt' else CONVERT
+
     # Write Makefile.  Perform replacements as necessary.
     with open('Makefile', 'w') as f:
         for line in lines:
 
             # Write fully-resolved paths so that there is no doubt
             if line.startswith('PYTHON3 ='):
-                line = 'PYTHON3 = ' + PYTHON3 + '\n'
+                line = 'PYTHON3 = ' + python3 + '\n'
             if line.startswith('PANDOC ='):
-                line = 'PANDOC = ' + PANDOC + '\n'
+                line = 'PANDOC = ' + pandoc + '\n'
             if line.startswith('CONVERT ='):
-                line = 'CONVERT = ' + CONVERT + '\n'
+                line = 'CONVERT = ' + convert + '\n'
 
             f.write(line)
 
