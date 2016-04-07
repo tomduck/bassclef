@@ -26,9 +26,9 @@ if os.name == 'nt': # Cygwin specialization
     PYTHON3 = PYTHON3.replace('\\', '/').replace(' ', '\\ ')
 
 PANDOC = None
-    
+
 CONVERT = None
-    
+
 # pylint: disable=invalid-name
 parser = argparse.ArgumentParser(description='Sets up bassclef.')
 parser.add_argument('--test', help='Tests installation by running make.',
@@ -47,10 +47,10 @@ def which(name):
     try:
         output = subprocess.check_output(['which', name])
         return output.decode(encoding='UTF-8').strip()
-    except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError:
         return None
 
-def print(msg):
+def print(msg):  # pylint: disable=redefined-builtin
     """Prints a message to stdout and flushes the buffer."""
     stdout.write(msg)
     stdout.flush()
@@ -64,8 +64,6 @@ def error(msg, errno):
 
 def check_python():
     """Checks python."""
-
-    global PYTHON3  # pylint: disable=global-statement
 
     print('Checking python... ')
 
@@ -124,10 +122,10 @@ def check_pandoc():
     if PANDOC:
         try:
             subprocess.check_output([PANDOC, '--version'])
-        except (subprocess.CalledProcessError, AssertionError) as e:
+        except (subprocess.CalledProcessError, AssertionError):
             pass
 
-    if not PANDOC:            
+    if not PANDOC:
         msg = """
 
         Cannot find 'pandoc'.  Please ensure that 'pandoc' is available from
@@ -148,7 +146,7 @@ def check_convert():
     """Checks ImageMagick convert."""
 
     global CONVERT  # pylint: disable=global-statement
-    
+
     print("Checking convert... ")
 
     # Find a working version of ImageMagick convert.  Note that Windows has
@@ -161,13 +159,13 @@ def check_convert():
                 output = output.decode(encoding='UTF-8')
                 assert 'ImageMagick' in output
             except (FileNotFoundError, subprocess.CalledProcessError,
-                    AssertionError) as e:
+                    AssertionError):
                 pass
             else:
                 CONVERT = path
-                
+
     if not CONVERT:
-            
+
         msg = """
 
         Cannot find ImageMagick 'convert'.  Please ensure that 'convert' is
@@ -202,7 +200,7 @@ def install_pyyaml():
 
             """
             error(msg, 6)
-        
+
         print('Done.\n\n')
 
 #----------------------------------------------------------------------------
