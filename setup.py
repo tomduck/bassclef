@@ -316,7 +316,7 @@ def test():
 def finish():
     """Finishes up."""
     msg = """
-    Bassclef setup complete.  You may run setup.py again if your system
+    Bassclef setup complete.  You may run this script again if your system
     configuration changes.
 
     """
