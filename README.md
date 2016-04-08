@@ -45,9 +45,10 @@ Documentation
   * [Deploying Bassclef] - some ideas on how you can deploy
     bassclef-generated sites
 
-[User Guide]: /bassclef-user-guide.html
-[Architecture]: /bassclef-architecture.html
-[Deploying Bassclef]: /deploying-bassclef.html
+[About Bassclef]: https://tomduck.github.io/
+[User Guide]: https://tomduck.github.io/bassclef-user-guide.html
+[Architecture]: https://tomduck.github.io/bassclef-architecture.html
+[Deploying Bassclef]: https://tomduck.github.io/deploying-bassclef.html
 
 
 Workflow Example
