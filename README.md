@@ -1,7 +1,4 @@
 
-Bassclef
-========
-
 --------------------------------------------------------------------
 
 <!-- image -->
@@ -15,6 +12,10 @@ A `setup.py` script makes installing bassclef much easier.  See the [User Guide]
 <!-- break -->
 
 --------------------------------------------------------------------
+
+ 
+Bassclef
+========
 
 Bassclef is a static Web site generator that processes plain old text files using stable and mature command-line tools.  It is a simple [CMS] for those who want a high degree of control over their work.
 
