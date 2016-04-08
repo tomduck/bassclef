@@ -68,14 +68,17 @@ To test the results, run `make serve` from the terminal (type `^C` to exit) and 
 That's it!
 
 
-Rationale
----------
+Motivation
+----------
 
 Over the years I have built and deployed numerous small Web sites.  Long-term sustainability has proved to be a problem.  The initial ease-of-use of comprehensive CMSes and programming frameworks inevitably gives way to upgrade and migration headaches.  Extracting content that represents many hours of work can be a practical impossibility.
 
 These tools are not without merit.  Comprehensive CMSes and programming frameworks are useful for creating large-scale, dynamic sites.  The vast majority of Web sites don't need -- and would be better off without -- these capabilities.
 
-Bassclef is my effort to build a simple CMS for small-scale, static sites.  I had a look at the static site generators like [Jekyll] and [yst], and found that they didn't quite suit my needs.  Jekyll was going to require considerable time to understand, an investment that would need repeating after any time away.  I needed something simpler.  Yst, on the other hand, is a template system that does not provide its own css, fonts, social media widgets, etc.  I needed something more.  Bassclef occupies a space in between these two options.
+Bassclef is my effort to build a simple CMS for small-scale, static sites.  I had a look at static site generators like [Jekyll] and [yst], and found that they didn't quite suit my needs.  Jekyll was going to require a lot of time to figure out, an investment that would need repeating after any time away.  I needed something simpler.  Yst, on the other hand, is a template system that does not provide its own css, fonts, social media widgets, etc.  I needed something more.  Bassclef occupies a space in between these two options.
+
+[Jekyll]: https://jekyllrb.com/
+[yst]: https://github.com/jgm/yst
 
 
 Licenses
