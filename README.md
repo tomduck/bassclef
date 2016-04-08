@@ -70,7 +70,7 @@ To test the results, run `make serve` from the terminal (type `^C` to exit) and 
 Rationale
 ---------
 
-Over the years I have built and deployed numerous small-scale Web sites.  Long-term maintenance has proved to be a recurring problem.  The initial easy-of-use of comprehensive CMSes and programming frameworks inevitably gives way to upgrade and migration headaches.  Extracting content that represents many hours of work can be a practical impossibility.
+Over the years I have built and deployed numerous small-scale Web sites.  Long-term maintenance has proved to be a recurring problem.  The initial ease-of-use of comprehensive CMSes and programming frameworks inevitably gives way to upgrade and migration headaches.  Extracting content that represents many hours of work can be a practical impossibility.
 
 These tools are not without merit.  Comprehensive CMSes and programming frameworks are useful for creating large-scale, dynamic sites.  The vast majority of Web sites don't need -- and would be better off without -- these capabilities.
 
