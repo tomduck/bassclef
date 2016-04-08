@@ -40,12 +40,13 @@ Sources and an issue tracker can be found at the [bassclef repository page] on G
 Documentation
 -------------
 
+  * [About] - top-level documentation
   * [User Guide] - explains how to install and use bassclef
   * [Architecture] - explains what bassclef is doing under the hood
   * [Deployment] - some ideas on how you can deploy
     bassclef-generated sites
 
-[About Bassclef]: https://tomduck.github.io/bassclef/
+[About]: https://tomduck.github.io/bassclef/
 [User Guide]: https://tomduck.github.io/bassclef/bassclef-user-guide.html
 [Architecture]: https://tomduck.github.io/bassclef/bassclef-architecture.html
 [Deployment]: https://tomduck.github.io/bassclef/deploying-bassclef.html
