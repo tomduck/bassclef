@@ -42,7 +42,7 @@ Documentation
   * [Deployment] - some ideas on how you can deploy
     bassclef-generated sites
 
-[About]: https://tomduck.github.io/bassclef/
+[About Bassclef]: https://tomduck.github.io/bassclef/
 [User Guide]: https://tomduck.github.io/bassclef/bassclef-user-guide.html
 [Architecture]: https://tomduck.github.io/bassclef/bassclef-architecture.html
 [Deployment]: https://tomduck.github.io/bassclef/deploying-bassclef.html
