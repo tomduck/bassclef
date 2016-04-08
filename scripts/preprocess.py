@@ -77,7 +77,7 @@ def preprocess(path):
     if meta['image'] and meta['showimage']:
         lines = insert_figure(lines, meta['image'], meta['caption'])
 
-    # Replace the macros
+    # Replace the processing flags
     for i, line in enumerate(lines):
 
         # Clearing line break
