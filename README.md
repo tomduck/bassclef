@@ -5,6 +5,8 @@
 
 **What's new?** A `setup.py` script makes installing bassclef much easier.  Bassclef now also works under Windows/Cygwin.  See the [User Guide] for more information.
 
+[email me]: mailto:tomduck@tomduck.ca
+
 --------------------------------------------------------------------
 
  
