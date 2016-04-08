@@ -13,7 +13,7 @@
 Bassclef CMS
 ============
 
-Bassclef is a static Web site generator that processes plain old text files using stable and mature command-line tools.  It is a simple [CMS] for those who want a high degree of control over their work.
+Bassclef is a static Web site generator that processes plain old text files using stable and mature command-line tools.  It is a simple [CMS] for those who need to maintain a high degree of control over their work.
 
 This project was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".  Content is written in [markdown] and is processed using [GNU make], [pandoc], [python], and [ImageMagick] convert.
 
@@ -74,7 +74,7 @@ Over the years I have built and deployed numerous small-scale Web sites.  Long-t
 
 These tools are not without merit.  Comprehensive CMSes and programming frameworks are useful for creating large-scale, dynamic sites.  The vast majority of Web sites don't need -- and would be better off without -- these capabilities.
 
-Bassclef is my effort to build a simple CMS for small-scale, static Web sites.  It is easy to get started with: Simply throw some content into `bassclef/markdown/` and you are on your way.  Familiar, mature and stable tools are used to process it, and additional niceties are provided by python scripts.  A foundation of responsive css ensures that your site looks good right out of the box on screens large and small.  Ultimately, you can focus on what matters most: generating content.
+Bassclef is my effort to build a simple CMS for small-scale, static Web sites.  It is easy to get started: Simply throw some content into `bassclef/markdown/` and you are on your way.  Familiar, mature and stable tools are used to process it, and additional niceties are provided by python scripts.  A foundation of responsive css ensures that your site looks good right out of the box on screens large and small.  Ultimately, you can focus on what matters most: generating content.
 
 
 Licenses
