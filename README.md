@@ -3,9 +3,7 @@
 
 **NOTICE:** Bassclef is not officially released.  Although it is being used in production, development is continuing at a brisk pace as we move toward making it public.
 
-What's new?
-
-A `setup.py` script makes installing bassclef much easier.  See the [User Guide].
+**What's new?** A `setup.py` script makes installing bassclef much easier by downloading and installing dependencies.  Bassclef now also works under Windows/Cygwin.  See the [User Guide] for more information.
 
 --------------------------------------------------------------------
 
