@@ -1,15 +1,11 @@
 
 --------------------------------------------------------------------
 
-<!-- image -->
-
-**NOTICE:** This software is not officially released.  Although it is being used in production, the software is developing rapidly.
+**NOTICE:** Bassclef is not officially released.  Although it is being used in production, development is continuing at a brisk pace as we move toward making it public.
 
 What's new?
 
 A `setup.py` script makes installing bassclef much easier.  See the [User Guide].
-
-<!-- break -->
 
 --------------------------------------------------------------------
 
