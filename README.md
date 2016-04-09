@@ -86,6 +86,8 @@ Licenses
 
 Bassclef is free software, released under the [GPL]. © 2015-2016 Thomas J. Duck.
 
-There are GPL-compatible and GPL-friendly components used by Bassclef.  These are loaded into the submodules directory, and are the copyright of their respective authors.
+Bassclef is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+There are GPL-compatible and GPL-friendly components used by bassclef.  These are loaded into the submodules directory, and are the copyright of their respective authors.
 
 [GPL]: https://www.gnu.org/copyleft/gpl.html
