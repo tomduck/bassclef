@@ -44,11 +44,11 @@ config = $(PYTHON3) -c "from scripts import util;\
 getmeta = $(PYTHON3) -c "from scripts import util;\
                          print(util.getmeta('$<', '$(1)'))"
 
-# $(call copyfiles): copies files from source to destination
+# $(call copyfiles,src,dest): copies files from source to destination
 define copyfiles
-@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi;
-@if [ -f $< ]; then echo "cp $< $@"; fi;
-@if [ -f $< ]; then cp $< $@; fi;
+@if [ ! -d $(dir $(2)) ]; then mkdir -p $(dir $(2)); fi;
+@if [ -f $(1) ]; then echo "cp $(1) $(2)"; fi;
+@if [ -f $(1) ]; then cp $(1) $(2); fi;
 endef
 
 

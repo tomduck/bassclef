@@ -38,10 +38,10 @@ DEST_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
 fonts: $(DEST_OPENSANS_FONTS) $(DEST_FONTAWESOME_FONTS)
 
 www$(WEBROOT)/fonts/open-sans/%: submodules/open-sans/fonts/%
-	$(copyfiles)
+	$(copyfiles,$<,$@)
 
 www$(WEBROOT)/fonts/font-awesome/%: submodules/font-awesome/fonts/%
-	$(copyfiles)
+	$(copyfiles,$<,$@)
 
 
 # Targets ---------------------------------------------------------------------

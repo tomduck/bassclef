@@ -24,22 +24,22 @@ SOURCE_IMG = $(filter-out images/module.mk,$(wildcard images/*.*))
 # Destination files -----------------------------------------------------------
 
 DEST_IMG = $(patsubst %,www$(WEBROOT)/%,$(SOURCE_IMG))
-DEST_TILE = $(patsubst images/%,www$(WEBROOT)/images/tiles/%,$(SOURCE_IMG))
+DEST_ORIG = $(patsubst images/%,www$(WEBROOT)/images/originals/%,$(SOURCE_IMG))
 
 
 # Build rules -----------------------------------------------------------------
 
-images: $(DEST_IMG) $(DEST_TILE)
+images: $(DEST_ORIG) $(DEST_IMG)
 
-www$(WEBROOT)/images/tiles/%: images/%
+www$(WEBROOT)/images/originals/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	$(CONVERT) $< -resize 250x $@
+	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/%: %
-	$(copyfiles)
+www$(WEBROOT)/images/%: images/%
+	$(CONVERT) $< -resize $(shell $(call config,imagegeometry)) $@
 
 
 # Targets ---------------------------------------------------------------------
 
 ALL += images
-CLEAN += $(DEST_IMG) $(DEST_TILE)
+CLEAN += $(DEST_IMG) $(DEST_ORIG)
