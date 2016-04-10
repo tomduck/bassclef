@@ -31,11 +31,11 @@ DEST_XML = $(patsubst markdown/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
 
 
 # Functions -------------------------------------------------------------------
-#TEMPLATE=$(shell $(call getmeta,template)); \
 
+# $(call md2html,src.md,dest.html): transforms markdown to html using pandoc
 define md2html
-@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi;
-$(PYTHON3) scripts/preprocess.py $< | \
+@if [ ! -d $(dir $(2)) ]; then mkdir -p $(dir $(2)); fi;
+$(PYTHON3) scripts/preprocess.py $(1) | \
     $(PANDOC) -s -S \
            -f markdown-markdown_in_html_blocks\
            -t html5 \
@@ -46,7 +46,7 @@ $(PYTHON3) scripts/preprocess.py $< | \
            --css /css/open-sans.css \
            --css /css/font-awesome.min.css \
            --css /css/bassclef.css | \
-    $(PYTHON3) scripts/postprocess.py > $@;
+    $(PYTHON3) scripts/postprocess.py > $(2);
 endef
 
 
@@ -65,12 +65,12 @@ html: $(DEST_HTML)
 www$(WEBROOT)/%.html: $(TMP)/%.md scripts/preprocess.py \
                          scripts/postprocess.py \
                          scripts/util.py templates/default.html5 config.ini
-	$(md2html)
+	$(call md2html,$<,$@)
 
 www$(WEBROOT)/%.html: markdown/%.md scripts/preprocess.py \
                          scripts/postprocess.py \
                          scripts/util.py templates/default.html5 config.ini
-	$(md2html)
+	$(call md2html,$<,$@)
 
 
 rss: $(DEST_XML)

@@ -36,15 +36,15 @@ CLEAN =
 
 # Functions -------------------------------------------------------------------
 
-# config: imports value from config.ini
+# $(call config,name): gets value from config.ini
 config = $(PYTHON3) -c "from scripts import util;\
                         print(util.config('$(1)'))"
 
-# getmeta: import metadata value from a document/config.ini
+# $(call getmeta,filename,varname): gets metadata value for doc
 getmeta = $(PYTHON3) -c "from scripts import util;\
                          print(util.getmeta('$<', '$(1)'))"
 
-# copyfiles: copies files from source to destination
+# $(call copyfiles): copies files from source to destination
 define copyfiles
 @if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi;
 @if [ -f $< ]; then echo "cp $< $@"; fi;
