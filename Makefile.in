@@ -30,8 +30,9 @@ PANDOC = pandoc
 CONVERT = convert
 
 # Paths
-WEBROOT = $(shell $(PYTHON3) -c \
-            "from scripts import util; print(util.config('webroot'));")
+WEBROOT = $(shell $(PYTHON3) -c "from scripts import util;\
+                                 print(util.config('webroot'));"\
+           )
 TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
 
 # Error checking

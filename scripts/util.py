@@ -66,14 +66,13 @@ def config(key=None):
             cfg['twittername'] = cfg['twittername'][1:]
 
     # Return the config dict or a value if the key is given
-    if key and key in cfg:
-        return cfg[key]
-    else:
-        return cfg
+    return cfg[key] if key else cfg
 
 
-def getmeta(path):
+def getmeta(path, key=None):
     """Returns the metadata dict for the file at path.
+
+    key - a single metadata item to return
 
     This reads the metadata from the file and combines it with the
     defaults in config.ini.
@@ -127,7 +126,8 @@ def getmeta(path):
     if meta['caption'] is None:
         meta['caption'] = ''
 
-    return meta
+    # Return the meta dict or a value if key is given
+    return meta[key] if key else meta
 
 
 def printmeta(meta, f=stdout, obfuscate=False):
