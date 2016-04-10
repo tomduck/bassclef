@@ -31,18 +31,16 @@ DEST_XML = $(patsubst markdown/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
 
 
 # Functions -------------------------------------------------------------------
+#TEMPLATE=$(shell $(call getmeta,template)); \
 
 define md2html
 @if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi;
-TEMPLATE=$$($(PYTHON3) -c "from scripts import util;\
-                           print(util.getmeta('$<', 'template'));"\
-           ); \
 $(PYTHON3) scripts/preprocess.py $< | \
     $(PANDOC) -s -S \
            -f markdown-markdown_in_html_blocks\
            -t html5 \
            --email-obfuscation=none \
-           --template $$TEMPLATE \
+           --template $(shell $(call getmeta,template)) \
            --css /css/normalize.css \
            --css /css/skeleton.css \
            --css /css/open-sans.css \

@@ -29,17 +29,6 @@ PYTHON3 = python3
 PANDOC = pandoc
 CONVERT = convert
 
-# Paths
-WEBROOT = $(shell $(PYTHON3) -c "from scripts import util;\
-                                 print(util.config('webroot'));"\
-           )
-TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
-
-# Error checking
-ifeq ($(TMP),)
-$(error Temporary directory could not be created.)
-endif
-
 # Variables to store targets from each module
 ALL =
 CLEAN =
@@ -47,11 +36,30 @@ CLEAN =
 
 # Functions -------------------------------------------------------------------
 
+# config: imports value from config.ini
+config = $(PYTHON3) -c "from scripts import util;\
+                        print(util.config('$(1)'))"
+
+# getmeta: import metadata value from a document/config.ini
+getmeta = $(PYTHON3) -c "from scripts import util;\
+                         print(util.getmeta('$<', '$(1)'))"
+
+# copyfiles: copies files from source to destination
 define copyfiles
 @if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi;
 @if [ -f $< ]; then echo "cp $< $@"; fi;
 @if [ -f $< ]; then cp $< $@; fi;
 endef
+
+
+# Paths -----------------------------------------------------------------------
+
+WEBROOT = $(shell $(call config,webroot))
+
+TMP = $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
+ifeq ($(TMP),)
+$(error Temporary directory could not be created.)
+endif
 
 
 # Module imports --------------------------------------------------------------
