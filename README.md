@@ -1,9 +1,9 @@
 
 --------------------------------------------------------------------
 
-**NOTICE:** Bassclef is not officially released.  Development is continuing as I move toward making it public.  If you are interested in bassclef, please feel welcome to [email me].
+**NOTICE:** I anticipate a release candidate for bassclef 0.1 in the second half of April 2016.  Please feel welcome to [email me] about it.
 
-**What's new?** A `setup.py` script makes installing bassclef much easier.  Bassclef now also works under Windows/Cygwin.  See the [User Guide] for more information.
+**What's new?** `setup.py` makes installing bassclef easy.  Windows is now supported via Cygwin.  Template can be set in doc metadata or `config.ini`.  See the [User Guide] for more information.
 
 [email me]: mailto:tomduck@tomduck.ca
 
