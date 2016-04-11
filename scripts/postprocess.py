@@ -107,7 +107,7 @@ def adjust_urls(lines):
 
 def link_images(lines):
     """Link images to their full-size originals."""
-    p = re.compile('(<img src="/(.*?)/images/(.*?)".*?/>)')
+    p = re.compile('(<img src="(/.*?)?/images/(.*?)".*?/>)')
     for i, line in enumerate(lines):
         if p.search(line):
             # If this is already linked, don't do it again
@@ -118,8 +118,8 @@ def link_images(lines):
             # Don't link in originals
             if subpath.startswith('originals/'):
                 continue
-            linked_imgtag = '<a href="/%s/images/originals/%s">%s</a>' % \
-              (root, subpath, imgtag)
+            linked_imgtag = '<a href="%s/images/originals/%s">%s</a>' % \
+              (root or '', subpath, imgtag)
             lines[i] = line.replace(imgtag, linked_imgtag)
     return lines
 
