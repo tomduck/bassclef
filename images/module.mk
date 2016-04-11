@@ -33,11 +33,14 @@ GEOM = $(shell $(call config,imagegeometry))
 
 images: $(DEST_ORIG) $(DEST_IMG)
 
-www$(WEBROOT)/images/originals/%: images/%
+www$(WEBROOT)/images/originals/%: images/% \
+                                  images/module.mk
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/images/%: images/%
+www$(WEBROOT)/images/%: images/% \
+                        images/module.mk \
+                        config.ini
 	$(CONVERT) $< -resize $(GEOM) $@
 
 

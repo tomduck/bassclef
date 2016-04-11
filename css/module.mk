@@ -45,16 +45,20 @@ DEST_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/%,\
 css: $(DEST_BASSCLEF_CSS) $(DEST_SKELETON_CSS) $(DEST_OPENSANS_CSS) \
      $(DEST_FONTAWESOME_CSS)
 
-www$(WEBROOT)/css/%: css/%
+www$(WEBROOT)/css/%: css/% \
+                     css/module.mk
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/css/%.css: submodules/skeleton/css/%.css
+www$(WEBROOT)/css/%.css: submodules/skeleton/css/%.css \
+                         css/module.mk
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/css/open-sans.css: submodules/open-sans/open-sans.css
+www$(WEBROOT)/css/open-sans.css: submodules/open-sans/open-sans.css \
+                                 css/module.mk
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/css/font-awesome%: submodules/font-awesome/css/font-awesome%
+www$(WEBROOT)/css/font-awesome%: submodules/font-awesome/css/font-awesome% \
+                                 css/module.mk
 	$(call copyfiles,$<,$@)
 
 

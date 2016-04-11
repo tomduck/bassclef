@@ -55,27 +55,39 @@ endef
 markdown: $(DEST_MD)
 
 $(TMP)/%.md: markdown/%.md.in $(SOURCE_MD) \
-          scripts/compose.py scripts/preprocess.py
+               scripts/compose.py \
+               scripts/util.py \
+               markdown/module.mk
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(PYTHON3) scripts/compose.py $< > $@
 
 
 html: $(DEST_HTML)
 
-www$(WEBROOT)/%.html: $(TMP)/%.md scripts/preprocess.py \
-                         scripts/postprocess.py \
-                         scripts/util.py templates/default.html5 config.ini
+www$(WEBROOT)/%.html: $(TMP)/%.md \
+                      markdown/module.mk \
+                      scripts/preprocess.py \
+                      scripts/postprocess.py \
+                      scripts/util.py \
+                      templates/default.html5 \
+                      config.ini
 	$(call md2html,$<,$@)
 
-www$(WEBROOT)/%.html: markdown/%.md scripts/preprocess.py \
-                         scripts/postprocess.py \
-                         scripts/util.py templates/default.html5 config.ini
+www$(WEBROOT)/%.html: markdown/%.md \
+                      markdown/module.mk \
+                      scripts/preprocess.py \
+                      scripts/postprocess.py \
+                      scripts/util.py \
+                      templates/default.html5 \
+                      config.ini
 	$(call md2html,$<,$@)
 
 
 rss: $(DEST_XML)
 
-www$(WEBROOT)/%.xml: markdown/%.md.in $(DEST_HTML) scripts/feed.py
+www$(WEBROOT)/%.xml: markdown/%.md.in $(DEST_HTML) \
+                     markdown/module.mk \
+                     scripts/feed.py
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(PYTHON3) scripts/feed.py $< > $@
 
