@@ -52,9 +52,11 @@ def process(lines, meta, n):
     p3 = re.compile(r'(?!^)(\[\^(.*?)\])')             # Reference
     p4 = re.compile(r'^(\[\^(.*?)\]:)')                # Definition
 
-    cutpoint = False    # Flags that a cut point was found
-    out = []            # The list of processed lines
-
+    cutpoint = False  # Flags that a cut point was found
+    lastline = None   # Track the last line
+    innote = False    # Flags we are in a footnote definition
+    out = []          # The list of processed lines
+    
     # Read, process, and store each line
     for line in lines:
 
@@ -79,10 +81,20 @@ def process(lines, meta, n):
         if line == '<!-- cut -->':
             cutpoint = True
 
+        # Check if we are in a footnote definition
+        if innote:
+            if lastline == '' and line and not line.startswith('    '):
+                innote = False
+        elif p4.search(line):
+            innote = True
+            
         # Store the line.  Ignore all footnotes, and ignore markdown after
         # <!-- cut --> except for link references.
-        if (not p4.search(line) and not cutpoint) or p2.search(line):
+        if (not innote and not cutpoint) or p2.search(line):
             out.append(line)
+
+        # Remember the last line
+        lastline = line
 
     # Add a 'Read more...' link if <!-- cut --> was found.
     if cutpoint:
