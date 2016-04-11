@@ -29,6 +29,8 @@ DEST_ORIG = $(patsubst images/%,www$(WEBROOT)/images/originals/%,$(SOURCE_IMG))
 
 # Build rules -----------------------------------------------------------------
 
+GEOM = $(shell $(call config,imagegeometry))
+
 images: $(DEST_ORIG) $(DEST_IMG)
 
 www$(WEBROOT)/images/originals/%: images/%
@@ -36,7 +38,7 @@ www$(WEBROOT)/images/originals/%: images/%
 	$(call copyfiles,$<,$@)
 
 www$(WEBROOT)/images/%: images/%
-	$(CONVERT) $< -resize $(shell $(call config,imagegeometry)) $@
+	$(CONVERT) $< -resize $(GEOM) $@
 
 
 # Targets ---------------------------------------------------------------------
