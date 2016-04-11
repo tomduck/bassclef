@@ -56,7 +56,7 @@ endef
 
 WEBROOT = $(shell $(call config,webroot))
 
-TMP = $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
+TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
 ifeq ($(TMP),)
 $(error Temporary directory could not be created.)
 endif

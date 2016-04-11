@@ -52,10 +52,10 @@ www$(WEBROOT)/css/%.css: submodules/skeleton/css/%.css
 	$(call copyfiles,$<,$@)
 
 www$(WEBROOT)/css/open-sans.css: submodules/open-sans/open-sans.css
-	$(copyfiles,$<,$@)
+	$(call copyfiles,$<,$@)
 
 www$(WEBROOT)/css/font-awesome%: submodules/font-awesome/css/font-awesome%
-	$(copyfiles,$<,$@)
+	$(call copyfiles,$<,$@)
 
 
 # Targets ---------------------------------------------------------------------
