@@ -3,7 +3,7 @@
 
 **NOTICE:** I anticipate a release candidate for bassclef 0.1 in the second half of April 2016.  Please feel welcome to [email me] about it.
 
-**What's new?** `setup.py` makes installing bassclef easy.  Windows is now supported via Cygwin.  Template can be set in doc metadata or `config.ini`.  See the [User Guide] for more information.
+**What's new?** `setup.py` makes installing bassclef easy.  Windows is now supported via Cygwin.  Template can be set in doc metadata or `config.ini`.  Image folders changed.  See the [User Guide] for more information.
 
 [email me]: mailto:tomduck@tomduck.ca
 
