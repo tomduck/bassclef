@@ -278,7 +278,7 @@ def _socialwidgets(msg, url):
 
     # Create and return the widgets
 
-    template = r'<li><a href="%(url)s"><span class="fa fa-%(service)s badge">'\
+    template = r'<li><a href="%(url)s"><span class="fa fa-%(service)s icon">'\
                '</span></a></li>'
 
     twitterdata = {'url':url, 'text':msg}
