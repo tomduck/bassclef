@@ -74,7 +74,7 @@ def preprocess(path):
     lines = getcontent(path)
 
     # Insert the image into the lines
-    if meta['image'] and meta['showimage']:
+    if 'image' in meta:
         lines = insert_figure(lines, meta['image'], meta['caption'])
 
     # Replace the processing flags

@@ -1,183 +1,122 @@
 <!DOCTYPE html>
 <html$if(lang)$ lang="$lang$"$endif$>
 
+
 <head>
 
-  <!-- Platform metadata -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
   <!--[if lt IE 9]>
     <script src="/javascript/html5shiv.js"></script>
   <![endif]-->
 
-  <!-- Standard document metadata -->
-  <title>$if(title)$$title$$endif$$if(domainname)$ | $domainname$$endif$</title>
-  <meta name="description" content="$if(description)$$description$$else$$if(subtitle)$$subtitle$$endif$$endif$" />
-
-  <!-- schema.org metadata: https://developers.google.com/structured-data/ -->
-  <script type="application/ld+json">
-  {
-    "@context" : "http://schema.org",
-    "@type" : "$schematype$",
-    "name" : "$schemaname$",
-    "url" : "$schemaurl$",
-    "sameAs" : [ $if(twitterprofile)$"$twitterprofile$", $endif$$if(facebookprofile)$"$facebookprofile$", $endif$$if(googleplusprofile)$"$googleplusprofile$",$endif$ ]
-  }
-  </script>
-
-  <!-- OpenGraph metadata: http://ogp.me/ -->
 $if(title)$
-  <meta property="og:title" content="$title$$if(domainname)$ | $domainname$$endif$" />
+  <title>$title$</title>
 $endif$
 $if(description)$
-  <meta property="og:description" content="$description$" />
+  <meta name="description" content="$description$" />
 $else$$if(subtitle)$
-  <meta property="og:description" content="$subtitle$" />
+  <meta name="description" content="$subtitle$" />
 $endif$$endif$
-  <meta property="og:type" content="website" />
-$if(permalink)$
-  <meta property="og:url" content="$permalink$" />
-$endif$
-$if(image)$
-  <meta property="og:image" content="http://$domainname$$webroot$$image$" />
-$endif$
 
-  <!-- Twitter card metadata: https://dev.twitter.com/cards/overview -->
-  <meta name="twitter:card" content="summary" />
-$if(twittername)$
-  <meta name="twitter:site" content="@$twittername$" />
-$endif$
-$if(title)$
-  <meta name="twitter:title" content="$title$$if(domainname)$ | $domainname$$endif$" />
-$endif$
-$if(description)$
-  <meta name="twitter:description" content="$description$" />
-$else$$if(subtitle)$
-  <meta name="twitter:description" content="$subtitle$" />
-$endif$$endif$
-$if(image)$
-  <meta name="twitter:image" content="http://$domainname$$webroot$$image$" />
-$endif$
+  $schemameta$
+
+  $ogmeta$
+
+  $cardmeta$
 
   <!-- CSS -->
   <style type="text/css">code{white-space: pre;}</style>
-$if(quotes)$
-  <style type="text/css">q { quotes: "“" "”" "‘" "’"; }</style>
-$endif$
-$if(highlighting-css)$
-  <style type="text/css">
-$highlighting-css$
-  </style>
-$endif$
 $for(css)$
   <link rel="stylesheet" href="$css$">
 $endfor$
 
-  <!-- Other -->
-$if(math)$
-  $math$
-$endif$
-$for(header-includes)$
-  $header-includes$
-$endfor$
 </head>
+
 
 <body>
 
-$for(include-before)$
-  $include-before$
-$endfor$
-
-<div class="container">
-
-<!-- Header - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-<div class="row">
-<div class="one columns nocollapse"></div>
-<div class="ten columns centered-text">
-<header>
-  <hr class="u-full-width" />
-  <h1 id="title"><a href="https://tomduck.github.io/bassclef/">Bassclef CMS</a></h1>
-  <hr class="u-full-width" />
-</header>
-</div> <!-- class="ten columns centered-text" -->
-<div class="one columns nocollapse"></div>
-</div> <!-- class="row" -->
+  <div class="container">
 
 
-<!-- Content - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- Page header  - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-<div class="row">
-<div class="two columns nocollapse"></div>
-<div class="eight columns">
+    <div class="row">
 
-<div class="titleblock">
-$if(showtitle)$
-$if(date)$
-  <h6 class="dateline">$date$$if(authors)$, by $authors$$endif$$if(publisher)$, $if(source)$<a href="$source$">$endif$published in $publisher$$if(source)$</a>$endif$$endif$</h6> 
-$endif$
+      <div class="one columns nocollapse"></div>
+
+      <div class="ten columns centered-text">
+        <header>
+          <hr class="u-full-width" />
+          <h1 id="title"><a href="https://tomduck.github.io/bassclef/">Bassclef CMS</a></h1>
+          <hr class="u-full-width" />
+        </header>
+      </div> <!-- class="ten columns centered-text" -->
+
+      <div class="one columns nocollapse"></div>
+
+    </div> <!-- class="row" -->
+
+
+    <!-- Page content - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="row">
+
+      <div class="two columns nocollapse"></div>
+
+      <div class="eight columns">
+
 $if(title)$
-  <h1 $if(titleclass)$class="$titleclass$"$endif$>$title$</h1>
+        <h1>$title$</h1>
+
 $endif$
-$if(rssurl)$
-<div class="subscribe">
-  <ul>
-    <li><a href="$rssurl$" title="Subscribe to RSS feed" target="_blank"><span class="fa fa-rss badge"></span></a></li>
-  </ul>
-</div> <!-- class="subscribe" -->
+$if(socialwidgets)$
+        <div class="social">
+          $socialwidgets$
+        </div> <!-- class="social" -->
+
 $endif$
-$if(subtitle)$
-  <h4 class="subtitle">$subtitle$</h4>
-$endif$
-$endif$
-</div> <!-- class="titleblock" -->
-$socialwidgets$
-<div class="content-body"> 
-$body$
-$if(updated)$<p><i>(Updated $updated$)</i></p>$endif$
-</div> <!-- class="content-body" -->
+        <div class="content-body">
 
-</div> <!-- class="eight columns" -->
-<div class="two columns nocollapse"></div>
-</div> <!-- class="row" -->
+          $body$
+
+        </div> <!-- class="content-body" -->
+
+      </div> <!-- class="eight columns" -->
+
+      <div class="two columns nocollapse"></div>
+
+    </div> <!-- class="row" -->
 
 
-<!-- Footer - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- Page footer  - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-<div class="row">
-<div class="one columns nocollapse"></div>
-<div class="ten columns centered-text">
+    <div class="row">
 
-<footer>
-  <hr />
-  <p>
-$if(schemaname)$
-  Copyright © 2015 by $schemaname$
-$endif$
-$if(email)$
-  &lt;<a href="mailto:$email$">$email$</a>&gt;
-$endif$
-$if(twitterprofile)$$if(twittername)$  
-  <br />
-  <a href="$twitterprofile$">@$twittername$ on twitter</a>
-$endif$$endif$
-  </p>
-  <p>
-  <a href="https://tomduck.github.io/bassclef/">
-  <img src="/images/originals/powered-by-bassclef.png" alt="powered-by-bassclef" id="powered-by" />
-  </a>
-  </p>
-</footer>
+      <div class="one columns nocollapse"></div>
 
-</div> <!-- class="ten columns centered-text" id="footer" -->
-<div class="one columns nocollapse"></div>
-</div> <!-- class="row" -->
+      <div class="ten columns centered-text">
+        <footer>
+          <hr />
+          <p>
+            <a href="https://tomduck.github.io/bassclef/">
+              <img src="/images/originals/powered-by-bassclef.png" alt="powered-by-bassclef" id="powered-by" />
+            </a>
+          </p>
+        </footer>
+      </div> <!-- class="ten columns centered-text" -->
 
-</div> <!-- class="container" -->
+      <div class="one columns nocollapse"></div>
 
-$for(include-after)$
-$include-after$
-$endfor$
+    </div> <!-- class="row" -->
+
+
+    <!-- - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - -->
+
+  </div> <!-- class="container" -->
 
 </body>
+
+
 </html>

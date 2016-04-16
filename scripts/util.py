@@ -23,6 +23,7 @@ import re
 import string
 from urllib.parse import urlencode, urljoin, urlparse
 from sys import stdout
+import os.path
 
 import yaml
 
@@ -40,12 +41,6 @@ def config(key=None):
     for section in parser.sections():
         cfg.update({k:v for k, v in parser.items(section)})
 
-    # Make boolean fields
-    cfg['showtitle'] = parser.getboolean('defaults', 'showtitle')
-    cfg['showimage'] = parser.getboolean('defaults', 'showimage')
-    cfg['showsocial'] = parser.getboolean('defaults', 'showsocial')
-    cfg['showrss'] = parser.getboolean('defaults', 'showrss')
-
     # Add the domain name and webroot for this site so that they may be used
     # by the template
     if 'siteurl' in cfg:
@@ -61,9 +56,15 @@ def config(key=None):
             cfg['webroot'] = cfg['webroot'][:-1]
 
     # Sanity checks
+    if 'template' in cfg:
+        assert cfg['template'].startswith('templates/') and \
+          os.path.exists(cfg['template'])
     if 'twittername' in cfg:
         if cfg['twittername'].startswith('@'):
             cfg['twittername'] = cfg['twittername'][1:]
+    if 'socialprofiles' in cfg:
+        cfg['socialprofiles'] = ', '.join('"' + p.strip('" ') + '"' \
+                  for p in cfg['socialprofiles'].split(','))
 
     # Return the config dict or a value if the key is given
     return cfg[key] if key else cfg
@@ -103,28 +104,22 @@ def getmeta(path, key=None):
     # Parse the metadata
     meta.update(yaml.load('\n'.join(lines)))
 
-    # Check that the image url conforms
-    if meta['image']:
+    # Sanity checks
+    if 'template' in meta:
+        assert meta['template'].startswith('templates/') and \
+          os.path.exists(meta['template'])
+    if 'image' in meta:
         assert meta['image'].startswith('/') \
                or meta['image'].startswith('http://') \
                or meta['image'].startswith('https://')
 
-    # Define both author and authors fields
-    if 'authors' not in meta:
-        meta['authors'] = meta['author']
-
-    # Inject the social widgets
-    if meta['showsocial']:
-        meta['socialwidgets'] = _socialhtml(meta['title'], path2url(path))
-    else:
-        meta['socialwidgets'] = ''
-
-    # Add the permalink
+    # Inject bassclef's metadata fields
     meta['permalink'] = path2url(path, relative=True)
-
-    # Ensure a valid caption
-    if meta['caption'] is None:
-        meta['caption'] = ''
+    meta['schemameta'] = _schemameta(meta)
+    meta['ogmeta'] = _ogmeta(meta)
+    meta['cardmeta'] = _cardmeta(meta)
+    if 'title' in meta:
+        meta['socialwidgets'] = _socialwidgets(meta['title'], path2url(path))
 
     # Return the meta dict or a value if key is given
     return meta[key] if key else meta
@@ -152,14 +147,12 @@ def printmeta(meta, f=stdout, obfuscate=False):
             if p.search(v):
                 v = '%s// %s' % p.search(v).groups()
 
-        # Special characters in strings need to be treated carefully
-        if type(v) == str:
-            v = v.strip()
-            if ':' in v or '"' in v or '[' in v or '\n' in v or '*' in v:
-                v = '>\n    ' + v.strip().replace('\n', '')
+        if k in ['schemameta', 'ogmeta', 'cardmeta']:
+            f.write('%s: >\n    %s\n' % (k, v.replace('\n', '\n    ')))
+        elif v:  # Quote strings and write the result
+            v = '"' + v.strip().replace('\n', '').replace('"', r'\"') + '"'
+            f.write('%s: %s\n' % (k, v))  # Write the key, value pair
 
-        # Write the key, value pair
-        f.write('%s: %s\n' % (k, v))
 
     f.write('...\n')
 
@@ -204,19 +197,84 @@ def path2url(path, relative=False):
         return urljoin(config('siteurl'), path)
 
 
-def _socialhtml(msg, url):
+def _schemameta(meta):
+    """Schema.org metadata (google): https://goo.gl/66WW3r"""
+
+    lines = []
+    lines.append('<!-- schema.org metadata (google): https://goo.gl/66WW3r -->')
+    lines.append('<script type="application/ld+json">')
+    lines.append('{')
+    lines.append('  "@context" : "http://schema.org",')
+    if 'schematype' in meta:
+        lines.append('  "@type" : "%(schematype)s",')
+    if 'schemaname' in meta:
+        lines.append('  "name" : "%(schemaname)s",')
+    if 'schemaurl' in meta:
+        lines.append('  "url" : "%(schemaurl)s",')
+    if 'socialprofiles' in meta:
+        lines.append('  "sameAs" : [%(socialprofiles)s]')
+    lines.append('}')
+    lines.append('</script>')
+
+    return '\n'.join(lines) % meta
+
+
+def _ogmeta(meta):
+    """OpenGraph metadata (facebook): http://ogp.me/"""
+
+    lines = []
+    lines.append('<!-- OpenGraph metadata (facebook): http://ogp.me/ -->')
+    if 'title' in meta:
+        lines.append('<meta property="og:title" content="%(title)s" />')
+    if 'description' in meta:
+        lines.append('<meta property="og:description" ' \
+                     'content="%(description)s" />')
+    elif 'subtitle' in meta:
+        lines.append('<meta property="og:description" ' \
+                     'content="%(subtitle)s" />')
+    lines.append('<meta property="og:type" content="website" />')
+    if 'permalink' in meta:
+        lines.append('<meta property="og:url" content="%(permalink)s" />')
+    if 'image' in meta:
+        lines.append('<meta property="og:image" ' \
+                     'content="http://%(domainname)s%(webroot)s%(image)s" />')
+
+    return '\n'.join(lines) % meta
+
+
+def _cardmeta(meta):
+    """Card metadata (twitter): https://dev.twitter.com/cards/overview"""
+
+    lines = []
+    lines.append('<!-- Card metadata (twitter): '\
+                 'https://dev.twitter.com/cards/overview -->')
+    lines.append('<meta name="twitter:card" content="summary" />')
+    if 'twittername' in meta:
+        lines.append('<meta name="twitter:site" content="@%(twittername)s" />')
+    if 'title' in meta:
+        lines.append('<meta name="twitter:title" content="%(title)s" />')
+    if 'description' in meta:
+        lines.append('<meta name="twitter:description" ' \
+                     'content="%(description)s" />')
+    if 'subtitle' in meta:
+        lines.append('<meta name="twitter:description" ' \
+                     'content="%(subtitle)s" />')
+    if 'image' in meta:
+        lines.append('<meta name="twitter:image" ' \
+                     'content="http://$domainname$$webroot$%(image)s" />')
+
+    return '\n'.join(lines) % meta
+
+
+def _socialwidgets(msg, url):
     """Returns html for social widgets.
 
     msg - the message to share
     url - the url to share
     """
 
-    # Append a period to the end of the message (if needed)
-    msg = msg if msg[-1] in string.ascii_letters + string.digits else msg + '.'
-
     # Get the configuration
     cfg = config()
-
 
     # Create and return the widgets
 
@@ -253,6 +311,5 @@ def _socialhtml(msg, url):
                urlencode({'subject': msg, 'body': url}).replace('+', '%20')
         }
 
-    return '\n'.join(['<div class="social">', '<ul>',
-                      twitter, facebook, google, linkedin, email,
-                      '</ul>', '</div> <!-- class="social" -->'])
+    return ''.join(['<ul>', twitter, facebook, google, linkedin, email, '</ul>'])
+

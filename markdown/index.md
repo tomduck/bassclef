@@ -2,4 +2,4 @@
 title: Success!
 ...
 
-Your bassclef installation appears to be working.
+Your bassclef installation is working.

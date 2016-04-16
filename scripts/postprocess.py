@@ -79,11 +79,12 @@ def fix_bugs_in_new_pandoc(lines):
     for i, line in enumerate(lines):
         lines[i] = line.replace('<p><br /></p>', '<br />\n')
 
-    # Remove paragraph markers from <title> </title>
+    # Remove paragraph markers in head
+    flag = False
     for i, line in enumerate(lines):
-        if line.strip().startswith('<title>'):
+        if flag or line.strip().startswith('<head>'):
+            flag = True
             lines[i] = line.replace('<p>', '').replace('</p>', '')
-            break
         if line.strip().startswith('</head>'):
             break
 
@@ -171,29 +172,40 @@ def generate_tooltips(lines):
 def tidy_html(lines):
     """Aesthetic improvements to pandoc's html output."""
 
-    # Add some space around hr tags
+    # Don't allow multiple meta tags on the same line in <head> ... </head>
+    newlines = []
+    flag = False
     for i, line in enumerate(lines):
-        lines[i] = line.replace('<hr />', '\n<hr />\n')
+        if line.strip().startswith('<head>'):
+            flag = True
+        if flag and line.strip().startswith('<meta') and \
+          line.count('<meta') > 2:
+            indent = ' ' * (len(line) - len(line.lstrip(' ')))
+            lines = [indent + '<meta ' + s.strip() + '\n' \
+                     for s in line.split('<meta')[1:]]
+            newlines += lines
+        elif line.strip().startswith('</head>'):
+            flag = False
+            newlines.append(line)
+        else:
+            newlines.append(line)
+    lines = newlines
 
-    # Don't separate </div> tags from their descriptions
-    for i, line in enumerate(lines[:-1]):
-        if line.startswith('</div>') and lines[i+1].startswith('<!--') \
-            and lines[i+1].rstrip().endswith('-->'):
-            lines[i] = lines[i][:-1] + ' ' + lines[i+1] + '\n'
-            lines[i+1] = None
-            continue
-        if line.startswith('</div>') and lines[i+1].startswith('<p><!--') \
-            and lines[i+1].rstrip().endswith('--></p>'):
-            lines[i] = lines[i][:-1] + ' ' + lines[i+1][3:-5] + '\n'
-            lines[i+1] = None
-            continue
-    lines = [line for line in lines if line is not None]
-
-    # Put some space before the div content-body tag
+    # Write unordered lists on multiple lines (fixes social widgets html)
+    newlines = []
     for i, line in enumerate(lines):
-        if line.startswith('<div class="content-body">'):
-            lines[i] = '\n' + line
-
+        if line.strip().startswith('<ul>') and line.strip().endswith('</ul>'):
+            indent = ' ' * (len(line) - len(line.lstrip(' ')))
+            line = line.replace('<ul>', '').replace('</ul>', '').strip()
+            lines = [ indent + '  <li>' + s + '\n' for s in
+                      [x for x in line.split('<li>') if x]]
+            newlines.append(indent + '<ul>\n')
+            newlines += lines
+            newlines.append(indent + '</ul>\n')
+        else:
+            newlines.append(line)
+    lines = newlines
+            
     return lines
 
 
@@ -213,9 +225,9 @@ def postprocess():
     lines = open_tabs_when_clicked(lines)
     lines = generate_tooltips(lines)
 
-    # Aesthetic improvements to html
+    # Aesthetic fixes
     lines = tidy_html(lines)
-
+    
     # Print to stdout
     print(''.join(lines))
 
