@@ -20,7 +20,6 @@
 
 import configparser
 import re
-import string
 from urllib.parse import urlencode, urljoin, urlparse
 from sys import stdout
 import os.path

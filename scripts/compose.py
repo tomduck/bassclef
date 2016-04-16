@@ -35,7 +35,7 @@ import subprocess
 from util import getmeta, printmeta, getcontent, printcontent, path2url
 
 
-
+# pylint: disable=too-many-locals
 def process(lines, meta, n):
     """Processes the content lines of a markdown file.
 
@@ -56,7 +56,7 @@ def process(lines, meta, n):
     lastline = None   # Track the last line
     innote = False    # Flags we are in a footnote definition
     out = []          # The list of processed lines
-    
+
     # Read, process, and store each line
     for line in lines:
 
@@ -87,7 +87,7 @@ def process(lines, meta, n):
                 innote = False
         elif p4.search(line):
             innote = True
-            
+
         # Store the line.  Ignore all footnotes, and ignore markdown after
         # <!-- cut --> except for link references.
         if (not innote and not cutpoint) or p2.search(line):

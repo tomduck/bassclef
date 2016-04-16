@@ -175,7 +175,7 @@ def tidy_html(lines):
     # Don't allow multiple meta tags on the same line in <head> ... </head>
     newlines = []
     flag = False
-    for i, line in enumerate(lines):
+    for line in lines:
         if line.strip().startswith('<head>'):
             flag = True
         if flag and line.strip().startswith('<meta') and \
@@ -193,19 +193,19 @@ def tidy_html(lines):
 
     # Write unordered lists on multiple lines (fixes social widgets html)
     newlines = []
-    for i, line in enumerate(lines):
+    for line in lines:
         if line.strip().startswith('<ul>') and line.strip().endswith('</ul>'):
             indent = ' ' * (len(line) - len(line.lstrip(' ')))
             line = line.replace('<ul>', '').replace('</ul>', '').strip()
-            lines = [ indent + '  <li>' + s + '\n' for s in
-                      [x for x in line.split('<li>') if x]]
+            lines = [indent + '  <li>' + s + '\n' \
+                     for s in [x for x in line.split('<li>') if x]]
             newlines.append(indent + '<ul>\n')
             newlines += lines
             newlines.append(indent + '</ul>\n')
         else:
             newlines.append(line)
     lines = newlines
-            
+
     return lines
 
 
@@ -227,7 +227,7 @@ def postprocess():
 
     # Aesthetic fixes
     lines = tidy_html(lines)
-    
+
     # Print to stdout
     print(''.join(lines))
 
