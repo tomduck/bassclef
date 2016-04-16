@@ -28,9 +28,11 @@ $endif$$endif$
 
   <!-- CSS -->
   <style type="text/css">code{white-space: pre;}</style>
-$for(css)$
-  <link rel="stylesheet" href="$css$">
-$endfor$
+  <link rel="stylesheet" href="/css/skeleton/normalize.css">
+  <link rel="stylesheet" href="/css/skeleton/skeleton.css">
+  <link rel="stylesheet" href="/css/open-sans/open-sans.css">
+  <link rel="stylesheet" href="/css/font-awesome/font-awesome.css">
+  <link rel="stylesheet" href="/css/bassclef.css">
 
 </head>
 

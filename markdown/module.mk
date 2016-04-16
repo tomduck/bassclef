@@ -40,12 +40,7 @@ $(PYTHON3) scripts/preprocess.py $(1) | \
            -f markdown-markdown_in_html_blocks\
            -t html5 \
            --email-obfuscation=none \
-           --template $(shell $(call getmeta,template)) \
-           --css /css/normalize.css \
-           --css /css/skeleton.css \
-           --css /css/open-sans.css \
-           --css /css/font-awesome.min.css \
-           --css /css/bassclef.css | \
+           --template $(shell $(call getmeta,template)) | \
     $(PYTHON3) scripts/postprocess.py > $(2);
 endef
 
