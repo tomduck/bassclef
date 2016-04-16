@@ -1,4 +1,22 @@
 
+/*
+ * Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
+ *
+ * This file is part of bassclef.
+ *
+ *  Bassclef is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License verson 3 as
+ *  published by the Free Software Foundation.
+ *
+ *  Bassclef is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /*****************************************************************************/
 /* ELEMENTS */
 
@@ -107,28 +125,7 @@ footer a:hover { text-decoration: none; color: #1EAEDB; }
 
 .centered-text { text-align: center; }
 
-.dateline a { color: inherit; text-decoration: none; }
-.dateline a:hover { color: #1EAEDB; }
-
-.titleblock { margin-top: 0em; margin-bottom: 1em; }
-
-.section {
-    font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem;
-    color: #222;
-    font-weight: bold;
-    text-transform: uppercase;
-    float: left;
-    margin-bottom: 0rem;
-}
-
-.title {}
-
-.subtitle {
-    clear: both;
-    margin-top: -1rem;
-}
-
-.badge {
+.icon {
     border-radius: 50%;
     width: 2.2rem;
     height: 2.2rem;
@@ -172,6 +169,15 @@ footer a:hover { text-decoration: none; color: #1EAEDB; }
 
 /*****************************************************************************/
 /* IDS */
+
+#title {
+    font-size: 3.5rem; line-height: 1.2;  letter-spacing: -.1rem;
+    color: #222;
+    font-weight: bold;
+    margin-bottom: 1rem; 
+}
+#title a:link { color: inherit; }
+#title a:hover { text-decoration: none; color: #1EAEDB; }
 
 #powered-by {
     width: 17rem;
