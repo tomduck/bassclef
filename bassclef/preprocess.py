@@ -2,7 +2,7 @@
 
 # Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
 
-# This file is part of bassclef-scripts.
+# This file is part of bassclef.
 #
 #  Bassclef is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License verson 3 as
@@ -16,54 +16,44 @@
 #  You should have received a copy of the GNU General Public License
 #  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
 
-"""preprocess.py - a pandoc markdown preprocessor.
+"""preprocess.py - pandoc markdown preprocessing"""
 
-  Usage: preprocess.py path/to/filename.md
 
-  This script reads in a pandoc markdown file, preprocesses it, and writes
-  the result to stdout.
-"""
-
-import sys
-
-from bassclef.util import getmeta, printmeta, getcontent, printcontent
+from bassclef.util import getmeta, printmeta, getcontent, printlines
 
 
 def insert_figure(lines, image, caption):
     """Inserts a figure into the markdown lines."""
 
-    # Look for the image line
+    # Look for the <!-- image --> flag
     n = None
-    flag = False  # Flag when we have found it
     for i, line in enumerate(lines):
-        if flag:
-            n = i
-            break
         if line == '<!-- image -->':
             n = i
+            lines.pop(n)  # Remove the flag
             continue
 
-    # Find the end of the first paragraph
     if n is None:
-        flag = False  # Flag when we have found it
+        # Find the end of the first paragraph
+        flag = False  # Flags we have found the first paragraph
         for i, line in enumerate(lines):
-            if flag:
-                n = i
-                break
-            if line:
+            if not flag and line:  # Leading blank lines
                 flag = True
-                continue
+            if flag and not line:  # First blank line after paragraph
+                break
+        n = i+1
 
     # Insert the lines for the figure
-    n = n if n is not None else len(lines)
     lines.insert(n, '\n![%s](%s)\n' % (caption, image))
-    lines.insert(n, '')
+    lines.insert(n+1, '')
 
     return lines
 
 
-def preprocess(path=sys.argv[1]):
+def preprocess(args):
     """Preprocesses path."""
+
+    path = args.path
 
     # Load and print the metadata.  Obfuscate the title field as a workaround
     # to a pandoc bug.  This gets undone by postprocess.py.
@@ -90,8 +80,4 @@ def preprocess(path=sys.argv[1]):
             lines[i] = '<div style="clear: both; height: 3rem;"></div>'
 
     # Print out the new lines
-    printcontent(lines)
-
-
-if __name__ == '__main__':
-    preprocess()
+    printlines(lines)

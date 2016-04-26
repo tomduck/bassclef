@@ -1,3 +1,4 @@
-bassclef_scripts.egg-info/
+Bassclef_CMS.egg-info/
 build/
 dist/
+test/

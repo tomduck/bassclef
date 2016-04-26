@@ -2,7 +2,7 @@
 
 # Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
 
-# This file is part of bassclef-scripts.
+# This file is part of bassclef.
 #
 #  Bassclef is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License verson 3 as

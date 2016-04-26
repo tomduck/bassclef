@@ -2,7 +2,7 @@
 
 # Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
 
-# This file is part of bassclef-scripts.
+# This file is part of bassclef.
 #
 #  Bassclef is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License verson 3 as
@@ -16,14 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
 
-"""compose.py - assembles pandoc markdown from a .md.in file.
-
-  Usage: compose.py path/to/filename.md.in
-
-  This script reads a .md.in file and writes a .md file to stdout.  Filenames
-  given alone on a line are read, processed, and inserted.  Other elements
-  are left untouched.
-"""
+"""compose.py - assembles markdown from a .md.in file"""
 
 import sys
 from sys import stdout

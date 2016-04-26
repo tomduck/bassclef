@@ -2,7 +2,7 @@
 
 # Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
 
-# This file is part of bassclef-scripts.
+# This file is part of bassclef.
 #
 #  Bassclef is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License verson 3 as
@@ -16,45 +16,16 @@
 #  You should have received a copy of the GNU General Public License
 #  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
 
-"""postprocess.py - a pandoc html postprocessor.
+"""postprocess.py - pandoc html postprocessing"""
 
-  This script reads pandoc html from stdin, postprocesses it, and
-  writes the result to stdout.
-"""
-
-from sys import stdin
 import re
 
-
-from bassclef.util import config
-
-
-def fix_bugs_in_old_pandoc(lines):
-    """Fixes bugs found in old pandoc version used by Debian Jessie."""
-
-    # Pandoc sometimes encodes html when it should not
-    old = '&lt;span class=&quot;fa fa-envelope badge&quot;&gt;&lt;/span&gt;'
-    new = '<span class="fa fa-envelope badge"></span>'
-    for i, line in enumerate(lines):
-        lines[i] = line.replace(old, new)
-
-    return lines
+from bassclef.util import getconfig, printlines
+from bassclef.util import STDIN
 
 
-def fix_bugs_in_new_pandoc(lines):
-    """Fixes bugs found in newer versions of pandoc."""
-
-    # Pandoc should not be html-encoding variable replacements in templates
-    # (which it does on a random basis).  This prevents us from injecting html
-    # into html templates!
-    old = '&lt;a href=“'
-    new = '<a href="'
-    for i, line in enumerate(lines):
-        lines[i] = line.replace(old, new)
-    old = '”&gt;'
-    new = '">'
-    for i, line in enumerate(lines):
-        lines[i] = line.replace(old, new)
+def fix_bugs(lines):
+    """Fixes bugs in pandoc's html output."""
 
     # Pandoc should not be treating numbers in headers as list items.  Here
     # we undo the temporary obfuscation made by preprocess.py's call to
@@ -99,7 +70,7 @@ def adjust_urls(lines):
         for group in p.findall(line):
             replace = True
             old, tag, path = group
-            new = '%s="%s/%s"' % (tag, config('webroot'), path)
+            new = '%s="%s/%s"' % (tag, getconfig('webroot'), path)
             line = line.replace(old, new)
         if replace:
             lines[i] = line
@@ -169,55 +140,15 @@ def generate_tooltips(lines):
     return lines
 
 
-def tidy_html(lines):
-    """Aesthetic improvements to pandoc's html output."""
-
-    # Don't allow multiple meta tags on the same line in <head> ... </head>
-    newlines = []
-    flag = False
-    for line in lines:
-        if line.strip().startswith('<head>'):
-            flag = True
-        if flag and line.strip().startswith('<meta') and \
-          line.count('<meta') > 2:
-            indent = ' ' * (len(line) - len(line.lstrip(' ')))
-            lines = [indent + '<meta ' + s.strip() + '\n' \
-                     for s in line.split('<meta')[1:]]
-            newlines += lines
-        elif line.strip().startswith('</head>'):
-            flag = False
-            newlines.append(line)
-        else:
-            newlines.append(line)
-    lines = newlines
-
-    # Write unordered lists on multiple lines (fixes social widgets html)
-    newlines = []
-    for line in lines:
-        if line.strip().startswith('<ul>') and line.strip().endswith('</ul>'):
-            indent = ' ' * (len(line) - len(line.lstrip(' ')))
-            line = line.replace('<ul>', '').replace('</ul>', '').strip()
-            lines = [indent + '  <li>' + s + '\n' \
-                     for s in [x for x in line.split('<li>') if x]]
-            newlines.append(indent + '<ul>\n')
-            newlines += lines
-            newlines.append(indent + '</ul>\n')
-        else:
-            newlines.append(line)
-    lines = newlines
-
-    return lines
-
-
-def postprocess():
+# pylint: disable=unused-argument
+def postprocess(args):
     """Postprocesses html output piped to stdin from pandoc."""
 
     # Get the lines
-    lines = [line for line in stdin]
+    lines = [line for line in STDIN]
 
     # Essential fixes
-    lines = fix_bugs_in_old_pandoc(lines)
-    lines = fix_bugs_in_new_pandoc(lines)
+    lines = fix_bugs(lines)
     lines = adjust_urls(lines)
 
     # Functionality enhancements
@@ -225,12 +156,5 @@ def postprocess():
     lines = open_tabs_when_clicked(lines)
     lines = generate_tooltips(lines)
 
-    # Aesthetic fixes
-    lines = tidy_html(lines)
-
     # Print to stdout
-    print(''.join(lines))
-
-
-if __name__ == '__main__':
-    postprocess()
+    printlines(lines)

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<!--
+ Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
+
+ This file is part of bassclef.
+
+ Bassclef is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License verson 3 as
+ published by the Free Software Foundation.
+
+ Bassclef is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<html$if(lang)$ lang="$lang$"$endif$>
+
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+  <!--[if lt IE 9]>
+    <script src="/javascript/html5shiv.js"></script>
+  <![endif]-->
+
+$if(title)$
+  <title>$title$</title>
+$endif$
+$if(description)$
+  <meta name="description" content="$description$" />
+$else$$if(subtitle)$
+  <meta name="description" content="$subtitle$" />
+$endif$$endif$
+
+  $schemameta$
+
+  $ogmeta$
+
+  $cardmeta$
+
+  <!-- CSS -->
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="/css/skeleton/normalize.css">
+  <link rel="stylesheet" href="/css/skeleton/skeleton.css">
+  <link rel="stylesheet" href="/css/open-sans/open-sans.css">
+  <link rel="stylesheet" href="/css/font-awesome/font-awesome.css">
+  <link rel="stylesheet" href="/css/bassclef.css">
+
+</head>
+
+
+<body>
+
+  <div class="container">
+
+
+    <!-- Page header  - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="row">
+
+      <div class="one columns nocollapse"></div>
+
+      <div class="ten columns centered-text">
+        <header>
+          <hr class="u-full-width" />
+          <h1 id="title"><a href="https://tomduck.github.io/bassclef/">Bassclef CMS</a></h1>
+          <hr class="u-full-width" />
+        </header>
+      </div> <!-- class="ten columns centered-text" -->
+
+      <div class="one columns nocollapse"></div>
+
+    </div> <!-- class="row" -->
+
+
+    <!-- Page content - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="row">
+
+      <div class="two columns nocollapse"></div>
+
+      <div class="eight columns">
+
+$if(title)$
+        <h1>$title$</h1>
+
+$endif$
+        <div class="content-body">
+
+          $body$
+
+        </div> <!-- class="content-body" -->
+
+      </div> <!-- class="eight columns" -->
+
+      <div class="two columns nocollapse"></div>
+
+    </div> <!-- class="row" -->
+
+
+    <!-- Page footer  - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="row">
+
+      <div class="one columns nocollapse"></div>
+
+      <div class="ten columns centered-text">
+        <footer>
+          <hr />
+          <p>
+            <a href="https://tomduck.github.io/bassclef/">
+              <img src="/images/originals/powered-by-bassclef.png" alt="powered-by-bassclef" id="powered-by" />
+            </a>
+          </p>
+        </footer>
+      </div> <!-- class="ten columns centered-text" -->
+
+      <div class="one columns nocollapse"></div>
+
+    </div> <!-- class="row" -->
+
+
+    <!-- - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - -->
+
+  </div> <!-- class="container" -->
+
+</body>
+
+
+</html>

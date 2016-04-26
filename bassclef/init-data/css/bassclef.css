@@ -1,0 +1,184 @@
+
+/*
+ * Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
+ *
+ * This file is part of bassclef.
+ *
+ *  Bassclef is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License verson 3 as
+ *  published by the Free Software Foundation.
+ *
+ *  Bassclef is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*****************************************************************************/
+/* ELEMENTS */
+
+body {  font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+/* These are re-assigned values from skeleton */
+h1 { font-size: 3.0rem; line-height: 1.3;  letter-spacing: -.1rem; }
+h2 { font-size: 1.8rem; line-height: 1.5;  letter-spacing: -.05rem; }
+h3 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+h4 { font-size: 1.8rem; line-height: 1.5;  letter-spacing: -.05rem; }
+h5 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+
+h4, h5, h6 { margin-bottom: 0.5rem; }
+
+h1 { color: #660; }             /* Green */
+h2, h3 { color: #000; }         /* Black */
+h4, h5, h6 { color: #A0A0A0; }  /* Grey */
+
+h2 { font-weight: bold; }
+h3 { font-weight: bold; text-transform: uppercase; }
+h4 { font-style: italic; }
+h5, h6 { text-transform: uppercase; }
+
+h2 { font-size:140%; }
+h6 { font-size:80%; }
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1 a:link { color: inherit; }
+h1 a:hover { text-decoration: none; color: #1EAEDB; }
+h1 a:visited { color: inherit; }
+
+figure {
+    display: table;
+    float: left;
+    margin: 1.5rem 3rem 1.5rem 2rem;
+}
+
+figcaption {
+    display: table-caption;
+    caption-side: bottom;
+    text-align: center;
+    font-style: normal;
+    font-size: 85%;
+}
+
+img { max-width: 100%; }
+
+ul, ol { list-style-position: outside; margin-left: 4rem; }
+ul ul, ol ul, ul ol, ol ol {
+    /* Pack nested lists more tightly */
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+ul ul p, ol ul p, ul ol p, ol ol p {
+    margin-bottom: 0rem; /* Pack nested lists more tightly */
+}
+ul ul li, ol ul li, ul ol li, ol ol li {
+    margin-bottom:0; /* Pack nested lists more tightly */
+}
+ul li:last-child p, ol li:last-child p  {
+    margin-bottom:2.5rem; /* Extra space at bottom for loose lists */
+}
+dl dd { margin-bottom:2.5rem; }
+dt { font-weight: bold; }
+
+table {
+    float: left;
+    margin: 1.5rem 3rem 1.5rem 2rem;
+    border-bottom: 1px solid black;
+}
+table caption { font-size: 85%; padding-bottom: 1rem; }
+thead { border-top: 1px solid black; border-bottom: 1px solid black; }
+td, th { padding: 0px 5px; border-bottom: 0px; }
+
+hr { clear: both; margin-bottom: 2.5rem; }
+
+p > code, li > code, dt > code, dd > code {
+    background: none;
+    border: none;
+    padding: 0 0;
+    white-space: pre;
+    position: relative;
+    top: -0.05rem;
+}
+
+pre { margin-top:0; }
+
+nav { text-align: center; }
+nav ul { margin-left: 0; }
+nav li { display: inline; margin: 0 20px 0 0; }
+nav li:last-child { margin: 0 0 0 0; }
+
+footer { margin-bottom: 2rem; }
+footer hr { width: 100%; clear: both; }
+footer a:link { color: inherit; }
+footer a:hover { text-decoration: none; color: #1EAEDB; }
+
+
+/*****************************************************************************/
+/* CLASSES */
+
+.nocollapse { min-height: 1px; }
+
+.centered-text { text-align: center; }
+
+.icon {
+    border-radius: 50%;
+    width: 2.2rem;
+    height: 2.2rem;
+
+    background: #A0A0A0;
+    border: 2px solid #A0A0A0;
+    color: #fff;
+    
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.social {
+    clear: both;
+    float: left;
+    margin-right: 2rem;
+}
+
+.social ul { margin-left: 0; }
+
+.social li {
+    list-style: none;
+    padding: 0.5rem 0.3rem 0 0;
+    margin-bottom: 0;
+}
+
+.social li:last-child { margin: 0 0 0 0; }
+
+.subscribe { float: right; }
+.subscribe ul { margin-bottom: 0; }
+.subscribe li { display: table-cell; padding: 0rem 0.3rem 0 0; }
+
+.fa:hover { /* Simulate link hover */
+    background-color: #1EAEDB;
+    border-color: #1EAEDB;
+}
+
+.footnotes { font-size: 75%; }
+
+
+/*****************************************************************************/
+/* IDS */
+
+#title {
+    font-size: 3.5rem; line-height: 1.2;  letter-spacing: -.1rem;
+    color: #222;
+    font-weight: bold;
+    margin-bottom: 1rem; 
+}
+#title a:link { color: inherit; }
+#title a:hover { text-decoration: none; color: #1EAEDB; }
+
+#powered-by {
+    width: 17rem;
+}
