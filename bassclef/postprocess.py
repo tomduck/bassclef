@@ -63,14 +63,14 @@ def fix_bugs(lines):
 
 
 def adjust_urls(lines):
-    """Put webroot/ into relative urls."""
+    """Put web-root/ into relative urls."""
     p = re.compile('((src|href)="/(.*?)")')
     for i, line in enumerate(lines):
         replace = False
         for group in p.findall(line):
             replace = True
             old, tag, path = group
-            new = '%s="%s/%s"' % (tag, getconfig('webroot'), path)
+            new = '%s="%s/%s"' % (tag, getconfig('web-root'), path)
             line = line.replace(old, new)
         if replace:
             lines[i] = line

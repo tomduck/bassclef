@@ -18,17 +18,17 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_OPENSANS_FONTS =  $(wildcard submodules/open-sans/fonts/*/*)
-SOURCE_FONTAWESOME_FONTS =  $(wildcard submodules/font-awesome/fonts/*)
+SOURCE_OPENSANS_FONTS =  $(wildcard fonts/open-sans/*/*.*)
+SOURCE_FONTAWESOME_FONTS =  $(wildcard fonts/font-awesome/*.*)
 
 
 # Destination files -----------------------------------------------------------
 
-DEST_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
+DEST_OPENSANS_FONTS = $(patsubst fonts/open-sans/%,\
                         www$(WEBROOT)/fonts/open-sans/%,\
                         $(SOURCE_OPENSANS_FONTS))
 
-DEST_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
+DEST_FONTAWESOME_FONTS = $(patsubst fonts/font-awesome/%,\
                            www$(WEBROOT)/fonts/font-awesome/%,\
                            $(SOURCE_FONTAWESOME_FONTS))
 
@@ -37,12 +37,10 @@ DEST_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
 
 fonts: $(DEST_OPENSANS_FONTS) $(DEST_FONTAWESOME_FONTS)
 
-www$(WEBROOT)/fonts/open-sans/%: submodules/open-sans/fonts/% \
-                                 fonts/module.mk
+www$(WEBROOT)/fonts/open-sans/%: fonts/open-sans/%
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/fonts/font-awesome/%: submodules/font-awesome/fonts/% \
-                                    fonts/module.mk
+www$(WEBROOT)/fonts/font-awesome/%: fonts/font-awesome/%
 	$(call copyfiles,$<,$@)
 
 

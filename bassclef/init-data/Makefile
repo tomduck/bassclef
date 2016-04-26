@@ -37,12 +37,12 @@ CLEAN =
 # Functions -------------------------------------------------------------------
 
 # $(call config,name): gets value from config.ini
-config = $(PYTHON3) -c "from scripts import util;\
-                        print(util.config('$(1)'))"
+config = $(PYTHON3) -c "from bassclef.util import getconfig;\
+                        print(getconfig('$(1)'))"
 
 # $(call getmeta,filename,varname): gets metadata value for doc
-getmeta = $(PYTHON3) -c "from scripts import util;\
-                         print(util.getmeta('$<', '$(1)'))"
+getmeta = $(PYTHON3) -c "from bassclef.util import getmeta;\
+                         print(getmeta('$<', '$(1)'))"
 
 # $(call copyfiles,src,dest): copies files from source to destination
 define copyfiles
@@ -54,7 +54,7 @@ endef
 
 # Paths -----------------------------------------------------------------------
 
-WEBROOT = $(shell $(call config,webroot))
+WEBROOT = $(shell $(call config,web-root))
 
 TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
 ifeq ($(TMP),)
@@ -64,7 +64,7 @@ endif
 
 # Module imports --------------------------------------------------------------
 
-MODULES = $(wildcard */module.mk) $(wildcard */.module.mk)
+MODULES = $(wildcard */.module.mk)
 include $(MODULES)
 
 

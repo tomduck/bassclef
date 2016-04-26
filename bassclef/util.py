@@ -42,6 +42,19 @@ CONFIG = None
 META = None
 
 
+def defaults(config):
+    """Returns a dict of config defaults."""
+    return {'site-url':'',
+            'template':'',
+            'image-geometry':'250x500',
+            'schema-name':'',
+            'schema-type':'',
+            'schema-url':'',
+            'email':'',
+            'twitter-name':'',
+            'social-profiles':''}
+
+
 def getconfig(key=None):
     """Returns the configuration as a dict.
 
@@ -55,23 +68,18 @@ def getconfig(key=None):
     # Read the config.ini into a dict, discarding the section info
     parser = configparser.ConfigParser()
     parser.read('config.ini')
-    config = {}
+    config = defaults({})
     for section in parser.sections():
         config.update({k:v for k, v in parser.items(section)})
 
-    # Add the domain name and webroot for this site so that they may be used
-    # by the template
-    if 'siteurl' in config:
-
-        # e.g., https://tomduck.github.io/bassclef/
-
-        # The domain name of the site; e.g., tomduck.github.io
-        config['domainname'] = urlparse(config['siteurl'])[1]
-
-        # The web root for this site; e.g., /bassclef
-        config['webroot'] = urlparse(config['siteurl'])[2]
-        if config['webroot'].endswith('/'):
-            config['webroot'] = config['webroot'][:-1]
+    # Add the domain name and web root for this site so that they may be used
+    # by the template.  e.g., suppose the site-url is
+    # https://tomduck.github.io/bassclef/.  The domain name is
+    # tomduck.github.io and the web root is /bassclef.
+    config['domain-name'] = urlparse(config['site-url'])[1]
+    config['web-root'] = urlparse(config['site-url'])[2]
+    if config['web-root'].endswith('/'):
+        config['web-root'] = config['web-root'][:-1]
 
     # Store the config
     sanitycheck(config)

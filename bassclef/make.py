@@ -29,16 +29,15 @@ def make(args):
     """Builds the site via a call to GNU make."""
 
     # Find the Makefile
-    makefile = 'Makefile' if os.path.exists('Makefile') else '.Makefile'
-    if not os.path.exists(makefile):
+    if not os.path.exists('.Makefile'):
         error('Makefile not found.')
 
     # Assemble the call
-    command = ['make', '-f', makefile]
-    if argsrebuild:
+    command = ['make', '-f', '.Makefile']
+    if args.rebuild:
         command.append('-B')
     if args.target:
-        command.append(target)
+        command.append(args.target)
 
     # Make the call
     sys.exit(subprocess.call(command))

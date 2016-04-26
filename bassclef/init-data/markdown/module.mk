@@ -35,13 +35,13 @@ DEST_XML = $(patsubst markdown/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
 # $(call md2html,src.md,dest.html): transforms markdown to html using pandoc
 define md2html
 @if [ ! -d $(dir $(2)) ]; then mkdir -p $(dir $(2)); fi;
-$(PYTHON3) scripts/preprocess.py $(1) | \
-    $(PANDOC) -s -S \
-           -f markdown-markdown_in_html_blocks\
-           -t html5 \
-           --email-obfuscation=none \
-           --template $(shell $(call getmeta,template)) | \
-    $(PYTHON3) scripts/postprocess.py > $(2);
+bcms preprocess $(1) | \
+  $(PANDOC) -s -S \
+            -f markdown-markdown_in_html_blocks\
+            -t html5 \
+            --email-obfuscation=none \
+            --template $(shell $(call getmeta,template)) | \
+  bcms postprocess > $(2);
 endef
 
 
@@ -49,42 +49,25 @@ endef
 
 markdown: $(DEST_MD)
 
-$(TMP)/%.md: markdown/%.md.in $(SOURCE_MD) \
-               scripts/compose.py \
-               scripts/util.py \
-               markdown/module.mk
+$(TMP)/%.md: markdown/%.md.in $(SOURCE_MD)
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	$(PYTHON3) scripts/compose.py $< > $@
+	bcms compose $< > $@
 
 
 html: $(DEST_HTML)
 
-www$(WEBROOT)/%.html: $(TMP)/%.md \
-                      markdown/module.mk \
-                      scripts/preprocess.py \
-                      scripts/postprocess.py \
-                      scripts/util.py \
-                      templates/default.html5 \
-                      config.ini
+www$(WEBROOT)/%.html: $(TMP)/%.md
 	$(call md2html,$<,$@)
 
-www$(WEBROOT)/%.html: markdown/%.md \
-                      markdown/module.mk \
-                      scripts/preprocess.py \
-                      scripts/postprocess.py \
-                      scripts/util.py \
-                      templates/default.html5 \
-                      config.ini
+www$(WEBROOT)/%.html: markdown/%.md
 	$(call md2html,$<,$@)
 
 
 rss: $(DEST_XML)
 
-www$(WEBROOT)/%.xml: markdown/%.md.in $(DEST_HTML) \
-                     markdown/module.mk \
-                     scripts/feed.py
+www$(WEBROOT)/%.xml: markdown/%.md.in $(DEST_HTML)
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	$(PYTHON3) scripts/feed.py $< > $@
+	bcms feed $< > $@
 
 
 # Targets ---------------------------------------------------------------------

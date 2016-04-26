@@ -18,35 +18,25 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_OPENSANS_FONTS =  $(wildcard submodules/open-sans/fonts/*/*)
-SOURCE_FONTAWESOME_FONTS =  $(wildcard submodules/font-awesome/fonts/*)
+SOURCE_JS = $(wildcard javascript/*.js) $(wildcard javascript/*/*.js)
 
 
 # Destination files -----------------------------------------------------------
 
-DEST_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
-                        www$(WEBROOT)/fonts/open-sans/%,\
-                        $(SOURCE_OPENSANS_FONTS))
-
-DEST_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
-                           www$(WEBROOT)/fonts/font-awesome/%,\
-                           $(SOURCE_FONTAWESOME_FONTS))
+DEST_JS = $(patsubst javascript/%,\
+                        www$(WEBROOT)/javascript/%,\
+                        $(SOURCE_JS))
 
 
 # Build rules -----------------------------------------------------------------
 
-fonts: $(DEST_OPENSANS_FONTS) $(DEST_FONTAWESOME_FONTS)
+javascript: $(DEST_JS)
 
-www$(WEBROOT)/fonts/open-sans/%: submodules/open-sans/fonts/% \
-                                 fonts/module.mk
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/fonts/font-awesome/%: submodules/font-awesome/fonts/% \
-                                    fonts/module.mk
+www$(WEBROOT)/javascript/%: javascript/%
 	$(call copyfiles,$<,$@)
 
 
 # Targets ---------------------------------------------------------------------
 
-ALL += fonts
-CLEAN += $(DEST_OPENSANS_FONTS) $(DEST_FONTAWESOME_FONTS)
+ALL += javascript
+CLEAN += $(DEST_JS)

@@ -18,10 +18,10 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_BASSCLEF_CSS = $(wildcard css/*.css) $(wildcard css/*/*.css)
-SOURCE_SKELETON_CSS = $(wildcard submodules/skeleton/css/*.css)
-SOURCE_OPENSANS_CSS = $(wildcard submodules/open-sans/*.css)
-SOURCE_FONTAWESOME_CSS = $(wildcard submodules/font-awesome/css/*.css)
+SOURCE_BASSCLEF_CSS = $(wildcard css/*.css)
+SOURCE_SKELETON_CSS = $(wildcard css/skeleton/*.css)
+SOURCE_OPENSANS_CSS = $(wildcard css/open-sans/*.css)
+SOURCE_FONTAWESOME_CSS = $(wildcard css/font-awesome/*.css)
 
 
 # Destination files -----------------------------------------------------------
@@ -30,15 +30,15 @@ DEST_BASSCLEF_CSS = $(patsubst css/%,\
                       www$(WEBROOT)/css/%,\
                       $(SOURCE_BASSCLEF_CSS))
 
-DEST_SKELETON_CSS = $(patsubst submodules/skeleton/css/%,\
+DEST_SKELETON_CSS = $(patsubst css/skeleton/%,\
                       www$(WEBROOT)/css/skeleton/%,\
                       $(SOURCE_SKELETON_CSS))
 
-DEST_OPENSANS_CSS = $(patsubst submodules/open-sans/%,\
+DEST_OPENSANS_CSS = $(patsubst css/open-sans/%,\
                       www$(WEBROOT)/css/open-sans/%,\
                       $(SOURCE_OPENSANS_CSS))
 
-DEST_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/css/%,\
+DEST_FONTAWESOME_CSS = $(patsubst css/font-awesome/%,\
                          www$(WEBROOT)/css/font-awesome/%,\
                          $(SOURCE_FONTAWESOME_CSS))
 
@@ -48,20 +48,16 @@ DEST_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/css/%,\
 css: $(DEST_BASSCLEF_CSS) $(DEST_SKELETON_CSS) $(DEST_OPENSANS_CSS) \
      $(DEST_FONTAWESOME_CSS)
 
-www$(WEBROOT)/css/%: css/% \
-                     css/module.mk
+www$(WEBROOT)/css/%: css/%
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/css/skeleton/%.css: submodules/skeleton/css/%.css \
-                                  css/module.mk
+www$(WEBROOT)/css/skeleton/%: css/skeleton/%
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/css/open-sans/open-sans.css: submodules/open-sans/open-sans.css \
-                                           css/module.mk
+www$(WEBROOT)/css/open-sans/%: css/open-sans/%
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/css/font-awesome/%: submodules/font-awesome/css/% \
-                                  css/module.mk
+www$(WEBROOT)/css/font-awesome/%: css/font-awesome/%
 	$(call copyfiles,$<,$@)
 
 

@@ -18,7 +18,7 @@
 
 """serve.py - test Web server"""
 
-
+import os
 import http.server
 import socketserver
 
@@ -28,6 +28,7 @@ PORT = 8000
 
 
 def serve(args):
+    os.chdir('www')
     Handler = http.server.SimpleHTTPRequestHandler
     httpd = socketserver.TCPServer(('', PORT), Handler)
     printline('Serving at http://127.0.0.1:%d/ (^C to exit)...\n'%PORT)

@@ -68,10 +68,11 @@ setup(
                                  'init-data/images/*.*',
                                  'init-data/css/*.*',
                                  'init-data/fonts/*.*',
+                                 'init-data/javascript/*.*',
                                  'init-data/templates/*.*',
                                  'init-data/submodules/skeleton/css/*.*',
                                  'init-data/submodules/html5shiv/src/*.*',
-                                 'init-data/submodules/open-sans/open-sans.css',
+                                 'init-data/submodules/open-sans/css/*.*',
                                  'init-data/submodules/open-sans/fonts/*/*.*',
                                  'init-data/submodules/font-awesome/css/*.*',
                                  'init-data/submodules/font-awesome/fonts/*.*'

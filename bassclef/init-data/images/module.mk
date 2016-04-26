@@ -18,7 +18,7 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_IMG = $(filter-out images/module.mk,$(wildcard images/*.*))
+SOURCE_IMG = $(wildcard images/*.*)
 
 
 # Destination files -----------------------------------------------------------
@@ -29,18 +29,15 @@ DEST_ORIG = $(patsubst images/%,www$(WEBROOT)/images/originals/%,$(SOURCE_IMG))
 
 # Build rules -----------------------------------------------------------------
 
-GEOM = $(shell $(call config,imagegeometry))
+GEOM = $(shell $(call config,image-geometry))
 
 images: $(DEST_ORIG) $(DEST_IMG)
 
-www$(WEBROOT)/images/originals/%: images/% \
-                                  images/module.mk
+www$(WEBROOT)/images/originals/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(call copyfiles,$<,$@)
 
-www$(WEBROOT)/images/%: images/% \
-                        images/module.mk \
-                        config.ini
+www$(WEBROOT)/images/%: images/%
 	$(CONVERT) $< -resize $(GEOM) $@
 
 
