@@ -18,7 +18,6 @@
 
 """bcms.py - Bassclef CMS"""
 
-import os
 import argparse
 
 from bassclef.test import test
@@ -43,6 +42,7 @@ def main():
     # 'init'
     subparser = subparsers.add_parser('init')
     subparser.add_argument('--force', '-f', action='store_true')
+    subparser.add_argument('--extras', '-e', action='store_true')
     subparser.set_defaults(func=init)
 
     # 'make'
