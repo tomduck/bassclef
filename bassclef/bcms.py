@@ -26,6 +26,7 @@ from bassclef.make import make
 from bassclef.preprocess import preprocess
 from bassclef.postprocess import postprocess
 #from bassclef.compose import compose
+from bassclef.serve import serve
 
 
 def main():
@@ -63,6 +64,10 @@ def main():
     # 'compose'
     #subparser = subparsers.add_parser('compose')
     #subparser.set_defaults(func=compose)
+
+    # 'serve'
+    subparser = subparsers.add_parser('serve')
+    subparser.set_defaults(func=serve)
 
     # Parse the args and call whatever function was selected
     args = parser.parse_args()

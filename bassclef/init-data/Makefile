@@ -75,13 +75,6 @@ include $(MODULES)
 all: $(ALL)
 
 
-# Deploy rules ---------------------------------------------------------------
-
-serve:
-	mkdir -p www
-	cd www && $(PYTHON3) -m http.server
-
-
 # Housekeeping rules ---------------------------------------------------------
 
 clean:
