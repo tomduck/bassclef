@@ -24,6 +24,7 @@ from urllib.parse import urlparse, quote
 import sys
 import os
 import io
+import subprocess
 
 import yaml
 
@@ -212,7 +213,7 @@ def error(msg, errno=1):
     sys.exit(errno)
 
 
-def which(name, args):
+def which(name):
     """Locates a program name on the user's path."""
     # Don't use shutil.which() here.  Shell out so that we see the same
     # thing as the GNU make.  This is essential for cygwin installs.

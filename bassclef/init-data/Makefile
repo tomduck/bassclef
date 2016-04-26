@@ -64,7 +64,7 @@ endif
 
 # Module imports --------------------------------------------------------------
 
-MODULES = $(wildcard */module.mk)
+MODULES = $(wildcard */module.mk) $(wildcard */.module.mk)
 include $(MODULES)
 
 

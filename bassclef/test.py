@@ -26,9 +26,6 @@ import textwrap
 import bassclef.util
 from bassclef.util import printline, which
 
-# Get the python executable
-PYTHON3 = os.path.split(sys.executable)[1]
-
 
 def error(msg, e=None):
     """Error handler."""
@@ -41,15 +38,17 @@ def error(msg, e=None):
 def check_python():
     """Checks python."""
 
+    if which('python3') is None:
+        error("Cannot find 'python3'.")
+
     # Test python from the shell
     try:
-        subprocess.check_output([PYTHON3, '--version'])
+        subprocess.check_output(['python3', '--version'])
     except (FileNotFoundError, subprocess.CalledProcessError) as e:
         msg = """
-        Call to 'python' failed.  Please submit an Issue to 
+        Call to 'python3' failed.  Please submit an Issue to 
         https://github.com/tomduck/bassclef."""
         error(msg, e)
-    return PYTHON3
 
 
 def check_make():
@@ -67,10 +66,8 @@ def check_make():
         https://github.com/tomduck/bassclef."""
         error(msg, e)
 
-    return 'make'
 
-
-def check_pandoc(args):
+def check_pandoc():
     """Checks pandoc."""
 
     if which('pandoc') is None:
@@ -87,10 +84,8 @@ def check_pandoc(args):
         https://github.com/tomduck/bassclef."""
         error(msg, e)
 
-    return pandoc
 
-
-def check_convert(args):
+def check_convert():
     """Checks ImageMagick convert."""
 
     errormsg = """
@@ -112,8 +107,6 @@ def check_convert(args):
     if not 'ImageMagick' in output:  # It must be a different 'convert'
         error(errormsg)
 
-    return convert
-
 
 #----------------------------------------------------------------------------
 # test()
@@ -130,10 +123,10 @@ def test(args):
     printline('OK.\n')
 
     printline('Checking pandoc... ')
-    check_pandoc(args)
+    check_pandoc()
     printline('OK.\n')
 
     printline('Checking convert... ')
-    check_convert(args)
+    check_convert()
     printline('OK.\n')
 

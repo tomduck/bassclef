@@ -94,6 +94,7 @@ def init(args):
                hide=True)
 
     if args.extras:
+        _writefiles('init-data/markdown', 'markdown')
         _writefiles('init-data/css', 'css')
         _writefiles('init-data/images', 'images')
         _writefiles('init-data/javascript', 'javascript')
