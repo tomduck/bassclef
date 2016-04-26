@@ -1,12 +1,12 @@
-[submodule "submodules/skeleton"]
-	path = submodules/skeleton
+[submodule "bassclef/init-data/submodules/skeleton"]
+	path = bassclef/init-data/submodules/skeleton
 	url = https://github.com/dhg/Skeleton.git
-[submodule "submodules/open-sans"]
-	path = submodules/open-sans
+[submodule "bassclef/init-data/submodules/open-sans"]
+	path = bassclef/init-data/submodules/open-sans
 	url = https://github.com/tomduck/bassclef-open-sans.git
-[submodule "submodules/html5shiv"]
-	path = submodules/html5shiv
+[submodule "bassclef/init-data/submodules/html5shiv"]
+	path = bassclef/init-data/submodules/html5shiv
 	url = https://github.com/afarkas/html5shiv.git
-[submodule "submodules/font-awesome"]
-	path = submodules/font-awesome
+[submodule "bassclef/init-data/submodules/font-awesome"]
+	path = bassclef/init-data/submodules/font-awesome
 	url = https://github.com/tomduck/bassclef-font-awesome.git
