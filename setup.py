@@ -19,6 +19,8 @@ import os
 import sys
 import subprocess
 import textwrap
+import itertools
+import glob
 
 import ez_setup
 ez_setup.use_setuptools()
@@ -39,6 +41,7 @@ VERSION = '0.1'
 if sys.version_info < (3, ):
     error('Python >= 3 required.')
 
+
 setup(
     name='Bassclef CMS',
     version=VERSION,
@@ -52,7 +55,7 @@ setup(
     url='https://github.com/tomduck/bassclef',
     download_url='https://github.com/tomduck/bassclef/tarball/'+VERSION,
 
-    install_requires=['pyyaml'],
+    install_requires=['pyyaml', 'pandoc-tpp'],
 
     packages=['bassclef'],
 
@@ -60,8 +63,19 @@ setup(
 
     include_package_data = True,
     package_data = {'bassclef': ['init-data/Makefile',
-                                 'init-data/*.*',
-                                 'init-data/*/*']},
+                                 'init-data/config.ini',
+                                 'init-data/markdown/*.*',
+                                 'init-data/images/*.*',
+                                 'init-data/css/*.*',
+                                 'init-data/fonts/*.*',
+                                 'init-data/templates/*.*',
+                                 'init-data/submodules/skeleton/css/*.*',
+                                 'init-data/submodules/html5shiv/src/*.*',
+                                 'init-data/submodules/open-sans/open-sans.css',
+                                 'init-data/submodules/open-sans/fonts/*/*.*',
+                                 'init-data/submodules/font-awesome/css/*.*',
+                                 'init-data/submodules/font-awesome/fonts/*.*'
+                                 ]},
 
     classifiers=[
         'Development Status :: 4 - Beta',

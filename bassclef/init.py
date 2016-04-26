@@ -21,16 +21,15 @@
 import os
 import errno
 import functools
-import glob
 
-from pkg_resources import resource_string  # pylint: disable=no-name-in-module
+
+# pylint: disable=no-name-in-module
+from pkg_resources import resource_string, resource_listdir, resource_isdir
 
 
 def writefile(src, dest, hide=False, force=False):
-    """Reads path from package_data and writes it to disk.
+    """Writes files from src package data to dest.
 
-    src - the source file relative to bassclef/
-    dest - the destination
     hide - if True, prepends a dot to the filename
     force - if True, overwrites existing files
     """
@@ -59,36 +58,51 @@ def writefile(src, dest, hide=False, force=False):
         f.write(content)
 
 
+def writefiles(src, dest, force=False, skip=['module.mk']):
+    """Writes files from src package data dir to dest dir.
+    
+    force - if True, overwrites existing files
+    skip - a list of filenames to skip
+    """
+    filenames = resource_listdir('bassclef', src)
+    for filename in filenames:
+        if filename not in skip:
+            src_ = os.path.join(src, filename)
+            dest_ = os.path.join(dest, filename)
+            if resource_isdir('bassclef', src_):
+                writefiles(src_, dest_, force, skip)
+            else:
+                if os.path.exists(dest_) and not force:
+                    continue
+                writefile(src_, dest_, force=force)
+
+
 def init(args):
     """Initializes a bassclef site."""
 
-    write = functools.partial(writefile, force=args.force)
+    _writefile = functools.partial(writefile, force=args.force)
+    _writefiles = functools.partial(writefiles, force=args.force)
 
-    write('init-data/Makefile', 'Makefile', hide=True)
-    write('init-data/config.ini', 'config.ini')
+    _writefile('init-data/Makefile', 'Makefile', hide=True)
+    _writefile('init-data/config.ini', 'config.ini')
 
-    write('init-data/markdown/module.mk', 'markdown/module.mk', hide=True)
-    write('init-data/images/module.mk', 'images/module.mk', hide=True)
-    write('init-data/css/module.mk', 'css/module.mk', hide=True)
-    write('init-data/fonts/module.mk', 'fonts/module.mk', hide=True)
-    write('init-data/javascript/module.mk', 'javascript/module.mk', hide=True)
+    _writefile('init-data/markdown/module.mk', 'markdown/module.mk', hide=True)
+    _writefile('init-data/images/module.mk', 'images/module.mk', hide=True)
+    _writefile('init-data/css/module.mk', 'css/module.mk', hide=True)
+    _writefile('init-data/fonts/module.mk', 'fonts/module.mk', hide=True)
+    _writefile('init-data/javascript/module.mk', 'javascript/module.mk',
+               hide=True)
 
     if args.extras:
-        write('init-data/css/bassclef.css', 'css/bassclef.css')
-
-        write('init-data/images/powered-by-bassclef.png',
-              'images/powered-by-bassclef.png')
-
-        write('init-data/templates/default.html5', 'templates/default.html5')
-        write('init-data/templates/entry.html5', 'templates/entry.html5')
-
-        write('submodules/skeleton/css/skeleton.css',
-              'css/skeleton/skeleton.css')
-        write('submodules/skeleton/css/normalize.css',
-              'css/skeleton/normalize.css')
-
-        write('submodules/open-sans/open-sans.css',
-              'css/open-sans/open-sans.css')
-        fonts = glob.glob('submodules/open-sans/fonts/*/*')
-        for font in fonts:
-            write(font, font.replace('submodules/open-sans/', ''))
+        _writefiles('init-data/css', 'css')
+        _writefiles('init-data/images', 'images')
+        _writefiles('init-data/javascript', 'javascript')
+        _writefiles('init-data/templates', 'templates')
+        _writefiles('init-data/submodules/html5shiv/src',
+                    'javascript/html5shiv')
+        _writefiles('init-data/submodules/skeleton/css', 'css/skeleton')
+        _writefiles('init-data/submodules/open-sans/css', 'css/open-sans')
+        _writefiles('init-data/submodules/open-sans/fonts', 'fonts/open-sans')
+        _writefiles('init-data/submodules/font-awesome/css', 'css/font-awesome')
+        _writefiles('init-data/submodules/font-awesome/fonts',
+                    'fonts/font-awesome')
