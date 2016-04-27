@@ -62,7 +62,7 @@ def getconfig(key=None):
     """
 
     global CONFIG  # pylint: disable=global-statement
-    if not CONFIG is None:
+    if CONFIG:
         return CONFIG[key] if key else CONFIG
 
     # Read the config.ini into a dict, discarding the section info
@@ -81,6 +81,10 @@ def getconfig(key=None):
     if config['web-root'].endswith('/'):
         config['web-root'] = config['web-root'][:-1]
 
+    # Set the template if templates/default.html5 exists
+    if not config['template'] and os.path.exists('templates/default.html5'):
+        config['template'] = 'templates/default.html5'
+        
     # Store the config
     sanitycheck(config)
     CONFIG = config
@@ -100,9 +104,9 @@ def getmeta(path, key=None):
 
     # If the META has already been calculated then we can return it
     global META  # pylint: disable=global-statement
-    if not META is None:
+    if META:
         return META[key] if key else META
-
+    
     # Get defaults from the config
     meta = getconfig()
 
@@ -111,7 +115,7 @@ def getmeta(path, key=None):
 
         # Check for a YAML block at the top of the file
         if f.readline() != '---\n':
-            return meta
+            return meta[key] if key else meta
 
         # Read in the metadata block
         lines = ['---']
@@ -129,7 +133,7 @@ def getmeta(path, key=None):
 
     # Add an encoded title
     meta['encoded-title'] = quote(meta['title']).replace('/', '%2F')
-
+    
     # Store the metadata
     sanitycheck(meta)
     META = meta
@@ -138,19 +142,25 @@ def getmeta(path, key=None):
     return meta[key] if key else meta
 
 
+def getflag(path, key=None):
+    """Returns a build flag given path to .md file and a meta key."""
+    value = getconfig(path, key)
+    return '--%s %s'%(key, value) if value else ''
+
+
 def sanitycheck(data):
     """Checks to see if the config/meta data are sane.  Make minor tweaks
     where necessary."""
-    if 'template' in data:
+    if 'template' in data and data['template']:
         assert os.path.exists(data['template'])
     if 'image' in data:
         assert data['image'].startswith('/') \
                or data['image'].startswith('http://') \
                or data['image'].startswith('https://')
-    if 'twitter-name' in data:
+    if 'twitter-name' in data and data['twitter-name']:
         if data['twitter-name'].startswith('@'):  # Remove leading @
             data['twitter-name'] = data['twitter-name'][1:]
-    if 'social-profiles' in data:  # Quote urls
+    if 'social-profiles' in data and data['social-profiles']:  # Quote urls
         data['social-profiles'] = ', '.join('"' + p.strip('" ') + '"' \
                   for p in data['social-profiles'].split(','))
 

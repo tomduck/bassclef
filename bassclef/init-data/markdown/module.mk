@@ -40,7 +40,7 @@ bcms preprocess $(1) | \
             -f markdown-markdown_in_html_blocks\
             -t html5 \
             --email-obfuscation=none \
-            --template $(shell $(call getmeta,template)) | \
+            $(shell $(call getflag,template)) | \
   bcms postprocess > $(2);
 endef
 
