@@ -34,7 +34,7 @@ DEST_XML = $(patsubst markdown/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
 
 # $(shell $(call templateflag,path)): constructs the template flag
 define templateflag
-TEMPLATE=$(shell $(call getmeta,$(1),template));\
+TEMPLATE=$(shell pandoc-tpp -t $(shell $(call getmeta,$(1),template))); \
 if [ -f $$TEMPLATE ]; then echo "--template $$TEMPLATE"; fi;
 endef
 

@@ -1,0 +1,56 @@
+
+  <!-- Schema.org metadata (google): https://goo.gl/66WW3r -->
+  <script type="application/ld+json">
+  {
+    "@context" : "http://schema.org",
+$if(schema-type)$
+    "@type" : "$schema-type$",
+$endif$
+$if(schema-name)$
+    "name" : "$schema-name$",
+$endif$
+$if(schema-url)$
+    "url" : "$schema-url$",
+$endif$
+$if(social-profiles)$
+    "sameAs" : [$social-profiles$]'
+$endif$
+  }
+  </script>
+
+
+  <!-- OpenGraph metadata (facebook): http://ogp.me/ -->
+$if(title)$
+  <meta property="og:title" content="$title$" />
+$endif$
+$if(description)$
+  <meta property="og:description" content="$description$" />
+$else$
+$if(subtitle)$
+  <meta property="og:description" content="$subtitle$" />
+$endif$$endif$
+  <meta property="og:type" content="website" />
+$if(permalink)$
+  <meta property="og:url" content="$permalink$" />
+$endif$
+$if(image)$$if(site-url)$
+  <meta property="og:image" content="http://$domainname$$webroot$$image$" />
+$endif$$endif$
+
+  <!-- Card metadata (twitter): https://dev.twitter.com/cards/overview -->
+  <meta name="twitter:card" content="summary" />
+$if(twitter-name)$
+  <meta name="twitter:site" content="@$twitter-name$" />
+$endif$
+$if(title)$
+  <meta name="twitter:title" content="%(title)s" />
+$endif$
+$if(description)$
+  <meta name="twitter:description" content="$description$" />
+$else$
+$if(subtitle)$
+  <meta name="twitter:description" content="$subtitle$" />
+$endif$$endif$
+$if(image)$$if(site-url)$
+  <meta name="twitter:image" content="http://$domainname$$webroot$$image$" />
+$endif$$endif$

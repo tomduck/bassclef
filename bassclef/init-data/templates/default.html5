@@ -39,7 +39,7 @@ $else$$if(subtitle)$
   <meta name="description" content="$subtitle$" />
 $endif$$endif$
 
-$include(socialmeta.html)$
+$include(socialmeta.html5)$
 
   <!-- CSS -->
   <style type="text/css">code{white-space: pre;}</style>
