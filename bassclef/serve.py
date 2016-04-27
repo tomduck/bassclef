@@ -21,10 +21,19 @@
 import os
 import http.server
 import socketserver
+import signal
+import sys
 
 from bassclef.util import printline
 
 PORT = 8000
+
+
+# Catch ^C and exit gracefully
+def signal_handler(signal, frame):
+    printline('\n')
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
 
 
 def serve(args):
