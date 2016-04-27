@@ -49,7 +49,8 @@ def main():
     # 'make'
     subparser = subparsers.add_parser('make')
     subparser.add_argument('target', nargs='?', default='')
-    subparser.add_argument('--rebuild', '-B', action='store_true')
+    subparser.add_argument('--always-make', '-B', dest='rebuild',
+                           action='store_true')
     subparser.set_defaults(func=make)
 
     # 'preprocess'

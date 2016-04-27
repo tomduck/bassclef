@@ -39,11 +39,7 @@ $else$$if(subtitle)$
   <meta name="description" content="$subtitle$" />
 $endif$$endif$
 
-  $schemameta$
-
-  $ogmeta$
-
-  $cardmeta$
+$include(socialmeta.html)$
 
   <!-- CSS -->
   <style type="text/css">code{white-space: pre;}</style>

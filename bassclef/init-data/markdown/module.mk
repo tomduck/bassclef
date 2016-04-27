@@ -32,6 +32,12 @@ DEST_XML = $(patsubst markdown/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
 
 # Functions -------------------------------------------------------------------
 
+# $(shell $(call templateflag,path)): constructs the template flag
+define templateflag
+TEMPLATE=$(shell $(call getmeta,$(1),template));\
+if [ -f $$TEMPLATE ]; then echo "--template $$TEMPLATE"; fi;
+endef
+
 # $(call md2html,src.md,dest.html): transforms markdown to html using pandoc
 define md2html
 @if [ ! -d $(dir $(2)) ]; then mkdir -p $(dir $(2)); fi;
@@ -40,7 +46,7 @@ bcms preprocess $(1) | \
             -f markdown-markdown_in_html_blocks\
             -t html5 \
             --email-obfuscation=none \
-            $(shell $(call getflag,template)) | \
+            $(shell $(call templateflag,$(1))) | \
   bcms postprocess > $(2);
 endef
 

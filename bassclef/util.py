@@ -143,12 +143,6 @@ def getmeta(path, key=None):
     return meta[key] if key else meta
 
 
-def getflag(path, key=None):
-    """Returns a build flag given path to .md file and a meta key."""
-    value = getconfig(path, key)
-    return '--%s %s'%(key, value) if value else ''
-
-
 def sanitycheck(data):
     """Checks to see if the config/meta data are sane.  Make minor tweaks
     where necessary."""

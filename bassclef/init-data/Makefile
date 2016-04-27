@@ -36,13 +36,13 @@ CLEAN =
 
 # Functions -------------------------------------------------------------------
 
-# $(call getconfig,name): gets value from config.ini
+# $(shell $(call getconfig,name)): gets value from config.ini
 getconfig = $(PYTHON3) -c "from bassclef.util import getconfig;\
                            print(getconfig('$(1)'))"
 
-# $(call getmeta,filename,varname): gets metadata value for doc
-getflag = $(PYTHON3) -c "from bassclef.util import getflag;\
-                         print(getflag('$<', '$(1)'))"
+# $(shell $(call getmeta,file,name)): gets meta value
+getmeta = $(PYTHON3) -c "from bassclef.util import getmeta;\
+                         print(getmeta('$(1)', '$(2)'))"
 
 # $(call copyfiles,src,dest): copies files from source to destination
 define copyfiles
