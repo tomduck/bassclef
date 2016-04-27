@@ -132,7 +132,8 @@ def getmeta(path, key=None):
     meta.update(yaml.load('\n'.join(lines)))
 
     # Add an encoded title
-    meta['encoded-title'] = quote(meta['title']).replace('/', '%2F')
+    if 'title' in meta:
+        meta['encoded-title'] = quote(meta['title']).replace('/', '%2F')
     
     # Store the metadata
     sanitycheck(meta)

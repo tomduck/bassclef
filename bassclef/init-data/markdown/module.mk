@@ -72,5 +72,5 @@ www$(WEBROOT)/%.xml: markdown/%.md.in $(DEST_HTML)
 
 # Targets ---------------------------------------------------------------------
 
-ALL += markdown html rss
+ALL += markdown html
 CLEAN += $(DEST_MD) $(DEST_HTML) $(DEST_XML)

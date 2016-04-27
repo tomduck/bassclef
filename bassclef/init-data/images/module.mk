@@ -29,7 +29,7 @@ DEST_ORIG = $(patsubst images/%,www$(WEBROOT)/images/originals/%,$(SOURCE_IMG))
 
 # Build rules -----------------------------------------------------------------
 
-GEOM = $(shell $(call config,image-geometry))
+GEOM = $(shell $(call getconfig,image-geometry))
 
 images: $(DEST_ORIG) $(DEST_IMG)
 

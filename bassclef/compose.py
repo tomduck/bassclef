@@ -19,13 +19,13 @@
 """compose.py - assembles markdown from a .md.in file"""
 
 import sys
-from sys import stdout
 import os, os.path
 import re
 import tempfile
 import subprocess
 
-from bassclef.util import getmeta, printmeta, getcontent, printcontent, path2url
+from bassclef.util import getmeta, printmeta, getcontent, \
+     printlines, printline, STDOUT
 
 
 # pylint: disable=too-many-locals
@@ -52,9 +52,6 @@ def process(lines, meta, n):
 
     # Read, process, and store each line
     for line in lines:
-
-        # Strip whitespace at the right end
-        line = line.rstrip()
 
         # Use the number n to give links a namespace
         while p1.search(line):
@@ -123,7 +120,7 @@ def content_printer():
 
         # Print a horizontal rule between files
         if n != 0:
-            print('\n<hr />\n')
+            printline('\n<hr />\n')
 
         # Read and process the file
         meta = getmeta(path)
@@ -136,16 +133,16 @@ def content_printer():
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as f:
             path = f.name
             printmeta(meta, f=f)
-            printcontent(lines, f=f)
+            printlines(lines, f=f)
 
         # Process the markdown with pandoc, printing the output to stdout
-        stdout.flush()
+        STDOUT.flush()
         subprocess.call(['pandoc', path, '-s', '-S', '-thtml5',
                          '--template=templates/entry.html5'])
-        stdout.flush()
+        STDOUT.flush()
 
         # Print a newline at the end of pandoc's output
-        print('')
+        printline('\n')
 
         # Remove the temporary file
         os.remove(path)
@@ -154,22 +151,12 @@ def content_printer():
         n += 1
 
 
-def compose(path=sys.argv[1]):
+def compose(args):
     """Composes the .md.in file at path."""
 
-    assert path.startswith('markdown/')
+    path = args.path
 
     meta = getmeta(path)
-
-    # Add to the metadata
-    if meta['showrss']:
-        url = path2url(path, relative=True)
-        if not path.endswith('.html'):
-            url = os.path.join(url, 'index.html')
-        # pylint: disable=no-member
-        meta['rssurl'] = url.replace('.html', '.xml')
-
-    # Print the metadata to stdout
     printmeta(meta)
 
     # Read the lines of the .md.in file
@@ -184,7 +171,7 @@ def compose(path=sys.argv[1]):
         if line.endswith('.md') and os.path.isfile(line):
             printer.send(line)
         else:
-            print(line)
+            printline(line)
 
 if __name__ == '__main__':
     compose()

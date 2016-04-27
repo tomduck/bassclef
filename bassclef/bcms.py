@@ -25,7 +25,7 @@ from bassclef.init import init
 from bassclef.make import make
 from bassclef.preprocess import preprocess
 from bassclef.postprocess import postprocess
-#from bassclef.compose import compose
+from bassclef.compose import compose
 from bassclef.serve import serve
 
 
@@ -62,8 +62,9 @@ def main():
     subparser.set_defaults(func=postprocess)
 
     # 'compose'
-    #subparser = subparsers.add_parser('compose')
-    #subparser.set_defaults(func=compose)
+    subparser = subparsers.add_parser('compose')
+    subparser.add_argument('path')
+    subparser.set_defaults(func=compose)
 
     # 'serve'
     subparser = subparsers.add_parser('serve')
