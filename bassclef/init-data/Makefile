@@ -44,6 +44,7 @@ getconfig = $(PYTHON3) -c "from bassclef.util import getconfig;\
 getmeta = $(PYTHON3) -c "from bassclef.util import getmeta;\
                          print(getmeta('$(1)', '$(2)'))"
 
+
 # $(call copyfiles,src,dest): copies files from source to destination
 define copyfiles
 @if [ ! -d $(dir $(2)) ]; then mkdir -p $(dir $(2)); fi;
@@ -65,10 +66,11 @@ endif
 # Module imports --------------------------------------------------------------
 
 MODULES = $(wildcard */.module.mk)
+
 include $(MODULES)
 
 
-# Default rule----------------------------------------------------------------
+# Default rule ---------------------------------------------------------------
 
 .DEFAULT_GOAL =
 
@@ -80,6 +82,6 @@ all: $(ALL)
 clean:
 	@echo "Removing files and directories from www/..."
 	@rm -rf $(CLEAN)
-	@find www -type d -empty -delete
+	@if [ -d "www" ]; then find www -type d -empty -delete; fi
 
 .PHONY: $(ALL) serve clean
