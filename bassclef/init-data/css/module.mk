@@ -18,51 +18,24 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_BASSCLEF_CSS = $(wildcard css/*.css)
-SOURCE_SKELETON_CSS = $(wildcard css/skeleton/*.css)
-SOURCE_OPENSANS_CSS = $(wildcard css/open-sans/*.css)
-SOURCE_FONTAWESOME_CSS = $(wildcard css/font-awesome/*.css)
+SOURCE_CSS = $(wildcard css/*.css) $(wildcard css/*/*.css)
 
 
 # Destination files -----------------------------------------------------------
 
-DEST_BASSCLEF_CSS = $(patsubst css/%,\
-                      www$(WEBROOT)/css/%,\
-                      $(SOURCE_BASSCLEF_CSS))
-
-DEST_SKELETON_CSS = $(patsubst css/skeleton/%,\
-                      www$(WEBROOT)/css/skeleton/%,\
-                      $(SOURCE_SKELETON_CSS))
-
-DEST_OPENSANS_CSS = $(patsubst css/open-sans/%,\
-                      www$(WEBROOT)/css/open-sans/%,\
-                      $(SOURCE_OPENSANS_CSS))
-
-DEST_FONTAWESOME_CSS = $(patsubst css/font-awesome/%,\
-                         www$(WEBROOT)/css/font-awesome/%,\
-                         $(SOURCE_FONTAWESOME_CSS))
+DEST_CSS = $(patsubst css/%,www$(WEBROOT)/css/%,$(SOURCE_CSS))
 
 
 # Build rules -----------------------------------------------------------------
 
-css: $(DEST_BASSCLEF_CSS) $(DEST_SKELETON_CSS) $(DEST_OPENSANS_CSS) \
-     $(DEST_FONTAWESOME_CSS)
+css: $(DEST_CSS)
 
 www$(WEBROOT)/css/%: css/%
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/css/skeleton/%: css/skeleton/%
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/css/open-sans/%: css/open-sans/%
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/css/font-awesome/%: css/font-awesome/%
+	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(call copyfiles,$<,$@)
 
 
 # Targets ---------------------------------------------------------------------
 
 ALL += css
-CLEAN += $(DEST_BASSCLEF_CSS) $(DEST_SKELETON_CSS) $(DEST_OPENSANS_CSS) \
-         $(DEST_FONTAWESOME_CSS)
+CLEAN += $(DEST_CSS)
