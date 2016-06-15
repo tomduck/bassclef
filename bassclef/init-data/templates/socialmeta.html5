@@ -37,6 +37,7 @@ $if(image)$$if(site-url)$
   <meta property="og:image" content="http://$domainname$$webroot$$image$" />
 $endif$$endif$
 
+
   <!-- Card metadata (twitter): https://dev.twitter.com/cards/overview -->
   <meta name="twitter:card" content="summary" />
 $if(twitter-name)$
