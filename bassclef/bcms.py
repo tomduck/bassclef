@@ -73,7 +73,10 @@ def main():
 
     # Parse the args and call whatever function was selected
     args = parser.parse_args()
-    args.func(args)
+    if hasattr(args, 'func'):
+        args.func(args)
+    else:
+        parser.print_help()
 
 if __name__ == '__main__':
     main()
