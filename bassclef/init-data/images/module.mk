@@ -18,7 +18,7 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_IMG = $(wildcard images/*.*)
+SOURCE_IMG = $(wildcard images/*.*) $(wildcard images/*/*.*)
 
 
 # Destination files -----------------------------------------------------------
@@ -33,11 +33,14 @@ GEOM = $(shell $(call getconfig,image-geometry))
 
 images: $(DEST_ORIG) $(DEST_IMG)
 
+
 www$(WEBROOT)/images/originals/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(call copyfiles,$<,$@)
 
+
 www$(WEBROOT)/images/%: images/%
+	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(CONVERT) $< -resize $(GEOM) $@
 
 
