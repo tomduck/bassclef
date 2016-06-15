@@ -23,22 +23,27 @@ import http.server
 import socketserver
 import signal
 import sys
+import threading
 
 from bassclef.util import printline
 
 PORT = 8000
 
+Handler = http.server.SimpleHTTPRequestHandler
+httpd = socketserver.TCPServer(('', PORT), Handler)
 
 # Catch ^C and exit gracefully
 def signal_handler(signal, frame):
     printline('\n')
+    httpd.shutdown()
+    httpd.server_close()
     sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
-
 def serve(args):
     os.chdir('www')
-    Handler = http.server.SimpleHTTPRequestHandler
-    httpd = socketserver.TCPServer(('', PORT), Handler)
     printline('Serving at http://127.0.0.1:%d/ (^C to exit)...\n'%PORT)
+    thread = threading.Thread(target=httpd.serve_forever)
+    thread.start()
+
     httpd.serve_forever()
