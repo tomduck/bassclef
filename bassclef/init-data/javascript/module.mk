@@ -23,9 +23,7 @@ SOURCE_JS = $(wildcard javascript/*.js) $(wildcard javascript/*/*.js)
 
 # Destination files -----------------------------------------------------------
 
-DEST_JS = $(patsubst javascript/%,\
-                        www$(WEBROOT)/javascript/%,\
-                        $(SOURCE_JS))
+DEST_JS = $(patsubst javascript/%,www$(WEBROOT)/javascript/%,$(SOURCE_JS))
 
 
 # Build rules -----------------------------------------------------------------

@@ -18,33 +18,23 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_OPENSANS_FONTS =  $(wildcard fonts/open-sans/*/*.*)
-SOURCE_FONTAWESOME_FONTS =  $(wildcard fonts/font-awesome/*.*)
+SOURCE_FONTS = $(wildcard fonts/*.*) $(wildcard fonts/*/*.*)
 
 
 # Destination files -----------------------------------------------------------
 
-DEST_OPENSANS_FONTS = $(patsubst fonts/open-sans/%,\
-                        www$(WEBROOT)/fonts/open-sans/%,\
-                        $(SOURCE_OPENSANS_FONTS))
-
-DEST_FONTAWESOME_FONTS = $(patsubst fonts/font-awesome/%,\
-                           www$(WEBROOT)/fonts/font-awesome/%,\
-                           $(SOURCE_FONTAWESOME_FONTS))
+DEST_FONTS = $(patsubst fonts/%,www$(WEBROOT)/fonts/%,$(SOURCE_FONTS))
 
 
 # Build rules -----------------------------------------------------------------
 
-fonts: $(DEST_OPENSANS_FONTS) $(DEST_FONTAWESOME_FONTS)
+fonts: $(DEST_FONTS)
 
-www$(WEBROOT)/fonts/open-sans/%: fonts/open-sans/%
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/fonts/font-awesome/%: fonts/font-awesome/%
+www$(WEBROOT)/fonts/%: fonts/%
 	$(call copyfiles,$<,$@)
 
 
 # Targets ---------------------------------------------------------------------
 
 ALL += fonts
-CLEAN += $(DEST_OPENSANS_FONTS) $(DEST_FONTAWESOME_FONTS)
+CLEAN += $(DEST_FONTS)
