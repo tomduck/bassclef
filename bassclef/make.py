@@ -25,7 +25,7 @@ import sys
 from bassclef.util import error
 
 
-def make(args):
+def make(args, other_args):
     """Builds the site via a call to GNU make."""
 
     # Find the Makefile
@@ -34,8 +34,8 @@ def make(args):
 
     # Assemble the call
     command = ['make', '-f', '.Makefile']
-    if args.rebuild:
-        command.append('-B')
+    if other_args:
+        command += other_args
     if args.target:
         command += args.target
 

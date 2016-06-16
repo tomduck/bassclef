@@ -28,6 +28,7 @@ from bassclef.postprocess import postprocess
 from bassclef.compose import compose
 from bassclef.feed import feed
 from bassclef.serve import serve
+from bassclef.util import printline
 
 
 def main():
@@ -50,8 +51,6 @@ def main():
     # 'make'
     subparser = subparsers.add_parser('make')
     subparser.add_argument('target', nargs='*', default='')
-    subparser.add_argument('--always-make', '-B', dest='rebuild',
-                           action='store_true')
     subparser.set_defaults(func=make)
 
     # 'preprocess'
@@ -78,9 +77,14 @@ def main():
     subparser.set_defaults(func=serve)
 
     # Parse the args and call whatever function was selected
-    args = parser.parse_args()
+    args, other_args = parser.parse_known_args()
     if hasattr(args, 'func'):
-        args.func(args)
+        if args.func.__name__ == 'make':
+            args.func(args, other_args)
+        elif other_args:
+            printline('Unknown options: ' + ' '.join(other_args))
+        else:
+            args.func(args)
     else:
         parser.print_help()
 
