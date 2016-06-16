@@ -82,7 +82,7 @@ def main():
         if args.func.__name__ == 'make':
             args.func(args, other_args)
         elif other_args:
-            printline('Unknown options: ' + ' '.join(other_args))
+            printline('Unknown options: ' + ' '.join(other_args) + '\n')
         else:
             args.func(args)
     else:
