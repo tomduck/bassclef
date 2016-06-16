@@ -23,14 +23,14 @@ SOURCE_FONTS = $(wildcard fonts/*.*) $(wildcard fonts/*/*.*)
 
 # Destination files -----------------------------------------------------------
 
-DEST_FONTS = $(patsubst fonts/%,www$(WEBROOT)/fonts/%,$(SOURCE_FONTS))
+DEST_FONTS = $(patsubst fonts/%,$(OUT)/fonts/%,$(SOURCE_FONTS))
 
 
 # Build rules -----------------------------------------------------------------
 
 fonts: $(DEST_FONTS)
 
-www$(WEBROOT)/fonts/%: fonts/%
+$(OUT)/fonts/%: fonts/%
 	$(call copyfiles,$<,$@)
 
 

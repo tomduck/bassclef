@@ -23,14 +23,14 @@ SOURCE_CSS = $(wildcard css/*.css) $(wildcard css/*/*.css)
 
 # Destination files -----------------------------------------------------------
 
-DEST_CSS = $(patsubst css/%,www$(WEBROOT)/css/%,$(SOURCE_CSS))
+DEST_CSS = $(patsubst css/%,$(OUT)/css/%,$(SOURCE_CSS))
 
 
 # Build rules -----------------------------------------------------------------
 
 css: $(DEST_CSS)
 
-www$(WEBROOT)/css/%: css/%
+$(OUT)/css/%: css/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(call copyfiles,$<,$@)
 

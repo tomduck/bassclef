@@ -44,7 +44,6 @@ getconfig = $(PYTHON3) -c "from bassclef.util import getconfig;\
 getmeta = $(PYTHON3) -c "from bassclef.util import getmeta;\
                          print(getmeta('$(1)', '$(2)'))"
 
-
 # $(call copyfiles,src,dest): copies files from source to destination
 define copyfiles
 @if [ ! -d $(dir $(2)) ]; then mkdir -p $(dir $(2)); fi;
@@ -55,7 +54,13 @@ endef
 
 # Paths -----------------------------------------------------------------------
 
+WWW = www
 WEBROOT = $(shell $(call getconfig,web-root))
+ifeq ($(WEBROOT),)
+  OUT = $(WWW)
+else
+  OUT = $(WWW)/$(WEBROOT)
+endif
 
 TMP := $(shell mktemp -d /tmp/bassclef.XXXXXXXXXX)
 ifeq ($(TMP),)

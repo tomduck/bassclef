@@ -25,33 +25,48 @@ SOURCE_MD = $(wildcard markdown/*.md) $(wildcard markdown/*/*.md)
 # Destination files -----------------------------------------------------------
 
 DEST_MD = $(patsubst markdown/%.md.in,$(TMP)/%.md,$(SOURCE_MD_IN))
-DEST_HTML = $(patsubst markdown/%.md,www$(WEBROOT)/%.html,$(SOURCE_MD)) \
-              $(patsubst $(TMP)/%.md,www$(WEBROOT)/%.html,$(DEST_MD))
-DEST_XML = $(patsubst markdown/%.md.in,www$(WEBROOT)/%.xml,$(SOURCE_MD_IN))
+DEST_HTML = $(patsubst markdown/%.md,$(OUT)/%.html,$(SOURCE_MD)) \
+              $(patsubst $(TMP)/%.md,$(OUT)/%.html,$(DEST_MD))
+DEST_XML = $(patsubst markdown/%.md.in,$(OUT)/%.xml,$(SOURCE_MD_IN))
 
 
 # Functions -------------------------------------------------------------------
 
-# $(shell $(call templateflag,path)): constructs the template flag
-define templateflag
-TEMPLATE=$(shell pandoc-tpp -t $(shell $(call getmeta,$(1),template))); \
-if [ -f $$TEMPLATE ]; then echo "--template $$TEMPLATE"; fi;
+# $(call makevars,mdpath,htmlpath): makes variables needed to assemble flags
+define makevars
+TEMPLATE = $(shell pandoc-tpp -t $(shell $(call getmeta,$(1),template)))
+HTMLPATH = $(patsubst $(WWW)/%,/%,$(2))
+URL = $$(shell $(PYTHON3) -c "from bassclef.util import absurl;\
+                              print(absurl('$$(HTMLPATH)'))")
+QUOTEDURL = $$(shell $(PYTHON3) -c \
+    "from urllib.parse import quote; \
+     print(quote('$$(URL)').replace('/', '%2F'))")
+endef
+
+# $(call addflags,mdpath,htmlpath): Adds flags to PANDOCFLAGS
+define addflags
+$(call makevars,$(1),$(2))
+ifneq ($$(TEMPLATE),)
+  PANDOCFLAGS += --template $$(TEMPLATE)
+endif
+PANDOCFLAGS += -M url=$$(URL)
+PANDOCFLAGS += -M quoted-url=$$(QUOTEDURL)
 endef
 
 # $(call md2html,src.md,dest.html): transforms markdown to html using pandoc
 define md2html
 @if [ ! -d $(dir $(2)) ]; then mkdir -p $(dir $(2)); fi;
-bcms preprocess $(1) | \
-  $(PANDOC) -s -S \
-            -f markdown-markdown_in_html_blocks\
-            -t html5 \
-            --email-obfuscation=none \
-            $(shell $(call templateflag,$(1))) | \
-  bcms postprocess > $(2);
+$(eval $(call addflags,$<,$@))
+bcms preprocess $(1) | $(PANDOC) $(PANDOCFLAGS) | bcms postprocess > $(2);
 endef
 
 
 # Build rules -----------------------------------------------------------------
+
+PANDOCFLAGS = -s -S \
+              -f markdown-markdown_in_html_blocks \
+              -t html5 \
+              --email-obfuscation=none
 
 markdown: $(DEST_MD)
 
@@ -62,16 +77,16 @@ $(TMP)/%.md: markdown/%.md.in $(SOURCE_MD)
 
 html: $(DEST_HTML)
 
-www$(WEBROOT)/%.html: $(TMP)/%.md
+$(OUT)/%.html: $(TMP)/%.md
 	$(call md2html,$<,$@)
 
-www$(WEBROOT)/%.html: markdown/%.md
+$(OUT)/%.html: markdown/%.md
 	$(call md2html,$<,$@)
 
 
 rss: $(DEST_XML)
 
-www$(WEBROOT)/%.xml: markdown/%.md.in $(DEST_HTML)
+$(OUT)/%.xml: markdown/%.md.in $(DEST_HTML)
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	bcms feed $< > $@
 

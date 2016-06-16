@@ -23,8 +23,8 @@ SOURCE_IMG = $(wildcard images/*.*) $(wildcard images/*/*.*)
 
 # Destination files -----------------------------------------------------------
 
-DEST_IMG = $(patsubst %,www$(WEBROOT)/%,$(SOURCE_IMG))
-DEST_ORIG = $(patsubst images/%,www$(WEBROOT)/images/originals/%,$(SOURCE_IMG))
+DEST_IMG = $(patsubst %,$(OUT)/%,$(SOURCE_IMG))
+DEST_ORIG = $(patsubst images/%,$(OUT)/images/originals/%,$(SOURCE_IMG))
 
 
 # Build rules -----------------------------------------------------------------
@@ -34,12 +34,12 @@ GEOM = $(shell $(call getconfig,image-geometry))
 images: $(DEST_ORIG) $(DEST_IMG)
 
 
-www$(WEBROOT)/images/originals/%: images/%
+$(OUT)/images/originals/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(call copyfiles,$<,$@)
 
 
-www$(WEBROOT)/images/%: images/%
+$(OUT)/images/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(CONVERT) $< -resize $(GEOM) $@
 
