@@ -37,7 +37,7 @@ def make(args):
     if args.rebuild:
         command.append('-B')
     if args.target:
-        command.append(args.target)
+        command += args.target
 
     # Make the call
     sys.exit(subprocess.call(command))

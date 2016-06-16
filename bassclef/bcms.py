@@ -26,6 +26,7 @@ from bassclef.make import make
 from bassclef.preprocess import preprocess
 from bassclef.postprocess import postprocess
 from bassclef.compose import compose
+from bassclef.feed import feed
 from bassclef.serve import serve
 
 
@@ -48,7 +49,7 @@ def main():
 
     # 'make'
     subparser = subparsers.add_parser('make')
-    subparser.add_argument('target', nargs='?', default='')
+    subparser.add_argument('target', nargs='*', default='')
     subparser.add_argument('--always-make', '-B', dest='rebuild',
                            action='store_true')
     subparser.set_defaults(func=make)
@@ -66,6 +67,11 @@ def main():
     subparser = subparsers.add_parser('compose')
     subparser.add_argument('path')
     subparser.set_defaults(func=compose)
+
+    # 'feed'
+    subparser = subparsers.add_parser('feed')
+    subparser.add_argument('path')
+    subparser.set_defaults(func=feed)
 
     # 'serve'
     subparser = subparsers.add_parser('serve')
