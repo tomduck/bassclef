@@ -63,17 +63,19 @@ def fix_bugs(lines):
 
 
 def adjust_urls(lines):
-    """Put web-root/ into relative urls."""
-    p = re.compile('((src|href)="/(.*?)")')
-    for i, line in enumerate(lines):
-        replace = False
-        for group in p.findall(line):
-            replace = True
-            old, tag, path = group
-            new = '%s="%s/%s"' % (tag, getconfig('web-root'), path)
-            line = line.replace(old, new)
-        if replace:
-            lines[i] = line
+    """Put web root into urls where appropriate."""
+    root = getconfig('root')
+    if root:
+        p = re.compile('((src|href)="/(.*?)")')
+        for i, line in enumerate(lines):
+            replace = False
+            for group in p.findall(line):
+                replace = True
+                old, tag, path = group
+                new = '%s="/%s/%s"' % (tag, root, path)
+                line = line.replace(old, new)
+            if replace:
+                lines[i] = line
     return lines
 
 
