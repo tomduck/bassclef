@@ -36,11 +36,11 @@ DEST_XML = $(patsubst markdown/%.md.in,$(OUT)/%.xml,$(SOURCE_MD_IN))
 define makevars
 TEMPLATE = $(shell pandoc-tpp -t $(shell $(call getmeta,$(1),template)))
 HTMLPATH = $(patsubst $(WWW)/%,/%,$(2))
-URL = $$(shell $(PYTHON3) -c "from bassclef.util import absurl;\
-                              print(absurl('$$(HTMLPATH)'))")
-QUOTEDURL = $$(shell $(PYTHON3) -c \
+PERMALINK = $$(shell $(PYTHON3) -c "from bassclef.util import absurl;\
+                                    print(absurl('$$(HTMLPATH)'))")
+QUOTED_PERMALINK = $$(shell $(PYTHON3) -c \
     "from urllib.parse import quote; \
-     print(quote('$$(URL)').replace('/', '%2F'))")
+     print(quote('$$(PERMALINK)').replace('/', '%2F'))")
 endef
 
 # $(call addflags,mdpath,htmlpath): Adds flags to PANDOCFLAGS
@@ -49,8 +49,8 @@ $(call makevars,$(1),$(2))
 ifneq ($$(TEMPLATE),)
   PANDOCFLAGS += --template $$(TEMPLATE)
 endif
-PANDOCFLAGS += -M url=$$(URL)
-PANDOCFLAGS += -M quoted-url=$$(QUOTEDURL)
+PANDOCFLAGS += -M permalink=$$(PERMALINK)
+PANDOCFLAGS += -M quoted-permalink=$$(QUOTED_PERMALINK)
 endef
 
 # $(call md2html,src.md,dest.html): transforms markdown to html using pandoc
