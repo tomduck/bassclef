@@ -72,12 +72,12 @@ def getconfig(key=None):
     for section in parser.sections():
         config.update({k:v for k, v in parser.items(section)})
 
-    # Add the domain name and web root for this site so that they may be used
-    # by the template.  e.g., suppose the site-url is
-    # https://tomduck.github.io/bassclef/.  The domain name is
-    # tomduck.github.io and the web root is /bassclef.
-    config['domain-name'] = urlparse(config['site-url'])[1]
+    # Add the web root for this site.  e.g., suppose the site-url is
+    # https://tomduck.github.io/bassclef/.  The scheme is 'https', the netloc
+    # is 'tomduck.github.io' and the web root is 'bassclef'.
     config['web-root'] = urlparse(config['site-url'])[2]
+    if config['web-root'].startswith('/'):
+        config['web-root'] = config['web-root'][1:]
     if config['web-root'].endswith('/'):
         config['web-root'] = config['web-root'][:-1]
 
@@ -131,9 +131,9 @@ def getmeta(path, key=None):
     # Parse the metadata
     meta.update(yaml.load('\n'.join(lines)))
 
-    # Add an encoded title
+    # Add a quoted title
     if 'title' in meta:
-        meta['encoded-title'] = quote(meta['title']).replace('/', '%2F')
+        meta['quoted-title'] = quote(meta['title']).replace('/', '%2F')
     
     # Store the metadata
     sanitycheck(meta)
@@ -146,6 +146,9 @@ def getmeta(path, key=None):
 def sanitycheck(data):
     """Checks to see if the config/meta data are sane.  Make minor tweaks
     where necessary."""
+    if 'site-url' in data and data['site-url']:
+        if data['site-url'].endswith('/'):  # Remove trailing
+            data['site-url'] = data['site-url'][:-1]
     if 'template' in data and data['template']:
         assert os.path.exists(data['template'])
     if 'image' in data:
@@ -190,6 +193,15 @@ def printmeta(meta, f=STDOUT, obfuscate=False):
 
     f.write('...\n')
     f.flush()
+
+
+def absurl(path):
+    """Returns the absolute url for given path."""
+    try:
+        assert path.startswith('/')
+    except:
+        raise RuntimeError('***', path)
+    return getconfig('site-url') + path
 
 
 def getcontent(path):
