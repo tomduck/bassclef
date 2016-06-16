@@ -64,15 +64,15 @@ def fix_bugs(lines):
 
 def adjust_urls(lines):
     """Put web root into urls where appropriate."""
-    root = getconfig('root')
-    if root:
+    webroot = getconfig('web-root')
+    if webroot:
         p = re.compile('((src|href)="/(.*?)")')
         for i, line in enumerate(lines):
             replace = False
             for group in p.findall(line):
                 replace = True
                 old, tag, path = group
-                new = '%s="/%s/%s"' % (tag, root, path)
+                new = '%s="/%s/%s"' % (tag, webroot, path)
                 line = line.replace(old, new)
             if replace:
                 lines[i] = line
