@@ -28,7 +28,7 @@ from bassclef.postprocess import postprocess
 from bassclef.compose import compose
 from bassclef.feed import feed
 from bassclef.serve import serve
-from bassclef.util import printline
+from bassclef.util import write
 
 
 def main():
@@ -82,7 +82,7 @@ def main():
         if args.func.__name__ == 'make':
             args.func(args, other_args)
         elif other_args:
-            printline('Unknown options: ' + ' '.join(other_args) + '\n')
+            write('Unknown options: ' + ' '.join(other_args) + '\n')
         else:
             args.func(args)
     else:

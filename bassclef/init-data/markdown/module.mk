@@ -32,8 +32,8 @@ DEST_XML = $(patsubst markdown/%.md.in,$(OUT)/%.xml,$(SOURCE_MD_IN))
 
 # Functions -------------------------------------------------------------------
 
-# $(call makevars,mdpath,htmlpath): makes variables needed to assemble flags
-define makevars
+# $(call makeflags,mdpath,htmlpath): Adds flags to PANDOCFLAGS
+define makeflags
 TEMPLATE = $(shell pandoc-tpp -t $(shell $(call getmeta,$(1),template)))
 HTMLPATH = $(patsubst $(WWW)/%,/%,$(2))
 PERMALINK = $$(shell $(PYTHON3) -c "from bassclef.util import absurl;\
@@ -41,11 +41,10 @@ PERMALINK = $$(shell $(PYTHON3) -c "from bassclef.util import absurl;\
 QUOTED_PERMALINK = $$(shell $(PYTHON3) -c \
     "from urllib.parse import quote; \
      print(quote('$$(PERMALINK)').replace('/', '%2F'))")
-endef
-
-# $(call addflags,mdpath,htmlpath): Adds flags to PANDOCFLAGS
-define addflags
-$(call makevars,$(1),$(2))
+PANDOCFLAGS = -s -S \
+              -f markdown+markdown_attribute \
+              -t html5 \
+              --email-obfuscation none
 ifneq ($$(TEMPLATE),)
   PANDOCFLAGS += --template $$(TEMPLATE)
 endif
@@ -56,17 +55,12 @@ endef
 # $(call md2html,src.md,dest.html): transforms markdown to html using pandoc
 define md2html
 @if [ ! -d $(dir $(2)) ]; then mkdir -p $(dir $(2)); fi;
-$(eval $(call addflags,$<,$@))
+$(eval $(call makeflags,$<,$@))
 bcms preprocess $(1) | $(PANDOC) $(PANDOCFLAGS) | bcms postprocess > $(2);
 endef
 
 
 # Build rules -----------------------------------------------------------------
-
-PANDOCFLAGS = -s -S \
-              -f markdown-markdown_in_html_blocks \
-              -t html5 \
-              --email-obfuscation=none
 
 markdown: $(DEST_MD)
 

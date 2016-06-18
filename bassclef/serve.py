@@ -25,7 +25,7 @@ import signal
 import sys
 import threading
 
-from bassclef.util import printline
+from bassclef.util import write
 
 socketserver.TCPServer.allow_reuse_address = True
 
@@ -40,11 +40,11 @@ def serve(args):
     Handler = http.server.SimpleHTTPRequestHandler
     httpd = socketserver.TCPServer(('', PORT), Handler)
     
-    printline('Serving at http://127.0.0.1:%d/ (^C to exit)...\n'%PORT)
+    write('Serving at http://127.0.0.1:%d/ (^C to exit)...\n'%PORT)
 
     # Catch ^C and exit gracefully
     def signal_handler(signal, frame):
-        printline('\n')
+        write('\n')
         sys.exit(0)
     signal.signal(signal.SIGINT, signal_handler)
 

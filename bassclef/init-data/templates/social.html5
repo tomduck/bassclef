@@ -1,0 +1,15 @@
+<div class="social">
+  <ul>
+$if(quoted-permalink)$
+$if(quoted-title)$
+    <li><a href="https://twitter.com/share?url=$quoted-permalink$%26text=$quoted-title$"><span class="fa fa-twitter icon"></span></a></li>
+$endif$
+    <li><a href="http://www.facebook.com/sharer.php?u=$quoted-permalink$"><span class="fa fa-facebook icon"></span></a></li>
+    <li><a href="https://plus.google.com/share?url=$quoted-permalink$"><span class="fa fa-google-plus icon"></span></a></li>
+    <li><a href="http://www.linkedin.com/shareArticle?mini=True%26url=$quoted-permalink$"><span class="fa fa-linkedin icon"></span></a></li>
+$if(quoted-title)$
+    <li><a href="mailto:?subject=$quoted-title$%26body=$quoted-permalink$"><span class="fa fa-envelope icon"></span></a></li>
+$endif$
+$endif$
+  </ul>
+</div> <!-- class="social" -->

@@ -16,14 +16,14 @@
 #  You should have received a copy of the GNU General Public License
 #  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
 
-"""makefeed.py - creates an RSS 2 feed."""
+"""feed.py - creates an RSS 2 feed."""
 
 import sys, os
 import datetime
 
 import PyRSS2Gen as rss2
 
-from bassclef.util import getmeta, getcontent, path2url
+from bassclef.util import getmeta, getcontent, write
 
 from html.entities import codepoint2name
 
@@ -102,23 +102,22 @@ def make_item(path):
                         guid=guid)
 
 
-def makefeed(path=sys.argv[1]):
-    """Makes a feed from the .md.in file at path."""
+def feed(args):
+    """Makes a feed from an .md.in file."""
 
-    assert path.startswith('markdown/')
-
-    meta = getmeta(path)
-    lines = getcontent(path)
-
-    # Get the last ten items
-    items = [make_item(line) for line in lines \
-             if line.endswith('.md') and os.path.isfile(line)]
-    items = items[:10] if len(items) > 10 else items
+    path = args.path
 
     # Extract the metadata fields we need
+    meta = getmeta(path)
     title = meta['rsstitle'] if 'rsstitle' in meta else None
     subtitle = meta['subtitle'] if 'subtitle' in meta else ''
 
+    # Get the last ten RSS items from file listing at path
+    lines = getcontent(path)
+    items = [make_item(line) for line in lines \
+             if line.endswith('.md') and os.path.isfile(line)][:10]
+
+    # Create the RSS
     rss = rss2.RSS2(generator=None,
                     docs=None,
                     title=title,
@@ -127,9 +126,5 @@ def makefeed(path=sys.argv[1]):
                     lastBuildDate=datetime.datetime.now(),
                     items=items)
 
-    rss.write_xml(sys.stdout)
-
-
-if __name__ == '__main__':
-    makefeed()
-
+    # Write it out
+    write(rss.to_xml())

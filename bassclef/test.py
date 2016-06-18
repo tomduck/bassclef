@@ -24,7 +24,7 @@ import subprocess
 import textwrap
 
 import bassclef.util
-from bassclef.util import printline, which
+from bassclef.util import write, which
 
 
 def error(msg, e=None):
@@ -114,19 +114,19 @@ def check_convert():
 def test(args):
     """Runs the tests."""
 
-    printline('Checking python... ')
+    write('Checking python... ')
     check_python()
-    printline('OK.\n')
+    write('OK.\n')
 
-    printline('Checking make... ')
+    write('Checking make... ')
     check_make()
-    printline('OK.\n')
+    write('OK.\n')
 
-    printline('Checking pandoc... ')
+    write('Checking pandoc... ')
     check_pandoc()
-    printline('OK.\n')
+    write('OK.\n')
 
-    printline('Checking convert... ')
+    write('Checking convert... ')
     check_convert()
-    printline('OK.\n')
+    write('OK.\n')
 

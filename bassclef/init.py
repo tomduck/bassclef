@@ -25,7 +25,7 @@ import functools
 # pylint: disable=no-name-in-module
 from pkg_resources import resource_string, resource_listdir, resource_isdir
 
-from bassclef.util import printline
+from bassclef.util import write
 
 
 def writefile(src, dest, hide=False, force=False):
@@ -55,7 +55,7 @@ def writefile(src, dest, hide=False, force=False):
             raise
 
     # Initialize the file
-    printline('Writing %s\n'%dest)
+    write('Writing %s\n'%dest)
     with open(dest, 'wb') as f:
         f.write(content)
 

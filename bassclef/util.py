@@ -20,7 +20,7 @@
 
 import configparser
 import re
-from urllib.parse import urlparse, quote
+import urllib.parse
 import sys
 import os
 import io
@@ -75,7 +75,7 @@ def getconfig(key=None):
     # Add the web root for this site.  e.g., suppose the site-url is
     # https://tomduck.github.io/bassclef/.  The scheme is 'https', the netloc
     # is 'tomduck.github.io' and the web root is 'bassclef'.
-    config['web-root'] = urlparse(config['site-url'])[2]
+    config['web-root'] = urllib.parse.urlparse(config['site-url'])[2]
     if config['web-root'].startswith('/'):
         config['web-root'] = config['web-root'][1:]
     if config['web-root'].endswith('/'):
@@ -133,7 +133,8 @@ def getmeta(path, key=None):
 
     # Add a quoted title
     if 'title' in meta:
-        meta['quoted-title'] = quote(meta['title']).replace('/', '%2F')
+        meta['quoted-title'] = \
+          urllib.parse.quote(meta['title']).replace('/', '%2F')
     
     # Store the metadata
     sanitycheck(meta)
@@ -163,8 +164,8 @@ def sanitycheck(data):
                   for p in data['social-profiles'].split(','))
 
 
-def printmeta(meta, f=STDOUT, obfuscate=False):
-    """Prints the metadata dict as YAML to f.
+def writemeta(meta, f=STDOUT, obfuscate=False):
+    """Writes the metadata dict as YAML to f.
 
     obfuscate - indicates that numbered titles should be obfuscated as
                 a workaround to a bug in pandoc.
@@ -179,7 +180,7 @@ def printmeta(meta, f=STDOUT, obfuscate=False):
 
         if obfuscate and k == 'title':
             # Numbered titles get treated like lists by pandoc.  This messes
-            # up the html meta fields.  Make a temporary and unobtrosive
+            # up the html meta fields.  Make a temporary and unobtrusive
             # change that we can undo in the postprocessing.
             p = re.compile(r'^(\d+)\. (.*)')
             if p.search(v):
@@ -197,10 +198,7 @@ def printmeta(meta, f=STDOUT, obfuscate=False):
 
 def absurl(path):
     """Returns the absolute url for given path."""
-    try:
-        assert path.startswith('/')
-    except:
-        raise RuntimeError('***', path)
+    assert path.startswith('/')
     return getconfig('site-url') + path
 
 
@@ -220,21 +218,23 @@ def getcontent(path):
         return [line for line in f]
 
 
-def printline(line, f=STDOUT):
-    """Prints the line to f."""
+def write(line, f=STDOUT):
+    """Writes the line to f.  Does not append a \n to be consistent with
+    os.stdout.write()."""
     f.write(line)
     f.flush()
 
 
-def printlines(lines, f=STDOUT):
-    """Prints the lines to f."""
+def writelines(lines, f=STDOUT):
+    """Writes the lines to f.  Does not append a \n to be consistent with
+    os.stdout.writelines()."""
     f.write(''.join(lines))
     f.flush()
 
 
 def error(msg, errno=1):
     """Prints an error message and exits."""
-    printlines(['\n', msg, '\n\nExiting (%d).\n\n'%errno])
+    writelines(['\n', msg, '\n\nExiting (%d).\n\n'%errno])
     sys.exit(errno)
 
 

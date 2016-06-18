@@ -19,16 +19,16 @@
 """preprocess.py - pandoc markdown preprocessing"""
 
 
-from bassclef.util import getmeta, printmeta, getcontent, printlines
+from bassclef.util import getmeta, writemeta, getcontent, writelines
 
 
 def insert_figure(lines, image, caption):
     """Inserts a figure into the markdown lines."""
 
-    # Look for the <!-- image --> flag
+    # Look for the <!-- image --> processing flag
     n = None
     for i, line in enumerate(lines):
-        if line == '<!-- image -->':
+        if line.strip() == '<!-- image -->':
             n = i
             lines.pop(n)  # Remove the flag
             continue
@@ -37,15 +37,15 @@ def insert_figure(lines, image, caption):
         # Find the end of the first paragraph
         flag = False  # Flags we have found the first paragraph
         for i, line in enumerate(lines):
-            if not flag and line:  # Leading blank lines
+            if not flag and line.strip():  # Leading blank lines
                 flag = True
-            if flag and not line:  # First blank line after paragraph
+            if flag and not line.strip():  # First blank line after paragraph
                 break
         n = i+1
 
     # Insert the lines for the figure
-    lines.insert(n, '\n![%s](%s)\n' % (caption, image))
-    lines.insert(n+1, '')
+    lines.insert(n, '![%s](%s)\n' % (caption, image))
+    lines.insert(n+1, '\n')
 
     return lines
 
@@ -55,10 +55,10 @@ def preprocess(args):
 
     path = args.path
 
-    # Load and print the metadata.  Obfuscate the title field as a workaround
+    # Load and write the metadata.  Obfuscate the title field as a workaround
     # to a pandoc bug.  This gets undone by postprocess.py.
     meta = getmeta(path)
-    printmeta(meta, obfuscate=True)
+    writemeta(meta, obfuscate=True)
 
     # Read in the lines
     lines = getcontent(path)
@@ -72,12 +72,12 @@ def preprocess(args):
     for i, line in enumerate(lines):
 
         # Clearing line break
-        if line == '<!-- break -->':
-            lines[i] = '<div style="clear: both; height: 0;"></div>'
+        if line.strip() == '<!-- break -->':
+            lines[i] = '<div style="clear: both; height: 0;"></div>\n'
 
         # Vertical space
-        if line == '<!-- vspace -->':
-            lines[i] = '<div style="clear: both; height: 3rem;"></div>'
+        if line.strip() == '<!-- vspace -->':
+            lines[i] = '<div style="clear: both; height: 3rem;"></div>\n'
 
-    # Print out the new lines
-    printlines(lines)
+    # Write out the new lines
+    writelines(lines)

@@ -20,7 +20,7 @@
 
 import re
 
-from bassclef.util import getconfig, printlines
+from bassclef.util import getconfig, writelines
 from bassclef.util import STDIN
 
 
@@ -59,6 +59,13 @@ def fix_bugs(lines):
         if line.strip().startswith('</head>'):
             break
 
+    # Remove paragraph tags from around comments
+    p = re.compile('(^\s*)<p>(<!-- .* -->)</p>$')
+    for i, line in enumerate(lines):
+        if p.match(line):
+            space, comment = p.match(line).groups()
+            lines[i] = space + comment + '\n'
+        
     return lines
 
 
@@ -142,6 +149,35 @@ def generate_tooltips(lines):
     return lines
 
 
+def make_aesthetic_fixes(lines):
+    """Html should look nice."""
+
+    # Comments immediately after </div> tags should be on same line
+    for i in range(len(lines)-1):
+        if lines[i] is None:
+            continue
+        if lines[i].strip() == '</div>' and \
+          lines[i+1].strip().startswith('<!--'):
+            lines[i] = lines[i][:-1] + ' ' + lines[i+1].strip() + '\n'
+            lines[i+1] = None
+    lines = [line for line in lines if not line is None]
+
+    # Put blank space around horizontal rules
+    newlines = lines[:1]
+    for i, line in enumerate(lines[1:-1]):
+        if line.strip() == '<hr />':
+            if lines[i-1].strip():
+                newlines.append('\n')
+            newlines.append(line)
+            if lines[i+1].strip():
+                newlines.append('\n')
+        else:
+            newlines.append(line)
+    lines = newlines + lines[-1:]
+    
+    return lines
+
+
 # pylint: disable=unused-argument
 def postprocess(args):
     """Postprocesses html output piped to stdin from pandoc."""
@@ -151,12 +187,15 @@ def postprocess(args):
 
     # Essential fixes
     lines = fix_bugs(lines)
-    lines = adjust_urls(lines)
-
+    lines = adjust_urls(lines)    
+    
     # Functionality enhancements
     lines = link_images(lines)
     lines = open_tabs_when_clicked(lines)
     lines = generate_tooltips(lines)
 
-    # Print to stdout
-    printlines(lines)
+    # Niceties
+    lines = make_aesthetic_fixes(lines)
+
+    # Write to stdout
+    writelines(lines)

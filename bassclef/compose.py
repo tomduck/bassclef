@@ -23,10 +23,15 @@ import os, os.path
 import re
 import tempfile
 import subprocess
+import uuid
+import urllib.parse
 
-from bassclef.util import getmeta, printmeta, getcontent, \
-     printlines, printline, STDOUT
+from bassclef.util import getmeta, writemeta, getcontent, \
+     writelines, write, absurl, STDOUT
 
+import pandoc_tpp
+
+     
 
 # pylint: disable=too-many-locals
 def process(lines, meta, n):
@@ -68,12 +73,14 @@ def process(lines, meta, n):
             line = p3.sub('', line)
 
         # Check for a cut point
-        if line == '<!-- cut -->':
-            cutpoint = True
+        if line.strip() == '<!-- cut -->':
+            if n != 0:  # No cut for first entry
+                cutpoint = True
+            line = '\n'
 
         # Check if we are in a footnote definition
         if innote:
-            if lastline == '' and line and not line.startswith('    '):
+            if lastline.strip() == '' and line and not line.startswith('    '):
                 innote = False
         elif p4.search(line):
             innote = True
@@ -94,14 +101,14 @@ def process(lines, meta, n):
     return out
 
 
-def content_printer():
-    """Prints the processed content of a .md file to stdout.
+def content_writer():
+    """Writes the processed content of a .md file to stdout.
 
     Use it this way:
 
-      printer = content_printer()
-      next(printer)
-      printer.send('/path/to/file.md')
+      writer = content_writer()
+      next(writer)
+      writer.send('/path/to/file.md')
 
     Send as many paths as you want.
 
@@ -110,42 +117,67 @@ def content_printer():
     forget to turn off its markdown_in_html_blocks extension.
     """
 
+    # Process the entry template with pandoc-tpp and write it to a
+    # temporary file.  Remove leading spaces so that this can be written into
+    # a markdown file.
+    lines = pandoc_tpp.preprocess('templates/entry.html5')
+    with tempfile.NamedTemporaryFile(mode='w+', suffix='.html5',
+                                     delete=False) as f:
+        template_path = f.name
+        f.writelines(lines)
+    
     # Keep track of the number of files processed
     n = 0
 
     while True:
 
-        # Get the next path
+        # Get the path to the next entry
         path = yield
 
-        # Print a horizontal rule between files
-        if n != 0:
-            printline('\n<hr />\n')
-
-        # Read and process the file
+        permalink = absurl(path[8:-3]) + '.html'
+        quoted_permalink = urllib.parse.quote(permalink).replace('/', '%2F')
+            
+        # Renew the entry's metadata
         meta = getmeta(path)
-        lines = process(getcontent(path), meta, n)
+        meta['permalink'] = permalink
 
         # Flag the first entry in the metadata
-        meta['first-entry'] = True if n == 0 else False
+        if 'first-entry' in meta:  # Delete cached value
+            del meta['first-entry']
+        if n == 0:
+            meta['first-entry'] = 'True'
+
+        # Process the entry's content
+        lines = process(getcontent(path), meta, n)
 
         # Write the markdown to a temporary file
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as f:
-            path = f.name
-            printmeta(meta, f=f)
-            printlines(lines, f=f)
+            tmppath = f.name
+            writemeta(meta, f=f)
+            writelines(lines, f=f)
 
-        # Process the markdown with pandoc, printing the output to stdout
+        # Write a horizontal rule between files
+        if n != 0:
+            write('\n<hr />\n')
+
+        # Start the new entry
+        write('\n')
+        write('<div id="entry-%d">\n'%n)
+
+        # Process the markdown with pandoc, writing the output to stdout
         STDOUT.flush()
-        subprocess.call(['pandoc', path, '-s', '-S', '-thtml5',
-                         '--template=templates/entry.html5'])
+        assert path.startswith('markdown/') and path.endswith('.md')
+        subprocess.call(['pandoc', tmppath,
+                         '-s', '-S',
+                         '-f', 'markdown+markdown_attribute',
+                         '-t', 'html5',
+                         '--email-obfuscation', 'none',
+                         '--template', template_path,
+                         '-M', 'permalink=' + permalink,
+                         '-M', 'quoted-permalink=' + quoted_permalink])
         STDOUT.flush()
 
-        # Print a newline at the end of pandoc's output
-        printline('\n')
-
-        # Remove the temporary file
-        os.remove(path)
+        write('</div> <!-- id="entry-%d" -->\n'%n)
 
         # Increment the counter
         n += 1
@@ -157,21 +189,22 @@ def compose(args):
     path = args.path
 
     meta = getmeta(path)
-    printmeta(meta)
+    meta['composed-page'] = 'True'
+    writemeta(meta)
 
     # Read the lines of the .md.in file
     lines = getcontent(path)
 
     # Process the lines
-    printer = content_printer()
-    next(printer)
+    writer = content_writer()
+    next(writer)
     for line in lines:
-        # If a filename is given then print the file (subject to some
-        # processing); otherwise, print the line as-is.
-        if line.endswith('.md') and os.path.isfile(line):
-            printer.send(line)
+        # If a filename is given then write the file (subject to some
+        # processing); otherwise, write the line as-is.
+        if line.strip().endswith('.md') and os.path.isfile(line.strip()):
+            writer.send(line.strip())
         else:
-            printline(line)
+            write(line)
 
 if __name__ == '__main__':
     compose()
