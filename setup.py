@@ -41,6 +41,8 @@ VERSION = '0.1'
 if sys.version_info < (3, ):
     error('Python >= 3 required.')
 
+# package_data must be in the package
+#os.symlink('data', 'src/data')
 
 setup(
     name='Bassclef CMS',
@@ -62,20 +64,20 @@ setup(
     entry_points={'console_scripts':['bcms = bassclef.bcms:main']},
 
     include_package_data = True,
-    package_data = {'bassclef': ['init-data/Makefile',
-                                 'init-data/config.ini',
-                                 'init-data/markdown/*.*',
-                                 'init-data/images/*.*',
-                                 'init-data/css/*.*',
-                                 'init-data/fonts/*.*',
-                                 'init-data/javascript/*.*',
-                                 'init-data/templates/*.*',
-                                 'init-data/submodules/skeleton/css/*.*',
-                                 'init-data/submodules/html5shiv/src/*.*',
-                                 'init-data/submodules/open-sans/css/*.*',
-                                 'init-data/submodules/open-sans/fonts/*/*.*',
-                                 'init-data/submodules/font-awesome/css/*.*',
-                                 'init-data/submodules/font-awesome/fonts/*.*'
+    package_data = {'bassclef': ['data/Makefile',
+                                 'data/config.ini',
+                                 'data/markdown/*.*',
+                                 'data/images/*.*',
+                                 'data/css/*.*',
+                                 'data/fonts/*.*',
+                                 'data/javascript/*.*',
+                                 'data/templates/*.*',
+                                 'data/subrepos/skeleton/css/*.*',
+                                 'data/subrepos/html5shiv/src/*.*',
+                                 'data/subrepos/open-sans/css/*.*',
+                                 'data/subrepos/open-sans/fonts/*/*.*',
+                                 'data/subrepos/font-awesome/css/*.*',
+                                 'data/subrepos/font-awesome/fonts/*.*'
                                  ]},
 
     classifiers=[
@@ -86,3 +88,5 @@ setup(
         'Programming Language :: Python'
         ],
 )
+
+#os.unlink('src/data')

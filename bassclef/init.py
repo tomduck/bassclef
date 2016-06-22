@@ -85,27 +85,25 @@ def init(args):
     _writefile = functools.partial(writefile, force=args.force)
     _writefiles = functools.partial(writefiles, force=args.force)
 
-    _writefile('init-data/Makefile', 'Makefile', hide=True)
-    _writefile('init-data/config.ini', 'config.ini')
+    _writefile('data/Makefile', 'Makefile', hide=True)
+    _writefile('data/config.ini', 'config.ini')
 
-    _writefile('init-data/markdown/module.mk', 'markdown/module.mk', hide=True)
-    _writefile('init-data/images/module.mk', 'images/module.mk', hide=True)
-    _writefile('init-data/css/module.mk', 'css/module.mk', hide=True)
-    _writefile('init-data/fonts/module.mk', 'fonts/module.mk', hide=True)
-    _writefile('init-data/javascript/module.mk', 'javascript/module.mk',
+    _writefile('data/markdown/module.mk', 'markdown/module.mk', hide=True)
+    _writefile('data/images/module.mk', 'images/module.mk', hide=True)
+    _writefile('data/css/module.mk', 'css/module.mk', hide=True)
+    _writefile('data/fonts/module.mk', 'fonts/module.mk', hide=True)
+    _writefile('data/javascript/module.mk', 'javascript/module.mk',
                hide=True)
 
     if args.extras:
-        _writefiles('init-data/markdown', 'markdown')
-        _writefiles('init-data/css', 'css')
-        _writefiles('init-data/images', 'images')
-        _writefiles('init-data/javascript', 'javascript')
-        _writefiles('init-data/templates', 'templates')
-        _writefiles('init-data/submodules/html5shiv/src',
-                    'javascript/html5shiv')
-        _writefiles('init-data/submodules/skeleton/css', 'css/skeleton')
-        _writefiles('init-data/submodules/open-sans/css', 'css/open-sans')
-        _writefiles('init-data/submodules/open-sans/fonts', 'fonts/open-sans')
-        _writefiles('init-data/submodules/font-awesome/css', 'css/font-awesome')
-        _writefiles('init-data/submodules/font-awesome/fonts',
-                    'fonts/font-awesome')
+        _writefiles('data/markdown', 'markdown')
+        _writefiles('data/css', 'css')
+        _writefiles('data/images', 'images')
+        _writefiles('data/javascript', 'javascript')
+        _writefiles('data/templates', 'templates')
+        _writefiles('data/subrepos/html5shiv/src', 'javascript/html5shiv')
+        _writefiles('data/subrepos/skeleton/css', 'css/skeleton')
+        _writefiles('data/subrepos/open-sans/css', 'css/open-sans')
+        _writefiles('data/subrepos/open-sans/fonts', 'fonts/open-sans')
+        _writefiles('data/subrepos/font-awesome/css', 'css/font-awesome')
+        _writefiles('data/subrepos/font-awesome/fonts', 'fonts/font-awesome')
