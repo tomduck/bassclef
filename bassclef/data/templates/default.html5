@@ -61,17 +61,17 @@ $include(socialmeta.html5)$
 
     <div class="row">
 
-      <div class="one columns nocollapse"></div>
+      <div class="one columns"></div>
 
-      <div class="ten columns centered-text">
+      <div class="ten columns centered">
         <header>
           <hr class="u-full-width" />
           <h1 id="title"><a href="https://tomduck.github.io/bassclef/">Bassclef CMS</a></h1>
           <hr class="u-full-width" />
         </header>
-      </div> <!-- class="ten columns centered-text" -->
+      </div> <!-- class="ten columns centered" -->
 
-      <div class="one columns nocollapse"></div>
+      <div class="one columns"></div>
 
     </div> <!-- class="row" -->
 
@@ -80,12 +80,12 @@ $include(socialmeta.html5)$
 
     <div class="row">
 
-      <div class="two columns nocollapse"></div>
+      <div class="two columns"></div>
 
       <div class="eight columns">
 
 $if(title)$
-        <h1>$title$</h1>
+        <h1 id="title">$title$</h1>
 
 $endif$
 $if(composed-page)$
@@ -100,7 +100,7 @@ $endif$
 
       </div> <!-- class="eight columns" -->
 
-      <div class="two columns nocollapse"></div>
+      <div class="two columns"></div>
 
     </div> <!-- class="row" -->
 
@@ -109,9 +109,9 @@ $endif$
 
     <div class="row">
 
-      <div class="one columns nocollapse"></div>
+      <div class="one columns"></div>
 
-      <div class="ten columns centered-text">
+      <div class="ten columns centered">
         <footer>
           <hr />
           <p>
@@ -120,9 +120,9 @@ $endif$
             </a>
           </p>
         </footer>
-      </div> <!-- class="ten columns centered-text" -->
+      </div> <!-- class="ten columns centered" -->
 
-      <div class="one columns nocollapse"></div>
+      <div class="one columns"></div>
 
     </div> <!-- class="row" -->
 
