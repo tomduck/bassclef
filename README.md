@@ -218,9 +218,13 @@ This command is simply a wrapper for [GNU make], and any processing flags that y
 
     $ bcms make html
 
+Other targets include `images`, `css`, `fonts` and `javascript`.
+
 To force a build use:
 
     $ bcms make -B
+
+This will be needed if you make a change to a template or `config.ini`.
 
 Html is written to `www/`.
 
