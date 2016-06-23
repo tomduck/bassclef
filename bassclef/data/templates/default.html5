@@ -35,9 +35,7 @@ $if(title)$
 $endif$
 $if(description)$
   <meta name="description" content="$description$" />
-$else$$if(subtitle)$
-  <meta name="description" content="$subtitle$" />
-$endif$$endif$
+$endif$
 
 $include(socialmeta.html5)$
 

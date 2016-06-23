@@ -131,7 +131,7 @@ def sanitycheck(data):
     """Checks to see if the config/meta data are sane.  Make minor tweaks
     where necessary."""
     if 'site-url' in data and data['site-url']:
-        if data['site-url'].endswith('/'):  # Remove trailing
+        if data['site-url'].endswith('/'):  # Remove trailing slash
             data['site-url'] = data['site-url'][:-1]
     if 'template' in data:
         assert os.path.exists(data['template'])

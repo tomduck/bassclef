@@ -25,16 +25,13 @@ $if(title)$
 $endif$
 $if(description)$
   <meta property="og:description" content="$description$" />
-$else$
-$if(subtitle)$
-  <meta property="og:description" content="$subtitle$" />
-$endif$$endif$
+$endif$
   <meta property="og:type" content="website" />
 $if(permalink)$
   <meta property="og:url" content="$permalink$" />
 $endif$
-$if(image)$$if(site-url)$
-  <meta property="og:image" content="http://$domainname$$webroot$$image$" />
+$if(image)$
+  <meta property="og:image" content="$site-url$$image$" />
 $endif$$endif$
 
 
@@ -48,10 +45,7 @@ $if(title)$
 $endif$
 $if(description)$
   <meta name="twitter:description" content="$description$" />
-$else$
-$if(subtitle)$
-  <meta name="twitter:description" content="$subtitle$" />
-$endif$$endif$
-$if(image)$$if(site-url)$
-  <meta name="twitter:image" content="http://$domainname$$webroot$$image$" />
+$endif$
+$if(image)$
+  <meta name="twitter:image" content="$site-url$$image$" />
 $endif$$endif$
