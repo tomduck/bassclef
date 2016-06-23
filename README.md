@@ -231,9 +231,11 @@ CSS files are copied to `www/css/` and fonts are copied to `www/fonts/`.
 
 ### Templates ###
 
-Html templates are stored in `templates/`.  The template language is pandoc's own, with one exception: An `$include()$` function is provided by [pandoc-tpp].
+Html templates are stored in `templates/`.  You can -- and should -- edit these templates and create new ones.
 
-There is not currently any documentation for the pandoc template language, but it is pretty easily discerned by reading the sources.  Pandoc template directives are enclosed by dollar signs.  Everything else it html.
+The template language is pandoc's own, with one exception: An `$include()$` function is provided by [pandoc-tpp].
+
+There is not currently any documentation for the pandoc template language, but it is pretty easily discerned by reading the sources.  Pandoc template directives are enclosed by dollar signs.  Everything else is html.
 
 All configuration and metadata items are provided to the template.
 
