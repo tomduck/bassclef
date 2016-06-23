@@ -48,4 +48,4 @@ $if(description)$
 $endif$
 $if(image)$
   <meta name="twitter:image" content="$site-url$$image$" />
-$endif$$endif$
+$endif$
