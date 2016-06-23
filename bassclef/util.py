@@ -39,7 +39,7 @@ STDERR = io.TextIOWrapper(sys.stderr.buffer, 'utf-8', 'strict')
 
 # Global data stores.  These data should not change in a single execution.
 CONFIG = None
-META = None
+META = {}
 
 
 def getconfig(key=None):
@@ -87,8 +87,8 @@ def getmeta(path, key=None):
 
     # If the META has already been calculated then we can return it
     global META  # pylint: disable=global-statement
-    if META:
-        return META[key] if key else META
+    if path in META:
+        return META[path][key] if key else META[path]
     
     # Get defaults from the config
     meta = getconfig()
@@ -179,8 +179,8 @@ def writemeta(meta, f=STDOUT, obfuscate=False):
     f.flush()
 
 
-def absurl(path):
-    """Returns the absolute url for given path."""
+def permalink(path):
+    """Returns the absolute url for given path relative to the Web root."""
     assert path.startswith('/')
     return getconfig('site-url') + path
 

@@ -212,7 +212,7 @@ The following metadata fields are recognized by bassclef.  You may define these 
   * `title` - the title for the page;
   * `image` - the relative URL to an image associated with the page.
 
-The following metadata fields are reserved by bassclef.  You may not use these for other purposes:
+The following metadata fields are reserved and set by bassclef.  You should not set these manually:
 
   * `body` - the html body injected into the template;
   * `web-root` - the Web root for the site;
@@ -220,7 +220,8 @@ The following metadata fields are reserved by bassclef.  You may not use these f
   * `permalink` - the page's permalink;
   * `quoted-permalink` - the URL-escaped permalink;
   * `composed-page` - presence indicates to the template that a
-    composed page is being created.
+    composed page is being created; and
+  * `rellink` - relative link to a page (used for composed pages);
 
 
 [YAML]: http://www.yaml.org/

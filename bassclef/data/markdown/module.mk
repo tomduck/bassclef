@@ -35,9 +35,9 @@ DEST_XML = $(patsubst markdown/%.md.in,$(OUT)/%.xml,$(SOURCE_MD_IN))
 # $(call makeflags,mdpath,htmlpath): Adds flags to PANDOCFLAGS
 define makeflags
 TEMPLATE = $(shell pandoc-tpp -t $(shell $(call getmeta,$(1),template)))
-HTMLPATH = $(patsubst $(WWW)/%,/%,$(2))
-PERMALINK = $$(shell $(PYTHON3) -c "from bassclef.util import absurl;\
-                                    print(absurl('$$(HTMLPATH)'))")
+RELLINK = $(patsubst $(WWW)/%,/%,$(2))
+PERMALINK = $$(shell $(PYTHON3) -c "from bassclef.util import permalink;\
+                                    print(permalink('$$(RELLINK)'))")
 QUOTED_PERMALINK = $$(shell $(PYTHON3) -c \
     "from urllib.parse import quote; \
      print(quote('$$(PERMALINK)').replace('/', '%2F'))")

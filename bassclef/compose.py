@@ -27,7 +27,7 @@ import uuid
 import urllib.parse
 
 from bassclef.util import getmeta, writemeta, getcontent, \
-     writelines, write, absurl, STDOUT
+     writelines, write, permalink, STDOUT
 
 import pandoc_tpp
 
@@ -74,8 +74,7 @@ def process(lines, meta, n):
 
         # Check for a cut point
         if line.strip() == '<!-- cut -->':
-            if n != 0:  # No cut for first entry
-                cutpoint = True
+            cutpoint = True
             line = '\n'
 
         # Check if we are in a footnote definition
@@ -133,19 +132,17 @@ def content_writer():
 
         # Get the path to the next entry
         path = yield
+        assert path.startswith('markdown/')
 
-        permalink = absurl(path[8:-3]) + '.html'
-        quoted_permalink = urllib.parse.quote(permalink).replace('/', '%2F')
+        # Get various types of links
+        rellink = path[8:-3] + '.html'
+        plink = permalink(rellink)
+        quoted_plink = urllib.parse.quote(plink).replace('/', '%2F')
             
         # Renew the entry's metadata
         meta = getmeta(path)
-        meta['permalink'] = permalink
-
-        # Flag the first entry in the metadata
-        if 'first-entry' in meta:  # Delete cached value
-            del meta['first-entry']
-        if n == 0:
-            meta['first-entry'] = 'True'
+        meta['rellink'] = rellink
+        meta['permalink'] = plink
 
         # Process the entry's content
         lines = process(getcontent(path), meta, n)
@@ -173,8 +170,8 @@ def content_writer():
                          '-t', 'html5',
                          '--email-obfuscation', 'none',
                          '--template', template_path,
-                         '-M', 'permalink=' + permalink,
-                         '-M', 'quoted-permalink=' + quoted_permalink])
+                         '-M', 'permalink=' + plink,
+                         '-M', 'quoted-permalink=' + quoted_plink])
         STDOUT.flush()
 
         write('</div> <!-- id="entry-%d" -->\n'%n)
