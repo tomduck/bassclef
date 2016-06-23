@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/afarkas/html5shiv.git
+	branch = master
+	commit = a3c7567c5f7055f9b76230bbbc79967d0b9f7003
+	parent = 808b8df2022c0b49989432b7496175750072b264
+	cmdver = 0.3.0

@@ -18,35 +18,23 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_OPENSANS_FONTS =  $(wildcard submodules/open-sans/fonts/*/*)
-SOURCE_FONTAWESOME_FONTS =  $(wildcard submodules/font-awesome/fonts/*)
+SOURCE_FONTS = $(wildcard fonts/*.*) $(wildcard fonts/*/*.*)
 
 
 # Destination files -----------------------------------------------------------
 
-DEST_OPENSANS_FONTS = $(patsubst submodules/open-sans/fonts/%,\
-                        www$(WEBROOT)/fonts/open-sans/%,\
-                        $(SOURCE_OPENSANS_FONTS))
-
-DEST_FONTAWESOME_FONTS = $(patsubst submodules/font-awesome/fonts/%,\
-                           www$(WEBROOT)/fonts/font-awesome/%,\
-                           $(SOURCE_FONTAWESOME_FONTS))
+DEST_FONTS = $(patsubst fonts/%,$(OUT)/fonts/%,$(SOURCE_FONTS))
 
 
 # Build rules -----------------------------------------------------------------
 
-fonts: $(DEST_OPENSANS_FONTS) $(DEST_FONTAWESOME_FONTS)
+fonts: $(DEST_FONTS)
 
-www$(WEBROOT)/fonts/open-sans/%: submodules/open-sans/fonts/% \
-                                 fonts/module.mk
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/fonts/font-awesome/%: submodules/font-awesome/fonts/% \
-                                    fonts/module.mk
+$(OUT)/fonts/%: fonts/%
 	$(call copyfiles,$<,$@)
 
 
 # Targets ---------------------------------------------------------------------
 
 ALL += fonts
-CLEAN += $(DEST_OPENSANS_FONTS) $(DEST_FONTAWESOME_FONTS)
+CLEAN += $(DEST_FONTS)

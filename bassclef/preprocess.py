@@ -16,59 +16,49 @@
 #  You should have received a copy of the GNU General Public License
 #  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
 
-"""preprocess.py - a pandoc markdown preprocessor.
+"""preprocess.py - pandoc markdown preprocessing"""
 
-  Usage: preprocess.py markdown/.../filename.md
 
-  This script reads in a pandoc markdown file, preprocesses it, and writes
-  the result to stdout.
-"""
-
-import sys
-
-from util import getmeta, printmeta, getcontent, printcontent
+from bassclef.util import getmeta, writemeta, getcontent, writelines
 
 
 def insert_figure(lines, image, caption):
     """Inserts a figure into the markdown lines."""
 
-    # Look for the image line
+    # Look for the <!-- image --> processing flag
     n = None
-    flag = False  # Flag when we have found it
     for i, line in enumerate(lines):
-        if flag:
+        if line.strip() == '<!-- image -->':
             n = i
-            break
-        if line == '<!-- image -->':
-            n = i
+            lines.pop(n)  # Remove the flag
             continue
 
-    # Find the end of the first paragraph
     if n is None:
-        flag = False  # Flag when we have found it
+        # Find the end of the first paragraph
+        flag = False  # Flags we have found the first paragraph
         for i, line in enumerate(lines):
-            if flag:
-                n = i
-                break
-            if line:
+            if not flag and line.strip():  # Leading blank lines
                 flag = True
-                continue
+            if flag and not line.strip():  # First blank line after paragraph
+                break
+        n = i+1
 
     # Insert the lines for the figure
-    n = n if n is not None else len(lines)
-    lines.insert(n, '\n![%s](%s)\n' % (caption, image))
-    lines.insert(n, '')
+    lines.insert(n, '![%s](%s)\n' % (caption, image))
+    lines.insert(n+1, '\n')
 
     return lines
 
 
-def preprocess(path):
+def preprocess(args):
     """Preprocesses path."""
 
-    # Load and print the metadata.  Obfuscate the title field as a workaround
-    # to a pandoc bug.  This gets undone py postprocess.py.
+    path = args.path
+
+    # Load and write the metadata.  Obfuscate the title field as a workaround
+    # to a pandoc bug.  This gets undone by postprocess.py.
     meta = getmeta(path)
-    printmeta(meta, obfuscate=True)
+    writemeta(meta, obfuscate=True)
 
     # Read in the lines
     lines = getcontent(path)
@@ -82,16 +72,12 @@ def preprocess(path):
     for i, line in enumerate(lines):
 
         # Clearing line break
-        if line == '<!-- break -->':
-            lines[i] = '<div style="clear: both; height: 0;"></div>'
+        if line.strip() == '<!-- break -->':
+            lines[i] = '<div style="clear: both; height: 0;"></div>\n'
 
         # Vertical space
-        if line == '<!-- vspace -->':
-            lines[i] = '<div style="clear: both; height: 3rem;"></div>'
+        if line.strip() == '<!-- vspace -->':
+            lines[i] = '<div style="clear: both; height: 3rem;"></div>\n'
 
-    # Print out the new lines
-    printcontent(lines)
-
-
-if __name__ == '__main__':
-    preprocess(sys.argv[1])
+    # Write out the new lines
+    writelines(lines)

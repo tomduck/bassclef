@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/FontFaceKit/open-sans
+	branch = gh-pages
+	commit = 2285c0300e6a4c8b102b98fb030fb38c26aa081c
+	parent = 96f08b12a4f18d75afa1b89ba6202f7f47e8eaa0
+	cmdver = 0.3.0

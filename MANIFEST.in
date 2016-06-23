@@ -1,0 +1,3 @@
+include ez_setup.py README.md LICENSE
+recursive-include data *
+exclude data/subrepos/*/.gitrepo

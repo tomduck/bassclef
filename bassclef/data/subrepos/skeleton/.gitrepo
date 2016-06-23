@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/dhg/Skeleton.git
+	branch = master
+	commit = 88f03612b05f093e3f235ced77cf89d3a8fcf846
+	parent = 1db7246303a4d82b0af2081be7aca84d77025ee0
+	cmdver = 0.3.0

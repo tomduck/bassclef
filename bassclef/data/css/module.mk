@@ -18,55 +18,24 @@
 
 # Source files ----------------------------------------------------------------
 
-SOURCE_BASSCLEF_CSS = $(wildcard css/*.css) $(wildcard css/*/*.css)
-SOURCE_SKELETON_CSS = $(wildcard submodules/skeleton/css/*.css)
-SOURCE_OPENSANS_CSS = $(wildcard submodules/open-sans/*.css)
-SOURCE_FONTAWESOME_CSS = $(wildcard submodules/font-awesome/css/*.css)
+SOURCE_CSS = $(wildcard css/*.css) $(wildcard css/*/*.css)
 
 
 # Destination files -----------------------------------------------------------
 
-DEST_BASSCLEF_CSS = $(patsubst css/%,\
-                      www$(WEBROOT)/css/%,\
-                      $(SOURCE_BASSCLEF_CSS))
-
-DEST_SKELETON_CSS = $(patsubst submodules/skeleton/css/%,\
-                      www$(WEBROOT)/css/skeleton/%,\
-                      $(SOURCE_SKELETON_CSS))
-
-DEST_OPENSANS_CSS = $(patsubst submodules/open-sans/%,\
-                      www$(WEBROOT)/css/open-sans/%,\
-                      $(SOURCE_OPENSANS_CSS))
-
-DEST_FONTAWESOME_CSS = $(patsubst submodules/font-awesome/css/%,\
-                         www$(WEBROOT)/css/font-awesome/%,\
-                         $(SOURCE_FONTAWESOME_CSS))
+DEST_CSS = $(patsubst css/%,$(OUT)/css/%,$(SOURCE_CSS))
 
 
 # Build rules -----------------------------------------------------------------
 
-css: $(DEST_BASSCLEF_CSS) $(DEST_SKELETON_CSS) $(DEST_OPENSANS_CSS) \
-     $(DEST_FONTAWESOME_CSS)
+css: $(DEST_CSS)
 
-www$(WEBROOT)/css/%: css/% \
-                     css/module.mk
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/css/skeleton/%.css: submodules/skeleton/css/%.css \
-                                  css/module.mk
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/css/open-sans/open-sans.css: submodules/open-sans/open-sans.css \
-                                           css/module.mk
-	$(call copyfiles,$<,$@)
-
-www$(WEBROOT)/css/font-awesome/%: submodules/font-awesome/css/% \
-                                  css/module.mk
+$(OUT)/css/%: css/%
+	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	$(call copyfiles,$<,$@)
 
 
 # Targets ---------------------------------------------------------------------
 
 ALL += css
-CLEAN += $(DEST_BASSCLEF_CSS) $(DEST_SKELETON_CSS) $(DEST_OPENSANS_CSS) \
-         $(DEST_FONTAWESOME_CSS)
+CLEAN += $(DEST_CSS)

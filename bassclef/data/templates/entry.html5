@@ -1,10 +1,5 @@
-<div class="titleblock">
-$if(date)$<h6 class="dateline">$date$$if(authors)$, by $authors$$endif$</h6>$endif$
-<h1 class="title"><a href="$permalink$">$title$</a></h1>
-$if(subtitle)$<h4 class="subtitle">$subtitle$</h4>$endif$
-</div> <!-- class="titleblock" -->
-$if(first-entry)$$if(showsocial)$
-$socialwidgets$
-$endif$$endif$
+<h1><a href="$permalink$">$title$</a></h1>
+$if(first-entry)$
+$include(social.html5)$
+$endif$
 $body$
- 

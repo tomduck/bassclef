@@ -16,49 +16,20 @@
 #  You should have received a copy of the GNU General Public License
 #  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
 
-"""postprocess.py - a pandoc html postprocessor.
+"""postprocess.py - pandoc html postprocessing"""
 
-  This script reads pandoc html from stdin, postprocesses it, and
-  writes the result to stdout.
-"""
-
-from sys import stdin
 import re
 
-
-from util import config
-
-
-def fix_bugs_in_old_pandoc(lines):
-    """Fixes bugs found in old pandoc version used by Debian Jessie."""
-
-    # Pandoc sometimes encodes html when it should not
-    old = '&lt;span class=&quot;fa fa-envelope badge&quot;&gt;&lt;/span&gt;'
-    new = '<span class="fa fa-envelope badge"></span>'
-    for i, line in enumerate(lines):
-        lines[i] = line.replace(old, new)
-
-    return lines
+from bassclef.util import getconfig, writelines
+from bassclef.util import STDIN
 
 
-def fix_bugs_in_new_pandoc(lines):
-    """Fixes bugs found in newer versions of pandoc."""
-
-    # Pandoc should not be html-encoding variable replacements in templates
-    # (which it does on a random basis).  This prevents us from injecting html
-    # into html templates!
-    old = '&lt;a href=“'
-    new = '<a href="'
-    for i, line in enumerate(lines):
-        lines[i] = line.replace(old, new)
-    old = '”&gt;'
-    new = '">'
-    for i, line in enumerate(lines):
-        lines[i] = line.replace(old, new)
+def fix_bugs(lines):
+    """Fixes bugs in pandoc's html output."""
 
     # Pandoc should not be treating numbers in headers as list items.  Here
     # we undo the temporary obfuscation made by preprocess.py's call to
-    # util.getmeta().
+    # bassclef.util.getmeta().
     p = re.compile(r'<title>(\d+)// (.*?)</title>')
     for i, line in enumerate(lines):
         if p.search(line):
@@ -88,21 +59,30 @@ def fix_bugs_in_new_pandoc(lines):
         if line.strip().startswith('</head>'):
             break
 
+    # Remove paragraph tags from around comments
+    p = re.compile('(^\s*)<p>(<!-- .* -->)</p>$')
+    for i, line in enumerate(lines):
+        if p.match(line):
+            space, comment = p.match(line).groups()
+            lines[i] = space + comment + '\n'
+        
     return lines
 
 
 def adjust_urls(lines):
-    """Put webroot/ into relative urls."""
-    p = re.compile('((src|href)="/(.*?)")')
-    for i, line in enumerate(lines):
-        replace = False
-        for group in p.findall(line):
-            replace = True
-            old, tag, path = group
-            new = '%s="%s/%s"' % (tag, config('webroot'), path)
-            line = line.replace(old, new)
-        if replace:
-            lines[i] = line
+    """Put web root into urls where appropriate."""
+    webroot = getconfig('web-root')
+    if webroot:
+        p = re.compile('((src|href)="/(.*?)")')
+        for i, line in enumerate(lines):
+            replace = False
+            for group in p.findall(line):
+                replace = True
+                old, tag, path = group
+                new = '%s="/%s/%s"' % (tag, webroot, path)
+                line = line.replace(old, new)
+            if replace:
+                lines[i] = line
     return lines
 
 
@@ -169,68 +149,40 @@ def generate_tooltips(lines):
     return lines
 
 
-def tidy_html(lines):
-    """Aesthetic improvements to pandoc's html output."""
+def make_aesthetic_fixes(lines):
+    """Html should look nice."""
 
-    # Don't allow multiple meta tags on the same line in <head> ... </head>
-    newlines = []
-    flag = False
-    for line in lines:
-        if line.strip().startswith('<head>'):
-            flag = True
-        if flag and line.strip().startswith('<meta') and \
-          line.count('<meta') > 2:
-            indent = ' ' * (len(line) - len(line.lstrip(' ')))
-            lines = [indent + '<meta ' + s.strip() + '\n' \
-                     for s in line.split('<meta')[1:]]
-            newlines += lines
-        elif line.strip().startswith('</head>'):
-            flag = False
-            newlines.append(line)
-        else:
-            newlines.append(line)
-    lines = newlines
-
-    # Write unordered lists on multiple lines (fixes social widgets html)
-    newlines = []
-    for line in lines:
-        if line.strip().startswith('<ul>') and line.strip().endswith('</ul>'):
-            indent = ' ' * (len(line) - len(line.lstrip(' ')))
-            line = line.replace('<ul>', '').replace('</ul>', '').strip()
-            lines = [indent + '  <li>' + s + '\n' \
-                     for s in [x for x in line.split('<li>') if x]]
-            newlines.append(indent + '<ul>\n')
-            newlines += lines
-            newlines.append(indent + '</ul>\n')
-        else:
-            newlines.append(line)
-    lines = newlines
-
+    # Comments immediately after </div> tags should be on same line
+    for i in range(len(lines)-1):
+        if lines[i] is None:
+            continue
+        if lines[i].strip() == '</div>' and \
+          lines[i+1].strip().startswith('<!--'):
+            lines[i] = lines[i][:-1] + ' ' + lines[i+1].strip() + '\n'
+            lines[i+1] = None
+    lines = [line for line in lines if not line is None]
+    
     return lines
 
 
-def postprocess():
-    """Postprocesses html output piped from pandoc."""
+# pylint: disable=unused-argument
+def postprocess(args):
+    """Postprocesses html output piped to stdin from pandoc."""
 
     # Get the lines
-    lines = [line for line in stdin]
+    lines = [line for line in STDIN]
 
     # Essential fixes
-    lines = fix_bugs_in_old_pandoc(lines)
-    lines = fix_bugs_in_new_pandoc(lines)
-    lines = adjust_urls(lines)
-
+    lines = fix_bugs(lines)
+    lines = adjust_urls(lines)    
+    
     # Functionality enhancements
     lines = link_images(lines)
     lines = open_tabs_when_clicked(lines)
     lines = generate_tooltips(lines)
 
-    # Aesthetic fixes
-    lines = tidy_html(lines)
+    # Niceties
+    lines = make_aesthetic_fixes(lines)
 
-    # Print to stdout
-    print(''.join(lines))
-
-
-if __name__ == '__main__':
-    postprocess()
+    # Write to stdout
+    writelines(lines)
