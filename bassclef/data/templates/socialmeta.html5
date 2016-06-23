@@ -32,7 +32,7 @@ $if(permalink)$
 $endif$
 $if(image)$
   <meta property="og:image" content="$site-url$$image$" />
-$endif$$endif$
+$endif$
 
 
   <!-- Card metadata (twitter): https://dev.twitter.com/cards/overview -->

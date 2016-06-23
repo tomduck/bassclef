@@ -109,6 +109,8 @@ There are two flags that may be used with the `init` command.
 
 Site configuration is given in the `config.ini`, which is documented internally.  All configuration items are made available to the bassclef templating system.
 
+You should immediately set the `site-url` field in `config.ini`.
+
 
 ### Markdown ###
 
