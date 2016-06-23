@@ -13,7 +13,7 @@ $if(schema-url)$
     "url" : "$schema-url$",
 $endif$
 $if(social-profiles)$
-    "sameAs" : [$social-profiles$]'
+    "sameAs" : [$social-profiles$]
 $endif$
   }
   </script>
@@ -41,7 +41,7 @@ $if(twitter-name)$
   <meta name="twitter:site" content="@$twitter-name$" />
 $endif$
 $if(title)$
-  <meta name="twitter:title" content="%(title)s" />
+  <meta name="twitter:title" content="$title$" />
 $endif$
 $if(description)$
   <meta name="twitter:description" content="$description$" />
