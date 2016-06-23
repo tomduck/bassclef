@@ -1,4 +1,3 @@
-
   <!-- Schema.org metadata (google): https://goo.gl/66WW3r -->
   <script type="application/ld+json">
   {
@@ -18,7 +17,6 @@ $endif$
   }
   </script>
 
-
   <!-- OpenGraph metadata (facebook): http://ogp.me/ -->
 $if(title)$
   <meta property="og:title" content="$title$" />
@@ -33,7 +31,6 @@ $endif$
 $if(image)$
   <meta property="og:image" content="$site-url$$image$" />
 $endif$
-
 
   <!-- Card metadata (twitter): https://dev.twitter.com/cards/overview -->
   <meta name="twitter:card" content="summary" />
