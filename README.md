@@ -218,7 +218,7 @@ This command is simply a wrapper for [GNU make], and any processing flags that y
 
     $ bcms make html
 
-Other targets include `images`, `css`, `fonts` and `javascript`.
+Other targets include `images`, `css`, `fonts` and `javascript`.  Destination filenames can also be used as targets.
 
 To force a build use:
 
