@@ -161,19 +161,6 @@ def make_aesthetic_fixes(lines):
             lines[i] = lines[i][:-1] + ' ' + lines[i+1].strip() + '\n'
             lines[i+1] = None
     lines = [line for line in lines if not line is None]
-
-    # Put blank space around horizontal rules
-    newlines = lines[:1]
-    for i, line in enumerate(lines[1:-1]):
-        if line.strip() == '<hr />':
-            if lines[i-1].strip():
-                newlines.append('\n')
-            newlines.append(line)
-            if lines[i+1].strip():
-                newlines.append('\n')
-        else:
-            newlines.append(line)
-    lines = newlines + lines[-1:]
     
     return lines
 
