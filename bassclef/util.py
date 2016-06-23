@@ -42,19 +42,6 @@ CONFIG = None
 META = None
 
 
-def defaults(config):
-    """Returns a dict of config defaults."""
-    return {'site-url':'',
-            'template':'',
-            'image-geometry':'250x500',
-            'schema-name':'',
-            'schema-type':'',
-            'schema-url':'',
-            'email':'',
-            'twitter-name':'',
-            'social-profiles':''}
-
-
 def getconfig(key=None):
     """Returns the configuration as a dict.
 
@@ -66,9 +53,9 @@ def getconfig(key=None):
         return CONFIG[key] if key else CONFIG
 
     # Read the config.ini into a dict, discarding the section info
+    config = {}
     parser = configparser.ConfigParser()
     parser.read('config.ini')
-    config = defaults({})
     for section in parser.sections():
         config.update({k:v for k, v in parser.items(section)})
 
@@ -80,10 +67,6 @@ def getconfig(key=None):
         config['web-root'] = config['web-root'][1:]
     if config['web-root'].endswith('/'):
         config['web-root'] = config['web-root'][:-1]
-
-    # Set the template if templates/default.html5 exists
-    if not config['template'] and os.path.exists('templates/default.html5'):
-        config['template'] = 'templates/default.html5'
         
     # Store the config
     sanitycheck(config)
@@ -150,7 +133,7 @@ def sanitycheck(data):
     if 'site-url' in data and data['site-url']:
         if data['site-url'].endswith('/'):  # Remove trailing
             data['site-url'] = data['site-url'][:-1]
-    if 'template' in data and data['template']:
+    if 'template' in data:
         assert os.path.exists(data['template'])
     if 'image' in data:
         assert data['image'].startswith('/') \
