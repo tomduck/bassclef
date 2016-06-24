@@ -118,6 +118,8 @@ def getmeta(path, key=None):
     if 'title' in meta:
         meta['quoted-title'] = \
           urllib.parse.quote(meta['title']).replace('/', '%2F')
+        meta['quoted-plus-title'] = \
+          urllib.parse.quote_plus(meta['title']).replace('/', '%2F')
     
     # Store the metadata
     sanitycheck(meta)

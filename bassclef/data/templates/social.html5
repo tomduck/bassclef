@@ -1,8 +1,8 @@
 <div class="social">
   <ul>
 $if(quoted-permalink)$
-$if(quoted-title)$$if(twitter-name)$
-    <li><a href="https://twitter.com/share?via=$twitter-name$&url=$quoted-permalink$%26text=$quoted-title$"><span class="fa fa-twitter"></span></a></li>
+$if(quoted-plus-title)$$if(twitter-name)$
+    <li><a href="https://twitter.com/share?via=$twitter-name$&url=$quoted-permalink$%26text=$quoted-plus-title$"><span class="fa fa-twitter"></span></a></li>
 $endif$$endif$
     <li><a href="http://www.facebook.com/sharer.php?u=$quoted-permalink$"><span class="fa fa-facebook"></span></a></li>
     <li><a href="https://plus.google.com/share?url=$quoted-permalink$"><span class="fa fa-google-plus"></span></a></li>

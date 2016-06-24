@@ -221,10 +221,12 @@ The following metadata fields are reserved and set by bassclef.  You should not 
   * `rellink` - relative link to a page;
   * `permalink` - the page's permalink;
 
-  * `first-entry` - flags the first entry in a composed page.
+  * `first-entry` - flags the first entry in a composed page;
 
   * `quoted-title` - the document title with URL-escaped characters;
-  * `quoted-permalink` - the URL-escaped permalink;
+  * `quoted-plus-title` - the document title with URL-escaped
+    characters and spaces coded as plus signs;
+  * `quoted-permalink` - the URL-escaped permalink.
 
 [YAML]: http://www.yaml.org/
 [articles]: http://tomduck.ca/commentary/2014-03-19_echoes-of-walkerton.html
