@@ -68,11 +68,10 @@ $(error Temporary directory could not be created.)
 endif
 
 
-# Module imports --------------------------------------------------------------
+# Module and custom rule imports ---------------------------------------------
 
-MODULES = $(wildcard */.module.mk)
-
-include $(MODULES)
+include $(wildcard */.module.mk)
+include $(wildcard plugins/*.mk)
 
 
 # Default rule ---------------------------------------------------------------
