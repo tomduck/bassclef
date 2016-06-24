@@ -31,7 +31,6 @@ from bassclef.util import getmeta, writemeta, getcontent, \
 
 import pandoc_tpp
 
-     
 
 # pylint: disable=too-many-locals
 def process(lines, meta, n):
@@ -143,6 +142,12 @@ def content_writer():
         meta = getmeta(path)
         meta['rellink'] = rellink
         meta['permalink'] = plink
+
+        # Flag the first entry in the metadata
+        if n == 0:
+            meta['first-entry'] = 'True'
+        elif 'first-entry' in meta:
+            del meta['first-entry']
 
         # Process the entry's content
         lines = process(getcontent(path), meta, n)
