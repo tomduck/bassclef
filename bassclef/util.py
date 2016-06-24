@@ -130,6 +130,8 @@ def getmeta(path, key=None):
 def sanitycheck(data):
     """Checks to see if the config/meta data are sane.  Make minor tweaks
     where necessary."""
+    for k, v in data.items():
+        data[k] = str(v)
     if 'site-url' in data and data['site-url']:
         if data['site-url'].endswith('/'):  # Remove trailing slash
             data['site-url'] = data['site-url'][:-1]
