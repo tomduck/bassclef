@@ -34,6 +34,12 @@ I am pleased to receive feedback via bassclef's [Issues tracker].
 [Issues tracker]: https://github.com/tomduck/bassclef/issues
 
 
+Status
+------
+
+This is Alpha software, and as such there is not currently an official release.  A major rewrite is nearly complete, and I hope to make a Beta release soon.
+
+
 Prerequisites
 -------------
 
