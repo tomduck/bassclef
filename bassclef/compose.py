@@ -132,13 +132,13 @@ def content_writer():
         assert path.startswith('markdown/')
 
         # Get various types of links
-        rellink = path[8:-3] + '.html'
-        plink = permalink(rellink)
+        relurl = path[8:-3] + '.html'
+        plink = permalink(relurl)
         quoted_plink = urllib.parse.quote(plink).replace('/', '%2F')
 
         # Renew the entry's metadata
         meta = getmeta(path)
-        meta['rellink'] = rellink
+        meta['rel-url'] = relurl
         meta['permalink'] = plink
 
         # Flag the first entry in the metadata
@@ -188,8 +188,11 @@ def compose(args):
 
     path = args.path
 
+    assert path.startswith('markdown/') and path.endswith('.md.in')
+    
     meta = getmeta(path)
     meta['no-social'] = 'True'
+    meta['rss-url'] = path[8:].replace('.md.in', '.xml')
     writemeta(meta)
 
     # Read the lines of the .md.in file

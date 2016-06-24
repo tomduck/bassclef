@@ -155,8 +155,9 @@ The following metadata fields are reserved and set by bassclef.  You should not 
   * `lang` - the language for the html body tag;
 
   * `web-root` - the Web root for the site;
-  * `rellink` - relative link to a page;
+  * `rel-url` - relative link to a page;
   * `permalink` - the page's permalink;
+  * `rss-url` - a link to the rss feed (composed pages only);
 
   * `first-entry` - flags the first entry in a composed page;
 
