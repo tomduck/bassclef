@@ -34,7 +34,7 @@ ALL =
 CLEAN =
 
 
-# Functions -------------------------------------------------------------------
+# Functions ------------------------------------------------------------------
 
 # $(call config,name): gets value from config.ini
 config = $(PYTHON3) -c "from scripts import util;\
@@ -52,7 +52,7 @@ define copyfiles
 endef
 
 
-# Paths -----------------------------------------------------------------------
+# Paths ----------------------------------------------------------------------
 
 WEBROOT = $(shell $(call config,webroot))
 
@@ -62,10 +62,12 @@ $(error Temporary directory could not be created.)
 endif
 
 
-# Module imports --------------------------------------------------------------
+# Module and custom rule imports ---------------------------------------------
 
 MODULES = $(wildcard */module.mk)
 include $(MODULES)
+
+include custom.mk
 
 
 # Default rule----------------------------------------------------------------
