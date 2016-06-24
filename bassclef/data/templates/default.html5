@@ -64,7 +64,7 @@ $include(socialmeta.html5)$
       <div class="ten columns centered">
         <header>
           <hr class="u-full-width" />
-          <h1 id="title"><a href="https://tomduck.github.io/bassclef/">Bassclef CMS</a></h1>
+          <h1 id="title"><a href="https://github.com/tomduck/bassclef/">Bassclef CMS</a></h1>
           <hr class="u-full-width" />
         </header>
       </div> <!-- class="ten columns centered" -->
@@ -113,7 +113,7 @@ $endif$
         <footer>
           <hr />
           <p>
-            <a href="https://tomduck.github.io/bassclef/">
+            <a href="https://github.com/tomduck/bassclef/">
               <img src="/images/originals/powered-by-bassclef.png" alt="powered-by-bassclef" id="powered-by" />
             </a>
           </p>
