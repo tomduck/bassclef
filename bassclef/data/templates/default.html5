@@ -88,7 +88,7 @@ $if(title)$
         <h1 id="title">$title$</h1>
 
 $endif$
-$if(composed-page)$
+$if(no-social)$
 $else$
 $include(social.html5)$
 $endif$

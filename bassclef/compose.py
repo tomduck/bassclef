@@ -191,7 +191,7 @@ def compose(args):
     path = args.path
 
     meta = getmeta(path)
-    meta['composed-page'] = 'True'
+    meta['no-social'] = 'True'
     writemeta(meta)
 
     # Read the lines of the .md.in file
