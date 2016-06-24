@@ -221,8 +221,6 @@ The following metadata fields are reserved and set by bassclef.  You should not 
   * `rellink` - relative link to a page;
   * `permalink` - the page's permalink;
 
-  * `composed-page` - presence indicates to the template that a
-    composed page is being created;
   * `first-entry` - flags the first entry in a composed page.
 
   * `quoted-title` - the document title with URL-escaped characters;
