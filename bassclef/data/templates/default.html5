@@ -64,7 +64,9 @@ $include(socialmeta.html5)$
       <div class="ten columns centered">
         <header>
           <hr class="u-full-width" />
-          <h1 id="title"><a href="https://github.com/tomduck/bassclef/">Bassclef CMS</a></h1>
+          <a href="https://github.com/tomduck/bassclef/">
+            <h1 id="title">Bassclef CMS</h1>
+          </a>
           <hr class="u-full-width" />
         </header>
       </div> <!-- class="ten columns centered" -->
