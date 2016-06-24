@@ -215,14 +215,18 @@ The following metadata fields are recognized by bassclef.  You may define these 
 The following metadata fields are reserved and set by bassclef.  You should not set these manually:
 
   * `body` - the html body injected into the template;
-  * `web-root` - the Web root for the site;
-  * `quoted-title` - the document title with URL-escaped characters;
-  * `permalink` - the page's permalink;
-  * `quoted-permalink` - the URL-escaped permalink;
-  * `composed-page` - presence indicates to the template that a
-    composed page is being created; and
-  * `rellink` - relative link to a page (used for composed pages);
+  * `lang` - the language for the html body tag;
 
+  * `web-root` - the Web root for the site;
+  * `rellink` - relative link to a page;
+  * `permalink` - the page's permalink;
+
+  * `composed-page` - presence indicates to the template that a
+    composed page is being created;
+  * `first-entry` - flags the first entry in a composed page.
+
+  * `quoted-title` - the document title with URL-escaped characters;
+  * `quoted-permalink` - the URL-escaped permalink;
 
 [YAML]: http://www.yaml.org/
 [articles]: http://tomduck.ca/commentary/2014-03-19_echoes-of-walkerton.html
