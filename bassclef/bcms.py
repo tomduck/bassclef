@@ -67,10 +67,10 @@ def main():
     subparser.add_argument('path')
     subparser.set_defaults(func=compose)
 
-    ## 'feed'
-    #subparser = subparsers.add_parser('feed')
-    #subparser.add_argument('path')
-    #subparser.set_defaults(func=feed)
+    # 'feed'
+    subparser = subparsers.add_parser('feed')
+    subparser.add_argument('path')
+    subparser.set_defaults(func=feed)
 
     # 'serve'
     subparser = subparsers.add_parser('serve')

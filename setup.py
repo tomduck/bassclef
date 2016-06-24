@@ -54,7 +54,7 @@ setup(
     url='https://github.com/tomduck/bassclef',
     download_url='https://github.com/tomduck/bassclef/tarball/'+VERSION,
 
-    install_requires=['pyyaml', 'pandoc-tpp'],
+    install_requires=['pyyaml', 'pandoc-tpp', 'PyRSS2Gen'],
 
     packages=['bassclef'],
 

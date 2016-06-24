@@ -18,12 +18,12 @@
 
 """feed.py - creates an RSS 2 feed."""
 
-import sys, os
+import os
 import datetime
 
 import PyRSS2Gen as rss2
 
-from bassclef.util import getmeta, getcontent, write
+from bassclef.util import getmeta, getcontent, write, permalink
 
 from html.entities import codepoint2name
 
@@ -56,28 +56,32 @@ def get_content_body(htmlpath):
         inbody = False    # Flags when we are in the content-body
         insocial = False  # Flags when we are in the social widget html
         for line in f:
-            if line.startswith('<div class="content-body">'):
+            if '<div class="content-body">' in line:
                 inbody = True
             if inbody:
-                if line.startswith('<div class="social">'):
+                if '<div class="social">' in line:
                     insocial = True
                 if not insocial:
                     lines.append(line)
-                if line.startswith('</div> <!-- class="social" -->'):
+                if '</div> <!-- class="social" -->' in line:
                     insocial = False
-            if line.startswith('</div> <!-- class="content-body" -->'):
+            if '</div> <!-- class="content-body" -->' in line:
                 return '\n'.join(lines)
+
+    raise RuntimeError('content-body not found')
 
 
 def make_item(path):
     """Makes an item from .md file at path and its associated .html file."""
 
+    assert path.startswith('markdown/') and path.endswith('.md')
+
     # Read and process the .md file
     meta = getmeta(path)
 
-    # Get the link and guid
-    link = path2url(path)
-    guid = rss2.Guid(path2url(path, relative=False))
+    # Get the permalink and guid
+    plink = permalink(path[8:].replace('.md', '.html'))
+    guid = rss2.Guid(plink)
 
     # Get the metadata
     pubdate = meta['date'] if 'date' in meta else None
@@ -97,7 +101,7 @@ def make_item(path):
     description = description.replace('<figcaption>',
                                       '<figcaption style="font-size: 80%;">')
 
-    return rss2.RSSItem(title=meta['title'], link=link, pubDate=pubdate,
+    return rss2.RSSItem(title=meta['title'], link=plink, pubDate=pubdate,
                         author=author, source=source, description=description,
                         guid=guid)
 
@@ -112,16 +116,19 @@ def feed(args):
     title = meta['rsstitle'] if 'rsstitle' in meta else None
     subtitle = meta['subtitle'] if 'subtitle' in meta else ''
 
-    # Get the last ten RSS items from file listing at path
+    # Get the first ten RSS items from file listing at path
     lines = getcontent(path)
-    items = [make_item(line) for line in lines \
-             if line.endswith('.md') and os.path.isfile(line)][:10]
+    items = [make_item(line.strip()) for line in lines \
+             if line.strip().endswith('.md') and \
+             os.path.isfile(line.strip())][:10]
+
+    assert items
 
     # Create the RSS
     rss = rss2.RSS2(generator=None,
                     docs=None,
                     title=title,
-                    link=path2url(path, relative=False),
+                    link=permalink(path[8:].replace('.md.in', '.html')),
                     description=subtitle,
                     lastBuildDate=datetime.datetime.now(),
                     items=items)
