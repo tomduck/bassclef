@@ -18,12 +18,10 @@
 
 """compose.py - assembles markdown from a .md.in file"""
 
-import sys
 import os, os.path
 import re
 import tempfile
 import subprocess
-import uuid
 import urllib.parse
 
 from bassclef.util import getmeta, writemeta, getcontent, \
@@ -123,7 +121,7 @@ def content_writer():
                                      delete=False) as f:
         template_path = f.name
         f.writelines(lines)
-    
+
     # Keep track of the number of files processed
     n = 0
 
@@ -137,7 +135,7 @@ def content_writer():
         rellink = path[8:-3] + '.html'
         plink = permalink(rellink)
         quoted_plink = urllib.parse.quote(plink).replace('/', '%2F')
-            
+
         # Renew the entry's metadata
         meta = getmeta(path)
         meta['rellink'] = rellink
@@ -207,6 +205,3 @@ def compose(args):
             writer.send(line.strip())
         else:
             write(line)
-
-if __name__ == '__main__':
-    compose()

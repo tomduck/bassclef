@@ -18,8 +18,6 @@
 
 """test.py - bassclef installation tests"""
 
-import os
-import sys
 import subprocess
 import textwrap
 
@@ -111,7 +109,7 @@ def check_convert():
 #----------------------------------------------------------------------------
 # test()
 
-def test(args):
+def test():
     """Runs the tests."""
 
     write('Checking python... ')

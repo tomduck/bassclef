@@ -79,10 +79,12 @@ def main():
     # Parse the args and call whatever function was selected
     args, other_args = parser.parse_known_args()
     if hasattr(args, 'func'):
-        if args.func.__name__ == 'make':
+        if args.func.__name__ in ['make']:
             args.func(args, other_args)
         elif other_args:
             write('Unknown options: ' + ' '.join(other_args) + '\n')
+        elif args.func.__name__ in ['test', 'postprocess', 'serve']:
+            args.func()
         else:
             args.func(args)
     else:

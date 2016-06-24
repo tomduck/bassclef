@@ -60,12 +60,12 @@ def fix_bugs(lines):
             break
 
     # Remove paragraph tags from around comments
-    p = re.compile('(^\s*)<p>(<!-- .* -->)</p>$')
+    p = re.compile(r'(^\s*)<p>(<!-- .* -->)</p>$')
     for i, line in enumerate(lines):
         if p.match(line):
             space, comment = p.match(line).groups()
             lines[i] = space + comment + '\n'
-        
+
     return lines
 
 
@@ -161,12 +161,11 @@ def make_aesthetic_fixes(lines):
             lines[i] = lines[i][:-1] + ' ' + lines[i+1].strip() + '\n'
             lines[i+1] = None
     lines = [line for line in lines if not line is None]
-    
+
     return lines
 
 
-# pylint: disable=unused-argument
-def postprocess(args):
+def postprocess():
     """Postprocesses html output piped to stdin from pandoc."""
 
     # Get the lines
@@ -174,8 +173,8 @@ def postprocess(args):
 
     # Essential fixes
     lines = fix_bugs(lines)
-    lines = adjust_urls(lines)    
-    
+    lines = adjust_urls(lines)
+
     # Functionality enhancements
     lines = link_images(lines)
     lines = open_tabs_when_clicked(lines)

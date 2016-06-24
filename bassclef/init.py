@@ -60,11 +60,11 @@ def writefile(src, dest, hide=False, force=False):
         f.write(content)
 
 
-def writefiles(src, dest, force=False, skip=['module.mk']):
+def writefiles(src, dest, force=False, skip=('module.mk',)):
     """Writes files from src package data dir to dest dir.
-    
+
     force - if True, overwrites existing files
-    skip - a list of filenames to skip
+    skip - a sequence of filenames to skip
     """
     filenames = resource_listdir('bassclef', src)
     for filename in filenames:
@@ -92,8 +92,7 @@ def init(args):
     _writefile('data/images/module.mk', 'images/module.mk', hide=True)
     _writefile('data/css/module.mk', 'css/module.mk', hide=True)
     _writefile('data/fonts/module.mk', 'fonts/module.mk', hide=True)
-    _writefile('data/javascript/module.mk', 'javascript/module.mk',
-               hide=True)
+    _writefile('data/javascript/module.mk', 'javascript/module.mk', hide=True)
 
     if args.extras:
         _writefiles('data/markdown', 'markdown')
