@@ -25,6 +25,7 @@ import sys
 import os
 import io
 import subprocess
+import copy
 
 import yaml
 
@@ -50,7 +51,7 @@ def getconfig(key=None):
 
     global CONFIG  # pylint: disable=global-statement
     if CONFIG:
-        return CONFIG[key] if key else CONFIG
+        return CONFIG[key] if key else copy.deepcopy(CONFIG)
 
     # Read the config.ini into a dict, discarding the section info
     config = {}
@@ -67,13 +68,13 @@ def getconfig(key=None):
         config['web-root'] = config['web-root'][1:]
     if config['web-root'].endswith('/'):
         config['web-root'] = config['web-root'][:-1]
-        
+
     # Store the config
     sanitycheck(config)
     CONFIG = config
 
     # Return the config dict or a value if the key is given
-    return config[key] if key else config
+    return config[key] if key else copy.deepcopy(config)
 
 
 def getmeta(path, key=None):
@@ -86,10 +87,9 @@ def getmeta(path, key=None):
     """
 
     # If the META has already been calculated then we can return it
-    global META  # pylint: disable=global-statement
     if path in META:
         return META[path][key] if key else META[path]
-    
+
     # Get defaults from the config
     meta = getconfig()
 
@@ -120,10 +120,22 @@ def getmeta(path, key=None):
           urllib.parse.quote(meta['title']).replace('/', '%2F')
         meta['quoted-plus-title'] = \
           urllib.parse.quote_plus(meta['title']).replace('/', '%2F')
-    
+
+    # Get posted-in files and create html
+    mdin = [p for p in meta['posted-in'].replace(' ', '').split(',')
+            if path in open(p).read()]
+    for p in mdin:
+        assert os.path.exists(p)
+    titles = [getmeta(p)['title'] for p in mdin]
+    urls = [p[8:].replace('.md.in', '.html') for p in mdin]
+    meta['posted-in'] = posted_in
+    meta['posted-in-html'] = \
+      ', '.join('<a href="%s">%s</a>'%(urls[i], titles[i])
+                for i in range(len(titles)))
+
     # Store the metadata
     sanitycheck(meta)
-    META = meta
+    META[path] = meta
 
     # Return the metadata
     return meta[key] if key else meta

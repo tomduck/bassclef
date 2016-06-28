@@ -16,6 +16,16 @@
 #  along with bassclef.  If not, see <http://www.gnu.org/licenses/>.
 
 
+# Preamble --------------------------------------------------------------------
+
+# Define $( ) as a space
+null :=
+space := $(null) $(null)
+$(space) := $(space)
+
+comma := ,
+
+
 # Source files ----------------------------------------------------------------
 
 SOURCE_MD_IN = $(wildcard markdown/*.md.in) $(wildcard markdown/*/*.md.in)

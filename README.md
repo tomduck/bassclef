@@ -149,7 +149,7 @@ The following metadata fields are recognized by bassclef.  You may define these 
   * `title` - the title for the page;
   * `image` - the relative URL to an image associated with the page.
 
-The following metadata fields are reserved and set by bassclef.  You should not set these manually:
+The following metadata fields are reserved and set by bassclef.  You should not set these manually, but may use them in your templates:
 
   * `body` - the html body injected into the template;
   * `lang` - the language for the html body tag;
@@ -164,7 +164,12 @@ The following metadata fields are reserved and set by bassclef.  You should not 
   * `quoted-title` - the document title with URL-escaped characters;
   * `quoted-plus-title` - the document title with URL-escaped
     characters and spaces coded as plus signs;
-  * `quoted-permalink` - the URL-escaped permalink.
+  * `quoted-permalink` - the URL-escaped permalink;
+
+  * 'posted-in-html' - a comma-separated list of links to composed
+    (.md.in) files the current file is listed in (you must list
+    composed files in the posted-in field of your `config.ini` for
+    this).
 
 [YAML]: http://www.yaml.org/
 [articles]: http://tomduck.ca/commentary/2014-03-19_echoes-of-walkerton.html
