@@ -122,8 +122,6 @@ def feed(args):
              if line.strip().endswith('.md') and \
              os.path.isfile(line.strip())][:10]
 
-    assert items
-
     # Create the RSS
     rss = rss2.RSS2(generator=None,
                     docs=None,
