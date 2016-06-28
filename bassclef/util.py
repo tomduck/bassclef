@@ -122,16 +122,19 @@ def getmeta(path, key=None):
           urllib.parse.quote_plus(meta['title']).replace('/', '%2F')
 
     # Get posted-in files and create html
-    posted_in = [p for p in meta['posted-in'].replace(' ', '').split(',')
-            if path in open(p).read()]
-    for p in posted_in:
-        assert os.path.exists(p)
-    titles = [getmeta(p)['title'] for p in posted_in]
-    urls = [p[8:].replace('.md.in', '.html') for p in posted_in]
-    meta['posted-in'] = posted_in
-    meta['posted-in-html'] = \
-      ', '.join('<a href="%s">%s</a>'%(urls[i], titles[i])
-                for i in range(len(titles)))
+    if path.endswith('.md'):
+        posted_in = [p for p in meta['posted-in'].replace(' ', '').split(',')
+                if path in open(p).read()]
+        for p in posted_in:
+            assert os.path.exists(p)
+        titles = [getmeta(p)['title'] for p in posted_in]
+        urls = [p[8:].replace('.md.in', '.html') for p in posted_in]
+        meta['posted-in'] = posted_in
+        meta['posted-in-html'] = \
+          ', '.join('<a href="%s">%s</a>'%(urls[i], titles[i])
+                    for i in range(len(titles)))
+    else:
+        del meta['posted-in']
 
     # Store the metadata
     sanitycheck(meta)
