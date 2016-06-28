@@ -122,12 +122,12 @@ def getmeta(path, key=None):
           urllib.parse.quote_plus(meta['title']).replace('/', '%2F')
 
     # Get posted-in files and create html
-    mdin = [p for p in meta['posted-in'].replace(' ', '').split(',')
+    posted_in = [p for p in meta['posted-in'].replace(' ', '').split(',')
             if path in open(p).read()]
-    for p in mdin:
+    for p in posted_in:
         assert os.path.exists(p)
-    titles = [getmeta(p)['title'] for p in mdin]
-    urls = [p[8:].replace('.md.in', '.html') for p in mdin]
+    titles = [getmeta(p)['title'] for p in posted_in]
+    urls = [p[8:].replace('.md.in', '.html') for p in posted_in]
     meta['posted-in'] = posted_in
     meta['posted-in-html'] = \
       ', '.join('<a href="%s">%s</a>'%(urls[i], titles[i])
