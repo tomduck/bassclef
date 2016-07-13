@@ -152,10 +152,18 @@ def content_writer():
 
         # Write the markdown to a temporary file
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as f:
-            tmppath = f.name
+            tmppath1 = f.name
             writemeta(meta, f=f)
             writelines(lines, f=f)
 
+        # Preprocess the temporary file if this is the first entry
+        if n==0:
+            with tempfile.NamedTemporaryFile(mode='w+', delete=False) as f:
+                tmppath2 = f.name
+                subprocess.call(['bcms', 'preprocess', tmppath1], stdout=f)
+        else:
+            tmppath2 = tmppath1
+        
         # Write a horizontal rule between files
         if n != 0:
             write('\n<hr />\n')
@@ -167,7 +175,7 @@ def content_writer():
         # Process the markdown with pandoc, writing the output to stdout
         STDOUT.flush()
         assert path.startswith('markdown/') and path.endswith('.md')
-        subprocess.call(['pandoc', tmppath,
+        subprocess.call(['pandoc',  tmppath2,
                          '-s', '-S',
                          '-f', 'markdown+markdown_attribute',
                          '-t', 'html5',
