@@ -2,19 +2,20 @@
 Bassclef CMS
 ============
 
-Bassclef is a command-line [CMS] that generates static Web pages from plain old text files.
+Bassclef is a command-line [CMS] built on a foundation of stable and mature shell utilities.  It generates static Web pages from markdown text files, and eschews the use of databases.
 
 Features:
 
   * Content is written [pandoc]-flavoured [markdown], an
     easy-to-read Web writing format;
   * Markdown sources are stored by the user in regular files, 
-    and are never databased or otherwise removed from the user's
-    control;
-  * A templating system is used to define the outer html structure;
+    and are never databased (a migration nightmare for many
+    users);
+  * Pandoc's templating system is used to define the outer 
+    html structure;
   * A command-line front end (`bcms`) manages the processing;
-  * The back end uses stable and mature unix tools, including 
-    [GNU make], [pandoc] and [ImageMagick] convert;
+  * The back end uses [GNU make], [pandoc] and [ImageMagick]
+    convert (why re-invent the wheel?);
   * Facilities for constructing blogs and RSS feeds are provided;
   * CSS, font, and social media extras are provided to enable a
     quick start; and
@@ -22,7 +23,7 @@ Features:
 
 Bassclef was [inspired] by Tyler Cipriani's "Replacing Jekyll with Pandoc and a Makefile".  It powers the author's [blog].
 
-I am pleased to receive feedback via bassclef's [Issues tracker].
+I am pleased to receive bug reports via bassclef's [Issues tracker].
 
 [CMS]: https://en.wikipedia.org/wiki/Content_management_system
 [markdown]: https://daringfireball.net/projects/markdown/syntax 
@@ -166,8 +167,8 @@ The following metadata fields are reserved and set by bassclef.  You should not 
     characters and spaces coded as plus signs;
   * `quoted-permalink` - the URL-escaped permalink;
 
-  * 'posted-in-html' - a comma-separated list of links to composed
-    (.md.in) files the current file is listed in (you must list
+  * `posted-in-html` - a comma-separated list of links to composed
+    (.md.in) files in which the current file is listed (you must list
     composed files in the posted-in field of your `config.ini` for
     this).
 
