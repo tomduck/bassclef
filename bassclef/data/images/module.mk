@@ -41,7 +41,7 @@ $(OUT)/images/originals/%: images/%
 
 $(OUT)/images/%: images/%
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	$(CONVERT) $< -adaptive-resize $(GEOM) $@
+	$(CONVERT) $< -resize $(GEOM) -unsharp 0x1 $@
 
 
 # Targets ---------------------------------------------------------------------
