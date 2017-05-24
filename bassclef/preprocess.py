@@ -65,8 +65,9 @@ def preprocess(args):
 
     # Insert the image into the lines
     if 'image' in meta:
-        caption = meta['caption'] if 'caption' in meta else ''
-        lines = insert_figure(lines, meta['image'], caption)
+        if not ('showimage' in meta and meta['showimage'] == 'False'):
+            caption = meta['caption'] if 'caption' in meta else ''
+            lines = insert_figure(lines, meta['image'], caption)
 
     # Replace the processing flags
     for i, line in enumerate(lines):
