@@ -102,7 +102,7 @@ def init(args):
         _writefiles('data/templates', 'templates')
         _writefiles('data/subrepos/html5shiv/src', 'javascript/html5shiv')
         _writefiles('data/subrepos/skeleton/css', 'css/skeleton')
-        _writefiles('data/subrepos/open-sans/css', 'css/open-sans')
+        _writefile('data/subrepos/open-sans/open-sans.css', 'css/open-sans.css')
         _writefiles('data/subrepos/open-sans/fonts', 'fonts/open-sans')
         _writefiles('data/subrepos/font-awesome/css', 'css/font-awesome')
         _writefiles('data/subrepos/font-awesome/fonts', 'fonts/font-awesome')
