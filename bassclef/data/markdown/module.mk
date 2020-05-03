@@ -1,5 +1,5 @@
 
-# Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
+# Copyright 2015, 2016, 2020 Thomas J. Duck <tomduck@tomduck.ca>
 
 # This file is part of bassclef.
 #
@@ -51,8 +51,8 @@ PERMALINK = $$(shell $(PYTHON3) -c "from bassclef.util import permalink;\
 QUOTED_PERMALINK = $$(shell $(PYTHON3) -c \
     "from urllib.parse import quote; \
      print(quote('$$(PERMALINK)').replace('/', '%2F'))")
-PANDOCFLAGS = -s -S \
-              -f markdown+markdown_attribute \
+PANDOCFLAGS = -s \
+              -f markdown+smart+markdown_attribute \
               -t html5 \
               --email-obfuscation none
 ifneq ($$(TEMPLATE),)
