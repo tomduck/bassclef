@@ -51,9 +51,9 @@ Bassclef was written for unix-derived systems such as linux, Mac OS X and CygWin
 Installation
 ------------
 
-To install Bassclef, you should download the source and install it (as root) using:
+To install Bassclef, you should download the source and install it using:
 
-    $ python3 setup.py install
+    $ pip install -e . --user
 
 The installation can be tested using:
 

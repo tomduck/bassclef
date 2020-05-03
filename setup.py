@@ -1,6 +1,6 @@
 """setup.py - install script for bassclef"""
 
-# Copyright 2015, 2016 Thomas J. Duck.
+# Copyright 2015, 2016, 2020 Thomas J. Duck.
 # All rights reserved.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 import sys
-import subprocess
-import textwrap
-import itertools
-import glob
 
-import ez_setup
-ez_setup.use_setuptools()
-
-from setuptools import setup, dist
-from setuptools.command.install import install
-from setuptools.command.install_scripts import install_scripts
-
-import distutils
-
-from bassclef.util import error
+from setuptools import setup
 
 DESCRIPTION = """Bassclef CMS."""
 
@@ -39,7 +25,8 @@ VERSION = '0.1'
 
 # Check the python version
 if sys.version_info < (3, ):
-    error('Python >= 3 required.')
+    print('Python >= 3 required.  Exiting.')
+    sys.exit(1)
 
 setup(
     name='Bassclef CMS',
