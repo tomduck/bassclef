@@ -21,7 +21,7 @@ from setuptools import setup
 
 DESCRIPTION = """Bassclef CMS."""
 
-VERSION = '0.1'
+VERSION = '0.2'
 
 # Check the python version
 if sys.version_info < (3, ):

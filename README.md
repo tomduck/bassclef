@@ -1,6 +1,6 @@
 
-Bassclef CMS
-============
+Bassclef CMS 0.2
+================
 
 Bassclef is a command-line [CMS] built on a foundation of stable and mature shell utilities.  It generates static Web pages from markdown text files, and eschews the use of databases.
 
