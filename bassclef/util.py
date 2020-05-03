@@ -112,7 +112,7 @@ def getmeta(path, key=None):
         raise RuntimeError('End of YAML metadata block not found.')
 
     # Parse the metadata
-    meta.update(yaml.load('\n'.join(lines)))
+    meta.update(yaml.load('\n'.join(lines), Loader=yaml.BaseLoader))
 
     # Add a quoted title
     if 'title' in meta:
@@ -123,8 +123,10 @@ def getmeta(path, key=None):
 
     # Get posted-in files and create html
     if path.endswith('.md'):
-        posted_in = [p for p in meta['posted-in'].replace(' ', '').split(',')
-                if path in open(p).read()]
+        tokens = meta['posted-in'].replace(' ', '').split(',')
+        if tokens == ['']:
+            tokens = []
+        posted_in = [p for p in tokens if path in open(p).read()]
         for p in posted_in:
             assert os.path.exists(p)
         titles = [getmeta(p)['title'] for p in posted_in]
