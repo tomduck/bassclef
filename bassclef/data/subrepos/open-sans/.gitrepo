@@ -6,6 +6,7 @@
 [subrepo]
 	remote = https://github.com/FontFaceKit/open-sans
 	branch = gh-pages
-	commit = 2285c0300e6a4c8b102b98fb030fb38c26aa081c
+	commit = 59493162b016dae6ef0d06693ccf3c93c1e96091
 	parent = 96f08b12a4f18d75afa1b89ba6202f7f47e8eaa0
-	cmdver = 0.3.0
+	cmdver = 0.4.1
+	method = merge
