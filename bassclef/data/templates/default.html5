@@ -44,7 +44,7 @@ $include(socialmeta.html5)$
   <link rel="stylesheet" href="/css/skeleton/normalize.css">
   <link rel="stylesheet" href="/css/skeleton/skeleton.css">
   <link rel="stylesheet" href="/css/open-sans/open-sans.css">
-  <link rel="stylesheet" href="/css/font-awesome/font-awesome.css">
+  <link rel="stylesheet" href="/css/font-awesome/all.css">
   <link rel="stylesheet" href="/css/bassclef.css">
 
 </head>

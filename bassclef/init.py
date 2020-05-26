@@ -105,4 +105,4 @@ def init(args):
         _writefile('data/subrepos/open-sans/open-sans.css', 'css/open-sans.css')
         _writefiles('data/subrepos/open-sans/fonts', 'fonts/open-sans')
         _writefiles('data/subrepos/font-awesome/css', 'css/font-awesome')
-        _writefiles('data/subrepos/font-awesome/fonts', 'fonts/font-awesome')
+        _writefiles('data/subrepos/font-awesome/webfonts', 'fonts/font-awesome')

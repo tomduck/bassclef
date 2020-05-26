@@ -2,12 +2,12 @@
   <ul>
 $if(quoted-permalink)$
 $if(quoted-plus-title)$$if(twitter-name)$
-    <li><a href="https://twitter.com/share?via=$twitter-name$&url=$quoted-permalink$&text=$quoted-plus-title$"><span class="fa fa-twitter"></span></a></li>
+    <li><a href="https://twitter.com/share?via=$twitter-name$&url=$quoted-permalink$&text=$quoted-plus-title$"><span class="fab fa-twitter"></span></a></li>
 $endif$$endif$
-    <li><a href="http://www.facebook.com/sharer.php?u=$quoted-permalink$"><span class="fa fa-facebook"></span></a></li>
-    <li><a href="http://www.linkedin.com/shareArticle?mini=True&url=$quoted-permalink$"><span class="fa fa-linkedin"></span></a></li>
+    <li><a href="http://www.facebook.com/sharer.php?u=$quoted-permalink$"><span class="fab fa-facebook-f"></span></a></li>
+    <li><a href="http://www.linkedin.com/shareArticle?mini=True&url=$quoted-permalink$"><span class="fab fa-linkedin-in"></span></a></li>
 $if(quoted-title)$
-    <li><a href="mailto:?subject=$quoted-title$&body=$quoted-permalink$"><span class="fa fa-envelope"></span></a></li>
+    <li><a href="mailto:?subject=$quoted-title$&body=$quoted-permalink$"><span class="far fa-envelope"></span></a></li>
 $endif$
 $endif$
   </ul>
