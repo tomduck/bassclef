@@ -1,6 +1,7 @@
 ---
 title: Success!
 image: /images/originals/bassclef-logo.png
+caption: Ut pharetra volutpat.
 ...
 
 [Lorem ipsum][1] dolor sit amet, consectetur adipiscing elit. Etiam at justo at mi vulputate bibendum a vitae tellus. Maecenas non nulla sem. Aliquam hendrerit mi eu ante faucibus, eget fringilla est varius. Curabitur at enim non diam mattis commodo non vitae ligula. Suspendisse potenti. Nullam erat lorem, venenatis bibendum volutpat in, commodo id eros. Donec lorem tellus, malesuada eget lectus eu, vulputate luctus lorem. Maecenas interdum turpis vel massa tincidunt, a dapibus leo venenatis. Aenean quis mi et magna ullamcorper egestas malesuada at justo. Vestibulum sit amet justo euismod mauris finibus consectetur ut eget est.[^1]
