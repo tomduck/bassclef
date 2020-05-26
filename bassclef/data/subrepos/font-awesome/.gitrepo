@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/FortAwesome/Font-Awesome.git
+	branch = master
+	commit = 4e6402443679e0a9d12c7401ac8783ef4646657f
+	parent = 3d63403b580b07f9b60ad4098f67832e6a1ecc3a
+	method = merge
+	cmdver = 0.4.1
