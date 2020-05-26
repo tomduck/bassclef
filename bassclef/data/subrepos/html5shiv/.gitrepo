@@ -6,6 +6,7 @@
 [subrepo]
 	remote = https://github.com/afarkas/html5shiv.git
 	branch = master
-	commit = a3c7567c5f7055f9b76230bbbc79967d0b9f7003
-	parent = 808b8df2022c0b49989432b7496175750072b264
-	cmdver = 0.3.0
+	commit = a6b1be53e3e49f93d6d218f52bb08f6a6f91bada
+	parent = a0cec8f7610bc3b10b100c7cba15369228d098ab
+	cmdver = 0.4.1
+	method = merge
