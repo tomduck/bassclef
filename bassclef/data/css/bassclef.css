@@ -25,6 +25,14 @@ header a { text-decoration: none; color: inherit; }
 
 figure { display: table; float: left; margin: 1.5rem 3rem 1.5rem 2rem; }
 
+figcaption {
+    display: table-caption;
+    caption-side: bottom;
+    text-align: center;
+    font-style: normal;
+    font-size: 85%;
+}
+
 .columns { min-height: 1px; } /* Prevents empty column from collapsing */
 
 .centered { text-align: center; }

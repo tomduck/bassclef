@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-# Copyright 2015, 2016 Thomas J. Duck <tomduck@tomduck.ca>
+# Copyright 2015, 2016, 2020 Thomas J. Duck <tomduck@tomduck.ca>
 
 # This file is part of bassclef.
 #
@@ -176,8 +176,8 @@ def content_writer():
         STDOUT.flush()
         assert path.startswith('markdown/') and path.endswith('.md')
         subprocess.call(['pandoc',  tmppath2,
-                         '-s', '-S',
-                         '-f', 'markdown+markdown_attribute',
+                         '-s',
+                         '-f', 'markdown+smart+markdown_attribute',
                          '-t', 'html5',
                          '--email-obfuscation', 'none',
                          '--template', template_path,
