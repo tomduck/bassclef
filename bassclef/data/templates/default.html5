@@ -92,11 +92,11 @@ $if(no-social)$
 $else$
 $include(social.html5)$
 $endif$
-        <div class="content-body">
+<div class="content-body">
 
-          $body$
+$body$
 
-        </div> <!-- class="content-body" -->
+</div> <!-- class="content-body" -->
 
       </div> <!-- class="eight columns" -->
 
